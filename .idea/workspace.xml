@@ -1,8 +1,532 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="3b87ab8e-bfde-4620-82f4-6e435c542257" name="Default" comment="Added installation script.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+    <list default="true" id="3b87ab8e-bfde-4620-82f4-6e435c542257" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/dir-prop-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/prop-base/TODO.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/text-base/AUTHORS.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/text-base/COPYING.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/text-base/GUIDELINES.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/text-base/INSTALL.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/text-base/MANIFEST.in.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/text-base/NEWS.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/text-base/README.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/text-base/TODO.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.svn/text-base/setup.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/prop-base/cleanup.sh.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/prop-base/fixperm.sh.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/prop-base/sanaviron.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/prop-base/update-i18n.sh.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/text-base/cleanup.sh.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/text-base/fixperm.sh.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/text-base/sanaviron.desktop.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/text-base/sanaviron.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/text-base/sanaviron.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/bin/.svn/text-base/update-i18n.sh.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/en/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/en/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/en/.svn/text-base/help.css.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/en/.svn/text-base/index.html.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/es/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/es/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/es/.svn/text-base/help.css.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/es/.svn/text-base/index.html.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/ru/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/ru/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/ru/.svn/text-base/help.css.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/doc/help/ru/.svn/text-base/index.html.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/.svn/prop-base/sanaviron.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/.svn/text-base/sanaviron.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/examples/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/examples/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/examples/.svn/text-base/invoice.xml.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/images/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/images/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/images/.svn/prop-base/canvas-logo.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/images/.svn/prop-base/logo-small.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/images/.svn/prop-base/logo.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/images/.svn/text-base/canvas-logo.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/images/.svn/text-base/logo-small.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/images/.svn/text-base/logo.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/es/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/es/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/es/LC_MESSAGES/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/es/LC_MESSAGES/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/es/LC_MESSAGES/.svn/prop-base/test.mo.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/es/LC_MESSAGES/.svn/text-base/test.mo.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/ru/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/ru/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/ru/LC_MESSAGES/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/ru/LC_MESSAGES/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/ru/LC_MESSAGES/.svn/prop-base/test.mo.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/localization/ru/LC_MESSAGES/.svn/text-base/test.mo.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/arc.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/barcode.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/box.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/bubble.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/canvas.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/cell.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/chart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/color.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/connector.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/control.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/curve.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/gradient.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/gradientcolor.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/grid.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/guides.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/handler.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/holder.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/image.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/line.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/margins.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/object.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/origin.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/paper.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/point.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/position.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/rectangle.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/rounded.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/scale.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/selection.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/size.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/table.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/prop-base/text.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/arc.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/barcode.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/box.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/bubble.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/canvas.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/cell.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/chart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/color.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/connector.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/control.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/curve.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/gradient.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/gradientcolor.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/grid.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/guides.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/handler.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/holder.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/image.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/line.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/margins.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/object.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/origin.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/paper.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/point.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/position.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/rectangle.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/rounded.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/scale.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/selection.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/size.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/table.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/.svn/text-base/text.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/barcode/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/barcode/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/barcode/.svn/prop-base/barcode.dll.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/barcode/.svn/prop-base/barcode.so.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/barcode/.svn/prop-base/barcode.x86_64.so.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/barcode/.svn/text-base/barcode.dll.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/barcode/.svn/text-base/barcode.so.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/barcode/.svn/text-base/barcode.x86_64.so.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/prop-base/chart.tpl.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/text-base/Makefile.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/text-base/bar.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/text-base/chart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/text-base/chart.tpl.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/text-base/color.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/text-base/line.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/text-base/pie.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/text-base/scatter.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/objects/charts/.svn/text-base/stackedbar.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/prop-base/README.txt.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/prop-base/RELEASE.howto.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/prop-base/authors.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/prop-base/changes.txt.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/prop-base/copying.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/prop-base/pycha.kpf.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/prop-base/setup.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/text-base/README.txt.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/text-base/RELEASE.howto.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/text-base/authors.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/text-base/changes.txt.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/text-base/copying.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/text-base/pycha.kpf.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/.svn/text-base/setup.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/chavier/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/chavier/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/chavier/.svn/prop-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/chavier/.svn/prop-base/app.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/chavier/.svn/prop-base/dialogs.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/chavier/.svn/prop-base/gui.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/chavier/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/chavier/.svn/text-base/app.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/chavier/.svn/text-base/dialogs.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/chavier/.svn/text-base/gui.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.build/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.build/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.build/doctrees/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.build/doctrees/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.build/latex/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.build/latex/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/prop-base/Makefile.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/prop-base/barchart.svg.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/prop-base/chavier.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/prop-base/conf.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/prop-base/examples.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/prop-base/index.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/prop-base/installation.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/prop-base/introduction.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/prop-base/options.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/prop-base/readme.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/prop-base/tutorial.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/Makefile.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/barchart.svg.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/chavier.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/conf.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/examples.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/index.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/installation.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/introduction.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/options.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/readme.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/.svn/text-base/tutorial.rst.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/prop-base/barchart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/prop-base/chavier-main.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/prop-base/gtk_example.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/prop-base/hbarchart-ex1.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/prop-base/piechart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/prop-base/precip.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/prop-base/vbarchart-ex1.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/text-base/barchart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/text-base/chavier-main.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/text-base/gtk_example.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/text-base/hbarchart-ex1.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/text-base/piechart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/text-base/precip.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/docs/examples/.svn/text-base/vbarchart-ex1.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/barchart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/hbarchart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/hstackedbarchart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/interval.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/interval.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/linechart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/linechart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/lines.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/piechart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/piechart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/pycha.bar.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/pycha.pie.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/scatterchart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/scatterchart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/stackedbarchart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/svg.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/test.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/testbar.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/testline.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/testpie.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/testsvg.svg.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/vbarchart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/prop-base/vstackedbarchart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/barchart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/hbarchart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/hstackedbarchart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/interval.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/interval.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/linechart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/linechart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/lines.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/piechart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/piechart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/pycha.bar.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/pycha.pie.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/scatterchart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/scatterchart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/stackedbarchart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/svg.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/test.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/testbar.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/testline.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/testpie.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/testsvg.svg.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/vbarchart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/.svn/text-base/vstackedbarchart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/color/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/color/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/color/.svn/prop-base/colorschemes.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/color/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/examples/color/.svn/text-base/colorschemes.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/prop-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/prop-base/bar.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/prop-base/chart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/prop-base/color.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/prop-base/line.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/prop-base/pie.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/prop-base/scatter.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/prop-base/stackedbar.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/text-base/bar.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/text-base/chart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/text-base/color.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/text-base/line.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/text-base/pie.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/text-base/scatter.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/pycha/.svn/text-base/stackedbar.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/prop-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/prop-base/bar.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/prop-base/chart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/prop-base/color.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/prop-base/line.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/prop-base/pie.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/prop-base/runner.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/prop-base/stackedbar.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/text-base/bar.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/text-base/chart.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/text-base/color.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/text-base/line.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/text-base/pie.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/text-base/runner.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/3rd/pycha/tests/.svn/text-base/stackedbar.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/Makefile.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/barcode.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/barcode.h.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/codabar.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/code128.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/code39.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/code93.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/ean.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/i25.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/library.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/msi.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/pcl.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/plessey.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/barcode/.svn/text-base/ps.c.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/.svn/text-base/Makefile.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/.svn/text-base/README.txt.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/.svn/text-base/languages.all.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/.svn/text-base/test.files.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/.svn/text-base/test.pot.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/de/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/de/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/de/.svn/text-base/test.po.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/es/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/es/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/es/.svn/text-base/test.po.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/ru (копия)/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/ru (копия)/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/ru (копия)/.svn/text-base/test.po.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/ru/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/ru/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/input/ru/.svn/text-base/test.po.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/es/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/es/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/es/LC_MESSAGES/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/es/LC_MESSAGES/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/es/LC_MESSAGES/.svn/prop-base/test.mo.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/es/LC_MESSAGES/.svn/text-base/test.mo.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/ru/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/ru/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/ru/LC_MESSAGES/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/ru/LC_MESSAGES/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/ru/LC_MESSAGES/.svn/prop-base/test.mo.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/src/i18n/output/ru/LC_MESSAGES/.svn/text-base/test.mo.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/threads/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/threads/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/threads/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/browser.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/button.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/climber.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/columns_editor.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/editor.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/entry.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/gradienteditor.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/layer_selector.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/menu.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/notification.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/pager.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/properties.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/ruler.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/source_pad.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/stock.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/text_pad.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/prop-base/toolbars.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/__init__.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/browser.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/button.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/climber.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/columns_editor.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/editor.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/entry.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/gradienteditor.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/layer_selector.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/menu.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/notification.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/pager.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/properties.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/ruler.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/source_pad.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/stock.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/text_pad.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/.svn/text-base/toolbars.py.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/all-wcprops" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/entries" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-objects-center-both.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-objects-center-horizontal.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-objects-center-vertical.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-objects-east.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-objects-north.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-objects-northeast.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-objects-northwest.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-objects-south.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-objects-southeast.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-objects-southwest.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-objects-west.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-paper-center-both.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-paper-center-horizontal.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-paper-center-vertical.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-paper-east.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-paper-north.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-paper-northeast.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-paper-northwest.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-paper-south.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-paper-southeast.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-paper-southwest.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/align-paper-west.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/arc.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/barcode.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/box.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/bring-to-back.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/bring-to-front.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/bubble.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/chart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/connector.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/contract-properties.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/curve.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/expand-properties.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/export-to-pdf.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/grid.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/group.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/guides.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/image.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/line-style-continuous.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/line-style-dash.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/line-style-point-dash.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/line-style-point.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/line.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/margins-disabled.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/margins-enabled.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/rounded-box.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/snap-disabled.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/snap-enabled.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/table.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/text.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/prop-base/ungroup.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-objects-center-both.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-objects-center-horizontal.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-objects-center-vertical.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-objects-east.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-objects-north.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-objects-northeast.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-objects-northwest.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-objects-south.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-objects-southeast.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-objects-southwest.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-objects-west.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-paper-center-both.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-paper-center-horizontal.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-paper-center-vertical.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-paper-east.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-paper-north.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-paper-northeast.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-paper-northwest.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-paper-south.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-paper-southeast.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-paper-southwest.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/align-paper-west.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/arc.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/barcode.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/box.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/bring-to-back.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/bring-to-front.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/bubble.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/chart.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/connector.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/contract-properties.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/curve.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/expand-properties.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/export-to-pdf.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/grid.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/group.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/guides.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/image.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/line-style-continuous.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/line-style-dash.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/line-style-point-dash.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/line-style-point.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/line.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/margins-disabled.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/margins-enabled.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/rounded-box.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/snap-disabled.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/snap-enabled.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/table.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/text.png.svn-base" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/sanaviron/ui/stock/.svn/text-base/ungroup.png.svn-base" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="sanaviron.iws" />
@@ -57,9 +581,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
-    <option name="width" value="1368" />
-    <option name="height" value="769" />
+    <option name="y" value="24" />
+    <option name="width" value="1366" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -253,17 +777,21 @@
       <created>1345584590101</created>
       <updated>1345584590101</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Change VCS">
+      <created>1345659625909</created>
+      <updated>1345659625909</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="0" width="1368" height="769" extended-state="6" />
+    <frame x="0" y="24" width="1366" height="744" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32786885" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.6699507" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.6721311" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -316,7 +844,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added installation script." />
+    <option name="LAST_COMMIT_MESSAGE" value="Change VCS" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -330,6 +858,7 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="Added installation script." />
+    <MESSAGE value="Change VCS" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -375,11 +904,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/TODO">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
@@ -412,11 +936,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sanaviron/sanaviron.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="60" selection-start="1816" selection-end="2214" vertical-scroll-proportion="0.31088084">
-          <folding>
-            <element signature="e#46#55#0" expanded="true" />
-          </folding>
-        </state>
+        <state line="81" column="60" selection-start="1816" selection-end="2214" vertical-scroll-proportion="0.31088084" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TODO">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
   </component>

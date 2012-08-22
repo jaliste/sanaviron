@@ -1,4 +1,0 @@
-include README COPYING
-graft doc/help
-prune sanaviron/images
-prune sanaviron/examples
