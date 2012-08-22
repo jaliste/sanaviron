@@ -1,5 +1,6 @@
 1. Include README, COPYING, help and other data files and exclude sanaviron/src.
 2. Add support for py2exe and Windows installer like Inno Setup Compiler or Bitrock.
+3. Add support for documentation like doxygen.
 3. Synchronize object properties with entry widgets. Urgent almost for basic properties (x, y, z, width and height)
 4. To a class "Object" to transfer following functions from a class an "Arc":
 	   set_gradient

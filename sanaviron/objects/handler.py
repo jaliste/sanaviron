@@ -5,7 +5,7 @@ import cairo
 
 from rectangle import Rectangle
 from control import Control
-from objects import NONE
+from objects import NONE, ANONIMOUS
 
 class Handler(Rectangle):
     """This class represents a rectangular control points handler"""
@@ -15,7 +15,7 @@ class Handler(Rectangle):
         self.control = list()
 
         index = 0
-        while index < 9:
+        while index < ANONIMOUS:
             control = Control()
             self.control.append(control)
             index += 1
@@ -49,7 +49,7 @@ class Handler(Rectangle):
 
     def get_direction(self, x, y):
         direction = 0
-        while direction <= len(self.control):
+        while direction < len(self.control):
             control = self.control[direction]
             if control.at_position(x, y):
                 return direction

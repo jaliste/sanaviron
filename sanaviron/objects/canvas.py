@@ -87,7 +87,6 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         self.gradients = list()
         self.children = list()
         self.pages = list()
-        #clipboard = None
 
         paper = Paper()
         self.total = Size()
@@ -105,7 +104,8 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
 
         self.horizontal_ruler = None
         self.vertical_ruler = None
-        self.paper = None
+        #self.paper = None
+        self.clipboard = None
         
     #def key_press(self, widget, event):
     #    pass
@@ -434,6 +434,7 @@ class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
     zoom_normal = lambda self: self.set_scale_absolute(1.0)
 
     def create(self, child):
+        self.stop_cursor_change = False
         self.pick = True
         self.child = child
         child.z = len(self.children)
@@ -642,4 +643,17 @@ class TestingCanvas(ExtendedCanvas): ### TESTING CODE HERE
 
     def __init__(self):
         ExtendedCanvas.__init__(self)
+
         print _("WARNING: You are using a testing canvas.")
+
+    def add_box_separator_vertical(self, *args):
+        for child in self.children:
+            if child.selected and child.__name__ == 'Box':
+                child.add_separator_vertical(child.width / 2)
+        self.queue_draw()
+
+    def add_box_separator_horizontal(self, *args):
+        for child in self.children:
+            if child.selected and child.__name__ == 'Box':
+                child.add_separator_horizontal(child.height / 2)
+        self.queue_draw()

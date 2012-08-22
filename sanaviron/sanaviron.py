@@ -175,12 +175,28 @@ class Application(gtk.Window):
         document = self.editor.canvas.serialize()
         self.code.set_text(document)
 
+    def key_handler(self, keyname):
+        if keyname == "<Control><Shift>V":
+            self.editor.canvas.add_box_separator_vertical()
+        if keyname == "<Control><Shift>H":
+            self.editor.canvas.add_box_separator_horizontal()
+
     def key_press(self, widget, event):
-       keyval = event.keyval
-       keyname = gtk.gdk.keyval_name (keyval)
-       print "%s (%d) pressed" % (keyname, keyval)
-       #if keyname == "Delete":
-       #    self.editor.canvas.delete(widget, None)
+        keyval = event.keyval
+        keyname = gtk.gdk.keyval_name (keyval)
+        if keyname.startswith('Control') or\
+           keyname.startswith('Shift') or\
+           keyname.startswith('Alt') or\
+           keyname.startswith('Meta'):
+            return False
+        keyname = keyname.upper()
+        if event.state & gtk.gdk.SHIFT_MASK:
+            keyname = "<Shift>%s" % keyname
+        if event.state & gtk.gdk.CONTROL_MASK:
+            keyname = "<Control>%s" % keyname
+        print "%s has pressed" % keyname
+        self.key_handler(keyname)
+        return False
 
     def new(self, widget, data):
         self.editor.canvas.children = list()
