@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 30
+/svn/!svn/ver/154/sanaviron/ui
+END
+ruler.py
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/146/sanaviron/ui/ruler.py
+END
+stock.py
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/154/sanaviron/ui/stock.py
+END
+properties.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/154/sanaviron/ui/properties.py
+END
+entry.py
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/146/sanaviron/ui/entry.py
+END
+button.py
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/146/sanaviron/ui/button.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/146/sanaviron/ui/__init__.py
+END
+source_pad.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/146/sanaviron/ui/source_pad.py
+END
+columns_editor.py
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/146/sanaviron/ui/columns_editor.py
+END
+layer_selector.py
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/146/sanaviron/ui/layer_selector.py
+END
+editor.py
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/154/sanaviron/ui/editor.py
+END
+notification.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/146/sanaviron/ui/notification.py
+END
+browser.py
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/146/sanaviron/ui/browser.py
+END
+pager.py
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/151/sanaviron/ui/pager.py
+END
+climber.py
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/146/sanaviron/ui/climber.py
+END
+text_pad.py
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/146/sanaviron/ui/text_pad.py
+END
+menu.py
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/151/sanaviron/ui/menu.py
+END
+gradienteditor.py
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/146/sanaviron/ui/gradienteditor.py
+END
+toolbars.py
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/146/sanaviron/ui/toolbars.py
+END

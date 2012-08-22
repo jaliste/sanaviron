@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 21
+/svn/!svn/ver/156/bin
+END
+update-i18n.sh
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/151/bin/update-i18n.sh
+END
+sanaviron.png
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/152/bin/sanaviron.png
+END
+sanaviron.desktop
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/156/bin/sanaviron.desktop
+END
+sanaviron
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/svn/!svn/ver/152/bin/sanaviron
+END
+fixperm.sh
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/151/bin/fixperm.sh
+END
+cleanup.sh
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/140/bin/cleanup.sh
+END

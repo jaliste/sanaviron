@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/146/sanaviron/src/barcode
+END
+code93.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/146/sanaviron/src/barcode/code93.c
+END
+code39.c
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/146/sanaviron/src/barcode/code39.c
+END
+msi.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/146/sanaviron/src/barcode/msi.c
+END
+codabar.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/146/sanaviron/src/barcode/codabar.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/146/sanaviron/src/barcode/Makefile
+END
+pcl.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/146/sanaviron/src/barcode/pcl.c
+END
+barcode.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/146/sanaviron/src/barcode/barcode.c
+END
+i25.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/146/sanaviron/src/barcode/i25.c
+END
+ps.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/146/sanaviron/src/barcode/ps.c
+END
+ean.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/146/sanaviron/src/barcode/ean.c
+END
+library.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/146/sanaviron/src/barcode/library.c
+END
+plessey.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/146/sanaviron/src/barcode/plessey.c
+END
+barcode.h
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/146/sanaviron/src/barcode/barcode.h
+END
+code128.c
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/146/sanaviron/src/barcode/code128.c
+END

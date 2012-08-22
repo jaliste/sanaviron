@@ -1,0 +1,203 @@
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/156/sanaviron/objects
+END
+line.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/152/sanaviron/objects/line.py
+END
+gradient.py
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/146/sanaviron/objects/gradient.py
+END
+connector.py
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/152/sanaviron/objects/connector.py
+END
+holder.py
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/146/sanaviron/objects/holder.py
+END
+box.py
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/152/sanaviron/objects/box.py
+END
+origin.py
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/152/sanaviron/objects/origin.py
+END
+margins.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/152/sanaviron/objects/margins.py
+END
+cell.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/146/sanaviron/objects/cell.py
+END
+size.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/152/sanaviron/objects/size.py
+END
+object.py
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/152/sanaviron/objects/object.py
+END
+chart.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/152/sanaviron/objects/chart.py
+END
+canvas.py
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/156/sanaviron/objects/canvas.py
+END
+guides.py
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/152/sanaviron/objects/guides.py
+END
+gradientcolor.py
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/146/sanaviron/objects/gradientcolor.py
+END
+arc.py
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/!svn/ver/154/sanaviron/objects/arc.py
+END
+point.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/152/sanaviron/objects/point.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/146/sanaviron/objects/__init__.py
+END
+curve.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/146/sanaviron/objects/curve.py
+END
+rectangle.py
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/152/sanaviron/objects/rectangle.py
+END
+table.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/152/sanaviron/objects/table.py
+END
+rounded.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/154/sanaviron/objects/rounded.py
+END
+text.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/152/sanaviron/objects/text.py
+END
+paper.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/152/sanaviron/objects/paper.py
+END
+selection.py
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/152/sanaviron/objects/selection.py
+END
+bubble.py
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/!svn/ver/152/sanaviron/objects/bubble.py
+END
+handler.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/152/sanaviron/objects/handler.py
+END
+scale.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/146/sanaviron/objects/scale.py
+END
+position.py
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/!svn/ver/152/sanaviron/objects/position.py
+END
+grid.py
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/152/sanaviron/objects/grid.py
+END
+color.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/152/sanaviron/objects/color.py
+END
+barcode.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/152/sanaviron/objects/barcode.py
+END
+control.py
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/152/sanaviron/objects/control.py
+END
+image.py
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/!svn/ver/152/sanaviron/objects/image.py
+END
