@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-__all__ = ['NONE', 'NORTHWEST', 'NORTH', 'NORTHEAST', 'WEST', 'EAST', 'SOUTHWEST', 'SOUTH', 'SOUTHEAST',
-           'ANONIMOUS', 'MANUAL', 'AUTOMATIC', 'COLOR', 'GRADIENT', 'PATTERN', 'LINEAR', 'RADIAL',
+__all__ = ['NONE', 'NORTHWEST', 'NORTH', 'NORTHEAST', 'WEST', 'EAST', 'SOUTHWEST', 'SOUTH', 'SOUTHEAST', 'ANONIMOUS',
+           'MANUAL', 'AUTOMATIC', 'COLOR', 'GRADIENT', 'PATTERN', 'LINEAR', 'RADIAL', 'HORIZONTAL', 'VERTICAL',
            'CENTIMETERS', 'MILLIMETERS', 'DOTS', 'INCHES', 'RADIANS', 'DEGREES', 'grad2rad', 'rad2grad',
            'angle_from_coordinates']
 
@@ -28,10 +28,15 @@ COLOR = 0
 GRADIENT = 1
 PATTERN = 3
 
-#gradient type
+# gradient types
 LINEAR = 0
 RADIAL = 1
 
+# orientation types
+VERTICAL = 0
+HORIZONTAL = 1
+
+# units
 CENTIMETERS = _("cm")
 MILLIMETERS = _("mm")
 DOTS = _("dots")

@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from control import Control
 from object import Object
 from objects import *
 
@@ -11,6 +12,9 @@ class Box(Object):
 
     def __init__(self):
         Object.__init__(self)
+
+        self.hseps = list()
+        self.vseps = list()
 
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
@@ -41,6 +45,44 @@ class Box(Object):
         context.fill_preserve()
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
             self.stroke_color.blue, self.stroke_color.alpha)
+
+        for i, sep in enumerate(self.vseps):
+            print 'x sep: ', sep, i
+            context.move_to(self.x + sep, self.y)
+            context.line_to(self.x + sep, self.y + self.height)
+            self.handler.control[ANONIMOUS+i].x = self.x + sep
+            self.handler.control[ANONIMOUS+i].y = self.y + self.height / 2
+
+        vlen = len(self.vseps)
+        for i, sep in enumerate(self.hseps):
+            print 'y sep: ', sep
+            context.move_to(self.x, self.y + sep)
+            context.line_to(self.x + self.width, self.y + sep)
+            self.handler.control[ANONIMOUS+vlen+i].y = self.y + sep
+
         context.stroke()
         Object.draw(self, context)
         ###context.restore()
+
+    def transform(self, direction, x, y):
+        if len(self.vseps) > 0:
+            print 'direction: ', direction, ANONIMOUS
+            print 'index: ', direction - ANONIMOUS
+            if direction >= ANONIMOUS:
+                self.vseps[direction-ANONIMOUS] = x
+
+    def add_separator_vertical(self, x):
+        control = Control()
+        control.x = self.x + x
+        control.y = self.y + self.height / 2
+        control.limbus = True
+        self.handler.control.append(control)
+        self.vseps.append(x)
+
+    def add_separator_horizontal(self, y):
+        control = Control()
+        control.x = self.x + self.width / 2
+        control.y = self.y + y
+        control.limbus = True
+        self.handler.control.append(control)
+        self.hseps.append(y)

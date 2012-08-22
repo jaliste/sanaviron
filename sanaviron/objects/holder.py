@@ -6,7 +6,7 @@ class Holder:
     """This class represents a object properties container"""
 
     def __repr__(self):
-        return self.serialize()
+            return self.serialize()
 
     def __init__(self):
         self.properties = dict()
