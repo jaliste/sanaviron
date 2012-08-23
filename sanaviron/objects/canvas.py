@@ -20,6 +20,20 @@ from guides import Guides
 from selection import Selection
 from paper import Paper
 from size import Size
+
+from barcode import BarCode
+from image import Image
+from text import Text
+from table import Table
+from line import Line
+from box import Box
+from rounded import Rounded
+from arc import Arc
+from curve import Curve
+from connector import Connector
+from chart import Chart
+from bubble import Bubble
+
 from objects import *
 
 import xml.parsers.expat
