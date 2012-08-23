@@ -33,6 +33,7 @@ from ui.menu import Menu
 from ui.toolbars import HorizontalToolbar, VerticalToolbar
 #from ui.browser import Browser
 from ui.editor import Editor
+from ui.statusbar import Statusbar
 
 setup = gtk.PageSetup()
 settings = gtk.PrintSettings()
@@ -78,7 +79,7 @@ class Application(gtk.Window):
         notebook.set_tab_pos(gtk.POS_RIGHT)
         hbox.add(notebook)
 
-        self.status = gtk.Statusbar()
+        self.status = Statusbar()
         self.id = self.status.get_context_id(_("Edit mode"))
         vbox.pack_start(self.status, False, False)
 
