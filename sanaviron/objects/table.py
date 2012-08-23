@@ -7,6 +7,8 @@ from object import Object
 from objects import *
 from control import Control
 
+import gtk
+
 class Table(Object):
     """This class represents a table"""
     __name__ = "Table"
@@ -35,7 +37,9 @@ class Table(Object):
         offset = 0
 
         for i, column in enumerate(columns):
-            offset += int(column) + i * self.horizontal_spacing
+            offset += int(column)
+            if i:
+                offset += self.horizontal_spacing
             control = Control()
             self.handler.control.append(control)
             control.x = self.x + offset

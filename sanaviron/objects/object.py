@@ -6,6 +6,8 @@ from rectangle import Rectangle
 from color import Color
 from objects import *
 
+import gtk
+
 class Object(Rectangle):
     """This class represents the parent of all draweable objects"""
 
@@ -95,4 +97,23 @@ class Object(Rectangle):
         pass
 
     def get_cursor(self, direction):
-        pass
+        if direction == NORTHWEST:
+            return gtk.gdk.Cursor(gtk.gdk.TOP_LEFT_CORNER)
+        elif direction == NORTH:
+            return gtk.gdk.Cursor(gtk.gdk.TOP_SIDE)
+        elif direction == NORTHEAST:
+            return gtk.gdk.Cursor(gtk.gdk.TOP_RIGHT_CORNER)
+        elif direction == WEST:
+            return gtk.gdk.Cursor(gtk.gdk.LEFT_SIDE)
+        elif direction == EAST:
+            return gtk.gdk.Cursor(gtk.gdk.RIGHT_SIDE)
+        elif direction == SOUTHWEST:
+            return gtk.gdk.Cursor(gtk.gdk.BOTTOM_LEFT_CORNER)
+        elif direction == SOUTH:
+            return gtk.gdk.Cursor(gtk.gdk.BOTTOM_SIDE)
+        elif direction == SOUTHEAST:
+            return gtk.gdk.Cursor(gtk.gdk.BOTTOM_RIGHT_CORNER)
+        elif direction >= ANONIMOUS:
+            return gtk.gdk.Cursor(gtk.gdk.CROSSHAIR)
+
+        return gtk.gdk.Cursor(gtk.gdk.ARROW)

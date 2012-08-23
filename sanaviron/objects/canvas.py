@@ -106,31 +106,31 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         self.vertical_ruler = None
         #self.paper = None
         self.clipboard = None
-        
+
     #def key_press(self, widget, event):
     #    pass
 
-    def update_cursor(self, widget, direction):
-        if direction == NORTHWEST:
-            widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_LEFT_CORNER))
-        elif direction == NORTH:
-            widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_SIDE))
-        elif direction == NORTHEAST:
-            widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_RIGHT_CORNER))
-        elif direction == WEST:
-            widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.LEFT_SIDE))
-        elif direction == EAST:
-            widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.RIGHT_SIDE))
-        elif direction == SOUTHWEST:
-            widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_LEFT_CORNER))
-        elif direction == SOUTH:
-            widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_SIDE))
-        elif direction == SOUTHEAST:
-            widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_RIGHT_CORNER))
-        elif direction == 8:
-            widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.CROSSHAIR))
-        elif direction == 9:
-            widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.CROSSHAIR))
+    #def update_cursor(self, widget, direction):
+    #    if direction == NORTHWEST:
+    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_LEFT_CORNER))
+    #    elif direction == NORTH:
+    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_SIDE))
+    #    elif direction == NORTHEAST:
+    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_RIGHT_CORNER))
+    #    elif direction == WEST:
+    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.LEFT_SIDE))
+    #    elif direction == EAST:
+    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.RIGHT_SIDE))
+    #    elif direction == SOUTHWEST:
+    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_LEFT_CORNER))
+    #    elif direction == SOUTH:
+    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_SIDE))
+    #    elif direction == SOUTHEAST:
+    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_RIGHT_CORNER))
+    #    elif direction == 8:
+    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.CROSSHAIR))
+    #    elif direction == 9:
+    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.CROSSHAIR))
 
     def move(self, child, x, y):
         child.x = self.grid.nearest(x - child.offset.x)
@@ -227,26 +227,24 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         x = event.x / self.zoom - self.origin.x
         y = event.y / self.zoom - self.origin.y
 
-        def get_direction_for_child_at_position(x, y, x_origin, y_origin, children):
+        def get_direction_for_child_at_position(x, y, origin, children):
             for child in children:
-                if child.selected and child.at_position(x, y) and child.handler.at_position(x + x_origin, y + y_origin):
-                    return child.handler.get_direction(x + x_origin, y + y_origin)
+                if child.selected and child.at_position(x, y) and child.handler.at_position(x + origin.x, y + origin.y):
+                        direction = child.handler.get_direction(x + origin.x, y + origin.y)
+                        widget.bin_window.set_cursor(child.get_cursor(direction))
+                        return direction
             return NONE
-         
-        direction = get_direction_for_child_at_position(x, y, self.origin.x, self.origin.y, self.children)
+
+        direction = get_direction_for_child_at_position(x, y, self.origin, self.children)
 
         if not self.stop_cursor_change:
-            if  direction is not NONE:
-                self.update_cursor(widget, direction)
-            elif event.state & gtk.gdk.BUTTON1_MASK: # and not direction:
-                widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.FLEUR))
-            elif self.pick: # and not direction:
-                widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.PENCIL))
-            else:
-                widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
-            #else:
-            #    cursor = child.get_cursor(direction)
-            #    widget.bin_window.set_cursor(cursor)
+            if direction == NONE:
+                if event.state & gtk.gdk.BUTTON1_MASK:
+                    widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.FLEUR))
+                elif self.pick:
+                    widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.PENCIL))
+                else:
+                    widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
 
         if self.selection.active:
             self.selection.width = x - self.selection.x
