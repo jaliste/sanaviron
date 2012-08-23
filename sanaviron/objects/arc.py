@@ -30,6 +30,7 @@ class Arc(Object):
 
         control = Control()
         self.handler.control.append(control)
+        self.handler.control.append(control)
 
         #self.block = False
 

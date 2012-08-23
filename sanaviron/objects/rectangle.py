@@ -12,3 +12,9 @@ class Rectangle(Holder, Position, Size):
         Holder.__init__(self)
         Position.__init__(self)
         Size.__init__(self)
+
+    def synchronize(self, rectangle):
+        self.x = rectangle.x
+        self.y = rectangle.y
+        self.width =  rectangle.width
+        self.height = rectangle.height

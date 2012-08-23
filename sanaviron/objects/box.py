@@ -3,6 +3,7 @@
 
 from control import Control
 from object import Object
+from separator import Separator
 from objects import *
 
 class Box(Object):
@@ -13,8 +14,7 @@ class Box(Object):
     def __init__(self):
         Object.__init__(self)
 
-        self.hseps = list()
-        self.vseps = list()
+        self.separators = list()
 
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
@@ -45,44 +45,38 @@ class Box(Object):
         context.fill_preserve()
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
             self.stroke_color.blue, self.stroke_color.alpha)
-
-        for i, sep in enumerate(self.vseps):
-            print 'x sep: ', sep, i
-            context.move_to(self.x + sep, self.y)
-            context.line_to(self.x + sep, self.y + self.height)
-            self.handler.control[ANONIMOUS+i].x = self.x + sep
-            self.handler.control[ANONIMOUS+i].y = self.y + self.height / 2
-
-        vlen = len(self.vseps)
-        for i, sep in enumerate(self.hseps):
-            print 'y sep: ', sep
-            context.move_to(self.x, self.y + sep)
-            context.line_to(self.x + self.width, self.y + sep)
-            self.handler.control[ANONIMOUS+vlen+i].y = self.y + sep
-
         context.stroke()
+
+        for i, separator in enumerate(self.separators):
+            separator.synchronize(self)
+            separator.draw(context)
+            self.handler.control[ANONIMOUS+i] = separator.control
+
         Object.draw(self, context)
         ###context.restore()
 
     def transform(self, direction, x, y):
-        if len(self.vseps) > 0:
-            print 'direction: ', direction, ANONIMOUS
-            print 'index: ', direction - ANONIMOUS
+        if len(self.separators) > 0:
             if direction >= ANONIMOUS:
-                self.vseps[direction-ANONIMOUS] = x
+                separator = self.separators[direction-ANONIMOUS]
+                if separator.direction == VERTICAL:
+                    separator.position = x - self.x
+                elif separator.direction == HORIZONTAL:
+                    separator.position = y - self.y
 
-    def add_separator_vertical(self, x):
-        control = Control()
-        control.x = self.x + x
-        control.y = self.y + self.height / 2
-        control.limbus = True
-        self.handler.control.append(control)
-        self.vseps.append(x)
+    def add_separator_vertical(self, position):
+        print "add-separator-vertical"
+        separator = Separator()
+        separator.position = position
+        separator.direction = VERTICAL
+        #separator.synchronize(self)
+        self.separators.append(separator)
+        self.handler.control.append(separator.control)
 
-    def add_separator_horizontal(self, y):
-        control = Control()
-        control.x = self.x + self.width / 2
-        control.y = self.y + y
-        control.limbus = True
-        self.handler.control.append(control)
-        self.hseps.append(y)
+    def add_separator_horizontal(self, position):
+        separator = Separator()
+        separator.position = position
+        separator.direction = HORIZONTAL
+        #separator.synchronize(self)
+        self.separators.append(separator)
+        self.handler.control.append(separator.control)
