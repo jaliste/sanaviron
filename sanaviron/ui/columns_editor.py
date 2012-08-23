@@ -16,9 +16,9 @@ class ColumnsEditor(gtk.ScrolledWindow):
         self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
 
         units = gtk.ListStore(str)
-        units.append(["milímetros"])
-        units.append(["pulgadas"])
-        units.append(["pixels"])
+        units.append([_("millimeters")])
+        units.append([_("inches")])
+        units.append([_("pixels")])
 
         self.liststore = gtk.ListStore(str, int, str)
 
@@ -31,7 +31,7 @@ class ColumnsEditor(gtk.ScrolledWindow):
         cell = gtk.CellRendererText()
         cell.connect("edited", self.title_edited)
         cell.set_property("editable", True)
-        column = gtk.TreeViewColumn("Título")
+        column = gtk.TreeViewColumn(_("Title"))
         column.pack_start(cell, True)
         column.set_attributes(cell, text=COLUMN_TITLE)
         treeview.append_column(column)
@@ -43,7 +43,7 @@ class ColumnsEditor(gtk.ScrolledWindow):
         cell.set_property("editable", True)
         cell.set_property("adjustment", adjustment)
         cell.set_property("xalign", 1.0)
-        column = gtk.TreeViewColumn("Ancho")
+        column = gtk.TreeViewColumn(_("Width"))
         column.pack_start(cell, True)
         column.set_attributes(cell, text=COLUMN_WIDTH)
         treeview.append_column(column)
@@ -53,7 +53,7 @@ class ColumnsEditor(gtk.ScrolledWindow):
         cell.set_property("has-entry", False)
         cell.set_property("model", units)
         cell.set_property("text-column", 0)
-        column = gtk.TreeViewColumn("Unidad")
+        column = gtk.TreeViewColumn(_("Unit"))
         column.pack_start(cell, True)
         column.set_attributes(cell, text=COLUMN_UNIT)
         treeview.append_column(column)
@@ -85,7 +85,7 @@ class ColumnsEditor(gtk.ScrolledWindow):
     def add_column(self):
         row = len(self.liststore) + 1
         title = "Columna %d" % row
-        self.liststore.append([title, 0, "milímetros"])
+        self.liststore.append([title, 0, _("millimeters")])
 
     def remove_column(self):
         last = len(self.liststore) - 1

@@ -26,19 +26,16 @@ class Table(Object):
 
     def post(self):
         n_controls = len(self.handler.control)
-        while n_controls > 9:
+        while n_controls > ANONIMOUS:
             n_controls -= 1
             del self.handler.control[n_controls]
 
         columns = self.get_property("columns").split(':')
-        n_columns = len(columns)
 
         offset = 0
 
-        i = 0
-        for column in range(n_columns):
-            i += 1
-            offset += int(columns[column]) + self.horizontal_spacing
+        for i, column in enumerate(columns):
+            offset += int(column) + i * self.horizontal_spacing
             control = Control()
             self.handler.control.append(control)
             control.x = self.x + offset
@@ -65,7 +62,7 @@ class Table(Object):
 
         for column in range(n_columns):
             for row in range(rows):
-                layout = pangocairo.CairoContext.create_layout(context);
+                layout = pangocairo.CairoContext.create_layout(context)
                 fontname = self.get_property('font')
                 if fontname.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")): # XXX
                     description = fontname
@@ -112,11 +109,10 @@ class Table(Object):
         Object.draw(self, context)
 
     def get_cursor(self, direction):
-        cursor = Cursor()
-        return cursor.east
+        return gtk.gdk.Cursor(gtk.gdk.FLEUR)
 
     def transform(self, direction, x, y):
-        direction -= 9
+        direction -= ANONIMOUS
         columns = self.get_property("columns").split(':')
         n_columns = len(columns)
         offset = self.x

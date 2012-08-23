@@ -238,12 +238,15 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         if not self.stop_cursor_change:
             if  direction is not NONE:
                 self.update_cursor(widget, direction)
-            elif event.state & gtk.gdk.BUTTON1_MASK and not direction:
+            elif event.state & gtk.gdk.BUTTON1_MASK: # and not direction:
                 widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.FLEUR))
-            elif self.pick and not direction:
+            elif self.pick: # and not direction:
                 widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.PENCIL))
             else:
                 widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
+            #else:
+            #    cursor = child.get_cursor(direction)
+            #    widget.bin_window.set_cursor(cursor)
 
         if self.selection.active:
             self.selection.width = x - self.selection.x

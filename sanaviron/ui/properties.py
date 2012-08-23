@@ -309,6 +309,26 @@ class Properties(gtk.ScrolledWindow):
         form = PositionedObjectForm(group, canvas)
         button.add(form)
 
+        form.add_section(_("Spacing"))
+
+        entry = gtk.SpinButton()
+        entry.set_digits(0)
+        entry.set_increments(1, 2)
+        entry.set_range(0, 1024)
+        entry.set_value(1)
+        entry.set_numeric(True)
+        entry.set_wrap(False)
+        form.add_entry(group, _("Vertical"), entry)
+
+        entry = gtk.SpinButton()
+        entry.set_digits(0)
+        entry.set_increments(1, 2)
+        entry.set_range(0, 1024)
+        entry.set_value(0)
+        entry.set_numeric(True)
+        entry.set_wrap(False)
+        form.add_entry(group, _("Horizontal"), entry)
+
         form.add_section(_("Size"))
 
         entry = gtk.SpinButton()
@@ -348,6 +368,7 @@ class Properties(gtk.ScrolledWindow):
         form.add_section(_("Columns"))
 
         entry = ColumnsEditor()
+        entry.add_column()
         entry.connect("width-edited", self.set_table_column_width)
         entry.connect("title-edited", self.set_table_column_title)
         self.observer.install_observable("table-columns-editor", entry)
