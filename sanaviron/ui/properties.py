@@ -155,7 +155,7 @@ class ColorizedObjectForm(SizedObjectForm):
 
 
 class Properties(gtk.ScrolledWindow):
-    """Esta clase representa la paleta de propiedades"""
+    """This class represents the properties bar"""
 
     def __init__(self, canvas):
         gtk.ScrolledWindow.__init__(self)
@@ -340,6 +340,7 @@ class Properties(gtk.ScrolledWindow):
         entry.set_numeric(True)
         entry.set_wrap(False)
         form.add_entry(group, _("Columns"), entry)
+        self.observer.install_observable("table-columns", entry)
 
         entry = gtk.SpinButton()
         entry.connect("value-changed", self.set_table_rows)
@@ -488,6 +489,15 @@ class Properties(gtk.ScrolledWindow):
                 if name == "BarCode":
                     code = child.get_property("code")
                     #self.entry.set_text(code) # TODO
+                if name == "Table":
+                    columns = child.get_property("columns").split(':')
+                    titles = child.get_property("titles").split(':')
+                    entry = self.observer.get_observable("table-columns")
+                    entry.set_value(len(columns))
+                    entry = self.observer.get_observable("table-columns-editor")
+                    entry.clear()
+                    for i, title in enumerate(titles):
+                        entry.add_column(title, int(columns[i]))
             else:
                 object.hide()
 

@@ -82,14 +82,18 @@ class ColumnsEditor(gtk.ScrolledWindow):
         self.liststore[path][COLUMN_TITLE] = text
         self.emit("title-edited", column, text)
 
-    def add_column(self):
+    def add_column(self, title=None, size=0):
         row = len(self.liststore) + 1
-        title = "Columna %d" % row
-        self.liststore.append([title, 0, _("millimeters")])
+        if not title:
+            title = "Columna %d" % row
+        self.liststore.append([title, size, _("millimeters")])
 
     def remove_column(self):
         last = len(self.liststore) - 1
         del self.liststore[last]
+
+    def clear(self):
+        self.liststore.clear()
 
 if __name__ == '__main__':
     def quit(widget, event):
