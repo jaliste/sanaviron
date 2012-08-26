@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import gtk
+import gobject
 
 from objects import *
 
@@ -9,6 +10,7 @@ class Entry(gtk.HBox):
 
     def __init__(self):
         gtk.HBox.__init__(self)
+
         self.set_spacing(1)
         alignment = gtk.Alignment(0.0, 0.5)
         self.add(alignment)
@@ -25,12 +27,21 @@ class Entry(gtk.HBox):
         self.entry = gtk.combo_box_new_text()
         alignment.add(self.entry)
 
+        self.spin.connect("value-changed", self.value_changed)
+
     def append_unit(self, unit):
         self.entry.append_text(unit)
 
     def set_active(self, active):
         self.entry.set_active(active)
 
+    def set_value(self, value):
+        self.spin.set_value(value)
+
+    def value_changed(self, widget):
+        self.emit("value-changed", None)
+
+gobject.signal_new("value-changed", Entry, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
 
 class LinearEntry(Entry):
     """This class represents a entry for linear units"""

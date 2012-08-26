@@ -12,7 +12,8 @@ class Rounded(Object):
 
     def __init__(self):
         Object.__init__(self)
-        self.radius = 10
+
+        self.set_property("radius", 10)
 
         control = Control()
         self.handler.control.append(control)
@@ -35,13 +36,14 @@ class Rounded(Object):
         self.handler.control[EAST].x = self.x + self.width
         self.handler.control[EAST].y = self.y + self.height / 2
 
-        self.handler.control[8].x = self.x + self.radius
-        self.handler.control[8].y = self.y + self.radius
+        radius = self.get_property("radius")
+        self.handler.control[8].x = self.x + radius
+        self.handler.control[8].y = self.y + radius
         self.handler.control[8].limbus = True
 
     def draw(self, context):
         ###context.save()
-        radius = self.radius
+        radius = self.get_property("radius")
 
         dash = list()
         context.set_dash(dash)
@@ -60,7 +62,7 @@ class Rounded(Object):
         context.line_to(self.x + self.width, self.y + self.height - radius)
         context.arc(self.x + self.width - radius, self.y + self.height - radius, radius, 0, pi / 2)
         context.line_to(self.x + radius, self.y + self.height)
-        context.arc(self.x + self.radius, self.y + self.height - radius, radius, pi / 2, pi)
+        context.arc(self.x + radius, self.y + self.height - radius, radius, pi / 2, pi)
         context.close_path()
 
         context.set_source_rgba(self.fill_color.red, self.fill_color.green,
@@ -75,4 +77,4 @@ class Rounded(Object):
     def transform(self, direction, x, y):
         radius = x - self.x
         if (radius > 0 and radius < self.height / 2 and radius < self.width / 2):
-            self.radius = radius
+            self.set_property("radius", radius)

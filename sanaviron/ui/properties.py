@@ -13,12 +13,25 @@ from ui.columns_editor import ColumnsEditor
 from ui.gradienteditor import GradientEditor
 import sys
 
+class Observer:
+    def __init__(self):
+        self.observables = dict()
+
+    def install_observable(self, name, widget):
+        self.observables[name] = widget
+
+    def get_observable(self, name):
+        return self.observables[name]
+
 class Form(gtk.VBox):
     """This class represents a properties form"""
 
-    def __init__(self, canvas):
+    def __init__(self, name, properties):
         gtk.VBox.__init__(self)
-        self._canvas = canvas
+        #self.canvas = properties.canvas
+        self.group = properties.group
+        self.observer = properties.observer
+        self.__name = name
         #self.set_border_width(1)
         #self.set_spacing(1)
 
@@ -43,10 +56,10 @@ class Form(gtk.VBox):
         self.table = table
         self.entries = 0
 
-    def add_entry(self, group, caption, entry, expanded=False):
+    def add_entry(self, caption, entry, property, expanded=False):
         if caption:
             label = gtk.Label(caption + ':')
-            group.add_widget(label)
+            self.group.add_widget(label)
             label.set_alignment(0.0, 0.5)
             self.table.attach(label, 0, 1, self.entries, self.entries + 1, gtk.FILL, 0)
             alignment = gtk.Alignment(0.0, 0.5, float(expanded))
@@ -54,104 +67,95 @@ class Form(gtk.VBox):
             self.table.attach(alignment, 1, 2, self.entries, self.entries + 1, gtk.EXPAND | gtk.FILL, 0)
         else:
             self.table.attach(entry, 0, 2, self.entries, self.entries + 1, gtk.EXPAND | gtk.FILL, 0)
+        observable = "%s-%s" % (self.__name, property)
+        self.observer.install_observable(observable, entry)
         self.entries += 1
-
-
-class Observer:
-    def __init__(self):
-        self.observables = dict()
-
-    def install_observable(self, name, widget):
-        self.observables[name] = widget
-
-    def get_observable(self, name):
-        return self.observables[name]
-
 
 class PositionedObjectForm(Form):
     """TODO"""
 
-    def __init__(self, group, canvas):
-        Form.__init__(self, canvas)
+    def __init__(self, name, properties):
+        Form.__init__(self, name, properties)
 
         self.add_section(_("Position"))
 
         entry = LinearEntry()
-        self.add_entry(group, _("Horizontal"), entry)
+        self.add_entry(_("Horizontal"), entry, "x")
 
         entry = LinearEntry()
-        self.add_entry(group, _("Vertical"), entry)
+        self.add_entry(_("Vertical"), entry, "y")
 
 
 class AngledObjectForm(Form):
     """TODO"""
 
-    def __init__(self, group):
-        Form.__init__(self)
+    def __init__(self, name, properties):
+        Form.__init__(self, name, properties)
 
         self.add_section(_("Angle"))
 
         entry = AngularEntry()
-        self.add_entry(group, _("Start Angle"), entry)
+        self.add_entry(_("Start Angle"), entry, "start")
 
         entry = AngularEntry()
-        self.add_entry(group, _("Stop Angle"), entry)
+        self.add_entry(_("Stop Angle"), entry, "end")
 
 
 class SizedObjectForm(PositionedObjectForm):
     """TODO"""
 
-    def __init__(self, group, canvas):
-        PositionedObjectForm.__init__(self, group, canvas)
+    def __init__(self, name, properties):
+        PositionedObjectForm.__init__(self, name, properties)
 
         self.add_section(_("Size"))
 
         entry = LinearEntry()
-        self.add_entry(group, _("Width"), entry)
+        self.add_entry(_("Width"), entry, "width")
 
         entry = LinearEntry()
-        self.add_entry(group, _("Height"), entry)
+        self.add_entry(_("Height"), entry, "height")
 
 
 class ColorizedObjectForm(SizedObjectForm):
     """TODO"""
 
-    def __init__(self, group, canvas):
-        PositionedObjectForm.__init__(self, group, canvas)
+    def __init__(self, name, properties):
+        SizedObjectForm.__init__(self, name, properties)
 
+        self.canvas = properties.canvas
         self.add_section(_("Color"))
 
         entry = gtk.ColorButton()
         entry.set_use_alpha(True)
         entry.connect("color-set", self.set_stroke_color)
-        self.add_entry(group, _("Stroke"), entry)
+        self.add_entry(_("Stroke"), entry, "foreground")
 
         entry = gtk.ColorButton()
         entry.set_use_alpha(True)
         entry.connect("color-set", self.set_fill_color)
-        self.add_entry(group, _("Fill"), entry)
+        self.add_entry(_("Fill"), entry, "background")
 
         if "--debug" in sys.argv:
             entry = gtk.Label(" ")
-            self.add_entry(group, _("Gradient"), entry)
-            entry = GradientEditor(self._canvas)
+            self.add_entry(_("Gradient"), entry, "gradient")
+            entry = GradientEditor(self.canvas)
             self.add(entry)
 
     def set_stroke_color(self, widget):
-        for child in self._canvas.children:
+        for child in self.canvas.children:
             if child.selected:
                 color = Color(r=widget.get_color().red_float, g=widget.get_color().green_float,
                     b=widget.get_color().blue_float, a=widget.get_alpha() / 65535.0)
                 child.set_stroke_color(color)
-                self._canvas.queue_draw()
+                self.canvas.queue_draw()
 
     def set_fill_color(self, widget):
-        for child in self._canvas.children:
+        for child in self.canvas.children:
             if child.selected:
                 color = Color(r=widget.get_color().red_float, g=widget.get_color().green_float,
                     b=widget.get_color().blue_float, a=widget.get_alpha() / 65535.0)
                 child.set_fill_color(color)
-                self._canvas.queue_draw()
+                self.canvas.queue_draw()
 
 
 class Properties(gtk.ScrolledWindow):
@@ -171,13 +175,13 @@ class Properties(gtk.ScrolledWindow):
         properties = gtk.VBox()
         self.add_with_viewport(properties)
 
-        group = gtk.SizeGroup(gtk.SIZE_GROUP_HORIZONTAL)
+        self.group = gtk.SizeGroup(gtk.SIZE_GROUP_HORIZONTAL)
 
         #---START-------------------------------------------------------
         button = Button(_("General properties"))
         properties.pack_start(button, False, False)
 
-        form = Form(canvas)
+        form = Form("general", self)
         button.add(form)
 
         form.add_section(_("Units"))
@@ -189,64 +193,108 @@ class Properties(gtk.ScrolledWindow):
         entry.append_text(INCHES)
         entry.set_active(1)
 
-        form.add_entry(group, _("Preferred linear unit"), entry)
+        form.add_entry(_("Preferred linear unit"), entry, "linear-unit")
 
         entry = gtk.combo_box_new_text()
         entry.append_text(DEGREES)
         entry.append_text(RADIANS)
         entry.set_active(1)
 
-        form.add_entry(group, _("Preferred angular unit"), entry)
+        form.add_entry(_("Preferred angular unit"), entry, "angular-unit")
         #---END---------------------------------------------------------
 
         #---START-------------------------------------------------------
         button = Button(_("Document properties"))
         properties.pack_start(button, False, False)
 
-        form = Form(canvas)
+        form = Form("document", self)
         button.add(form)
 
         form.add_section(_("Size"))
 
         entry = LinearEntry()
-        form.add_entry(group, _("Width"), entry)
+        form.add_entry(_("Width"), entry, "width")
 
         entry = LinearEntry()
-        form.add_entry(group, _("Height"), entry)
+        form.add_entry(_("Height"), entry, "height")
 
         form.add_section(_("Margins"))
 
         entry = LinearEntry()
-        form.add_entry(group, _("Top"), entry)
+        form.add_entry(_("Top"), entry, "top-margin")
 
         entry = LinearEntry()
-        form.add_entry(group, _("Bottom"), entry)
+        form.add_entry(_("Bottom"), entry, "bottom-margin")
 
         entry = LinearEntry()
-        form.add_entry(group, _("Left"), entry)
+        form.add_entry(_("Left"), entry, "left-margin")
 
         entry = LinearEntry()
-        form.add_entry(group, _("Right"), entry)
+        form.add_entry(_("Right"), entry, "right-margin")
 
         form.add_section(_("Config"))
 
         entry = LinearEntry()
-        form.add_entry(group, _("Grid size"), entry)
+        form.add_entry(_("Grid size"), entry, "grid-size")
 
         entry = LinearEntry()
-        form.add_entry(group, _("Guides size"), entry)
+        form.add_entry(_("Guides size"), entry, "guides-size")
 
         entry = gtk.CheckButton(_("Show margins"))
-        form.add_entry(group, None, entry)
+        form.add_entry(None, entry, "margins-active")
 
         entry = gtk.CheckButton(_("Show guides"))
-        form.add_entry(group, None, entry)
+        form.add_entry(None, entry, "guides-active")
 
         entry = gtk.CheckButton(_("Show grid"))
-        form.add_entry(group, None, entry)
+        form.add_entry(None, entry, "grid-active")
 
         entry = gtk.CheckButton(_("Enable snap"))
-        form.add_entry(group, None, entry)
+        form.add_entry(None, entry, "snap")
+        #---END---------------------------------------------------------
+
+        #---START-------------------------------------------------------
+        button = Button(_("Box properties"))
+        self.objects["Box"] = button
+        properties.pack_start(button, False, False)
+
+        form = ColorizedObjectForm("box", self)
+        button.add(form)
+
+        #form.add_section(_("Position"))
+
+        #entry = LinearEntry()
+        #self.observer.install_observable("x", entry)
+        #form.add_entry(_("Horizontal"), entry, "box-x")
+
+        #entry = LinearEntry()
+        #self.observer.install_observable("box-y", entry)
+        #form.add_entry(_("Vertical"), entry, "y")
+
+        #form.add_section(_("Size"))
+
+        #entry = LinearEntry()
+        #self.observer.install_observable("box-width", entry)
+        #form.add_entry(_("Width"), entry, "width")
+
+        #entry = LinearEntry()
+        #self.observer.install_observable("box-height", entry)
+        #form.add_entry(_("Height"), entry, "height")
+        #---END---------------------------------------------------------
+
+        #---START-------------------------------------------------------
+        button = Button(_("Rounded box properties"))
+        self.objects["Rounded"] = button
+        properties.pack_start(button, False, False)
+
+        form = ColorizedObjectForm("rounded", self)
+        button.add(form)
+
+        form.add_section(_("Shape"))
+
+        entry = LinearEntry()
+        entry.set_value(0)
+        form.add_entry(_("Radius"), entry, "radius")
         #---END---------------------------------------------------------
 
         #---START-------------------------------------------------------
@@ -254,24 +302,27 @@ class Properties(gtk.ScrolledWindow):
         self.objects["Text"] = button
         properties.pack_start(button, False, False)
 
-        form = ColorizedObjectForm(group, canvas)
+        form = ColorizedObjectForm("text", self)
         button.add(form)
 
         form.add_section(_("Format"))
 
         entry = gtk.FontButton()
         entry.connect("font-set", self.change_font)
-        form.add_entry(group, _("Font"), entry)
+        #self.observer.install_observable("text-font", entry)
+        form.add_entry(_("Font"), entry, "font")
 
         entry = gtk.CheckButton(_("Preserve aspect"))
         entry.connect("toggled", self.preserve)
-        form.add_entry(group, None, entry)
+        #self.observer.install_observable("text-aspect", entry)
+        form.add_entry(None, entry, "preserve")
 
         form.add_section(_("Text"))
 
-        self.entry = TextPad()
-        self.disconnect_handler = self.entry.buffer.connect("changed", self.changed)
-        form.add_entry(group, None, self.entry)
+        entry = TextPad()
+        self.disconnect_handler = entry.buffer.connect("changed", self.changed)
+        #self.observer.install_observable("text-text", entry)
+        form.add_entry(None, entry, "text")
         #---END---------------------------------------------------------
 
         #---START--------ARC properties-----------------------------------------------
@@ -279,25 +330,25 @@ class Properties(gtk.ScrolledWindow):
         self.objects["Arc"] = button
         properties.pack_start(button, False, False)
 
-        form = ColorizedObjectForm(group, canvas)
+        form = ColorizedObjectForm("arc", self)
         button.add(form)
 
         form.add_section(_("Angle"))
         self.angle_start = AngularEntry()
-        form.add_entry(group, _("Start Angle"), self.angle_start)
+        form.add_entry(_("Start Angle"), self.angle_start, "start-angle")
         self.angle_start.spin.connect("value-changed", self.change_angle_start)
 
         self.angle_stop = AngularEntry()
-        form.add_entry(group, _("Stop Angle"), self.angle_stop)
+        form.add_entry(_("Stop Angle"), self.angle_stop, "stop-angle")
         self.angle_stop.spin.connect("value-changed", self.change_angle_stop)
 
         form.add_section(_("Other"))
         self.closed_btn = gtk.CheckButton()
-        form.add_entry(group, _("Closed Arc"), self.closed_btn)
+        form.add_entry(_("Closed Arc"), self.closed_btn, "closed")
         self.closed_btn.connect("toggled", self.close_arc)
 
         self.closed_at_centre_btn = gtk.CheckButton()
-        form.add_entry(group, _("Closed Arc at Centre"), self.closed_at_centre_btn)
+        form.add_entry(_("Closed Arc at Centre"), self.closed_at_centre_btn, "closed-at-centre")
         self.closed_at_centre_btn.connect("toggled", self.close_at_centre_arc)
         #---END---------------------------------------------------------
 
@@ -306,65 +357,77 @@ class Properties(gtk.ScrolledWindow):
         self.objects["Table"] = button
         properties.pack_start(button, False, False)
 
-        form = PositionedObjectForm(group, canvas)
+        form = PositionedObjectForm("table", self)
         button.add(form)
 
         form.add_section(_("Spacing"))
 
-        entry = gtk.SpinButton()
-        entry.set_digits(0)
-        entry.set_increments(1, 2)
-        entry.set_range(0, 1024)
-        entry.set_value(1)
-        entry.set_numeric(True)
-        entry.set_wrap(False)
-        form.add_entry(group, _("Vertical"), entry)
-
-        entry = gtk.SpinButton()
-        entry.set_digits(0)
-        entry.set_increments(1, 2)
-        entry.set_range(0, 1024)
+        #entry = gtk.SpinButton()
+        #entry.set_digits(0)
+        #entry.set_increments(1, 2)
+        #entry.set_range(0, 1024)
+        #entry.set_value(0)
+        #entry.set_numeric(True)
+        #entry.set_wrap(False)
+        entry = LinearEntry()
         entry.set_value(0)
-        entry.set_numeric(True)
-        entry.set_wrap(False)
-        form.add_entry(group, _("Horizontal"), entry)
+        #self.observer.install_observable("table-vertical-spacing", entry)
+        form.add_entry(_("Vertical"), entry, "vertical-spacing")
+
+        #entry = gtk.SpinButton()
+        #entry.set_digits(0)
+        #entry.set_increments(1, 2)
+        #entry.set_range(0, 1024)
+        #entry.set_value(0)
+        #entry.set_numeric(True)
+        #entry.set_wrap(False)
+        entry = LinearEntry()
+        entry.set_value(0)
+        #self.observer.install_observable("table-horizontal-spacing", entry)
+        form.add_entry(_("Horizontal"), entry, "horizontal-spacing")
 
         form.add_section(_("Size"))
 
-        entry = gtk.SpinButton()
-        entry.connect("value-changed", self.set_table_columns)
-        entry.set_digits(0)
-        entry.set_increments(1, 2)
-        entry.set_range(0, 1024)
+        #entry = gtk.SpinButton()
+        #entry.set_digits(0)
+        #entry.set_increments(1, 2)
+        #entry.set_range(0, 1024)
+        #entry.set_value(1)
+        #entry.set_numeric(True)
+        #entry.set_wrap(False)
+        entry = LinearEntry()
         entry.set_value(1)
-        entry.set_numeric(True)
-        entry.set_wrap(False)
-        form.add_entry(group, _("Columns"), entry)
-        self.observer.install_observable("table-columns", entry)
+        entry.connect("value-changed", self.set_table_columns)
+        #self.observer.install_observable("table-columns", entry)
+        form.add_entry(_("Columns"), entry, "columns")
 
-        entry = gtk.SpinButton()
+        #entry = gtk.SpinButton()
+        #entry.set_digits(0)
+        #entry.set_increments(1, 2)
+        #entry.set_range(0, 1024)
+        #entry.set_value(5)
+        #entry.set_numeric(True)
+        #entry.set_wrap(False)
+        entry = LinearEntry()
+        entry.set_value(5)
         entry.connect("value-changed", self.set_table_rows)
-        entry.set_digits(0)
-        entry.set_increments(1, 2)
-        entry.set_range(0, 1024)
-        entry.set_value(0)
-        entry.set_numeric(True)
-        entry.set_wrap(False)
-        form.add_entry(group, _("Rows"), entry)
+        #self.observer.install_observable("table-rows", entry)
+        form.add_entry(_("Rows"), entry, "rows")
 
         form.add_section(_("Color"))
 
         entry = gtk.ColorButton()
-        form.add_entry(group, _("Stroke"), entry)
+        form.add_entry(_("Stroke"), entry, "stroke")
 
         entry = gtk.ColorButton()
-        form.add_entry(group, _("Fill"), entry)
+        form.add_entry(_("Fill"), entry, "fill")
 
         form.add_section(_("Format"))
 
         entry = gtk.FontButton()
         entry.connect("font-set", self.set_table_font)
-        form.add_entry(group, _("Font"), entry)
+        #self.observer.install_observable("table-font", entry)
+        form.add_entry(_("Font"), entry, "font")
 
         form.add_section(_("Columns"))
 
@@ -372,8 +435,8 @@ class Properties(gtk.ScrolledWindow):
         entry.add_column()
         entry.connect("width-edited", self.set_table_column_width)
         entry.connect("title-edited", self.set_table_column_title)
-        self.observer.install_observable("table-columns-editor", entry)
-        form.add_entry(group, None, entry)
+        #self.observer.install_observable("table-columns-editor", entry)
+        form.add_entry(None, entry, "columns-editor")
         #---END---------------------------------------------------------
 
         #---START-------------------------------------------------------
@@ -381,7 +444,7 @@ class Properties(gtk.ScrolledWindow):
         self.objects["BarCode"] = button
         properties.pack_start(button, False, False)
 
-        form = ColorizedObjectForm(group, canvas)
+        form = ColorizedObjectForm("barcode", self)
         button.add(form)
 
         form.add_section(_("Barcode"))
@@ -390,28 +453,24 @@ class Properties(gtk.ScrolledWindow):
         entry.connect("changed", self.changed_barcode_type)
         for type in barcodes:
             entry.append_text(type)
-        form.add_entry(group, _("Type"), entry)
+        #self.observer.install_observable("barcode-type", entry)
+        form.add_entry(_("Type"), entry, "type")
 
         entry = gtk.Entry()
         entry.connect("changed", self.changed_barcode_code)
-        form.add_entry(group, _("Code"), entry)
+        #self.observer.install_observable("barcode-code", entry)
+        form.add_entry(_("Code"), entry, "code")
         #---END---------------------------------------------------------
-
-        # s/label.set_markup("<b>\([^<]\+\)<\/b>")/form.add_section(_("\1"))/
-        # s/label = gtk.Label("\([^:]\+\):")/form.add_entry(group, _("\1"), entry)/
-        # s/gtk.Table/Form/
-        # s/table/form/g
 
         #---START-------------------------------------------------------
         button = Button(_("Image properties"))
         self.objects["Image"] = button
         properties.pack_start(button, False, False)
 
-        form = SizedObjectForm(group, canvas)
+        form = SizedObjectForm("image", self)
         button.add(form)
 
         form.add_section(_("Image"))
-
 
         def update_preview(dialog, preview):
             filename = dialog.get_preview_filename()
@@ -438,27 +497,23 @@ class Properties(gtk.ScrolledWindow):
         #dialog.set_transient_for(self)
         dialog.set_default_response(gtk.RESPONSE_OK)
 
-        filter = gtk.FileFilter()
-        filter.set_name("PNG files")
-        filter.add_mime_type("image/png")
-        filter.add_pattern("*.png")
-        dialog.add_filter(filter)
+        def add_filter(dialog, name, pattern, type=None):
+            filter = gtk.FileFilter()
+            filter.set_name(name)
+            if type:
+                filter.add_mime_type(type)
+            filter.add_pattern(pattern)
+            dialog.add_filter(filter)
 
-        filter = gtk.FileFilter()
-        filter.set_name("JPG files")
-        filter.add_mime_type("image/jpg")
-        filter.add_pattern("*.jpg")
-        dialog.add_filter(filter)
-
-        filter = gtk.FileFilter()
-        filter.set_name("All files")
-        filter.add_pattern("*")
-        dialog.add_filter(filter)
+        add_filter(dialog, "PNG files", "*.png", "image/png")
+        add_filter(dialog, "JPG files", "*.jpg", "image/jpg")
+        add_filter(dialog, "All files", "*")
 
         dialog.connect("file-activated", self.changed_image_file)
 
         entry = gtk.FileChooserButton(dialog)
-        form.add_entry(group, _("Image file"), entry, True)
+        #self.observer.install_observable("image-file", entry)
+        form.add_entry(_("Image file"), entry, "file", True)
         #---END---------------------------------------------------------
 
         #---START-------------------------------------------------------
@@ -466,7 +521,7 @@ class Properties(gtk.ScrolledWindow):
         self.objects["Chart"] = button
         properties.pack_start(button, False, False)
 
-        form = SizedObjectForm(group, canvas)
+        form = SizedObjectForm("chart", self)
         button.add(form)
 
         form.add_section(_("Chart"))
@@ -475,23 +530,54 @@ class Properties(gtk.ScrolledWindow):
         entry.connect("changed", self.changed_chart_type)
         for type in chart_types:
             entry.append_text(type)
-        form.add_entry(group, _("Type"), entry)
+        #self.observer.install_observable("chart-type", entry)
+        form.add_entry(_("Type"), entry, "type")
         #---END---------------------------------------------------------
+
+        fill = gtk.Label("\n")
+        properties.add(fill)
 
     def select(self, name, child):
         for key, object in self.objects.items():
             if key == name:
                 object.show()
 
+                def set_property_from_child(name, property, value):
+                    observable = "%s-%s" % (name.lower(), property)
+                    entry = self.observer.get_observable(observable)
+                    entry.set_value(value)
+
+                if name in [ "Box", "Rounded" ]:
+                    set_property_from_child(name, "x", child.x)
+                    set_property_from_child(name, "y", child.y)
+                    set_property_from_child(name, "width", child.width)
+                    set_property_from_child(name, "height", child.height)
+
+                if name == "Rounded":
+                    radius = child.get_property("radius")
+                    entry = self.observer.get_observable("rounded-radius")
+                    entry.set_value(radius)
                 if name == "Text":
                     text = child.get_property("text")
-                    self.entry.set_text(text)
+                    entry = self.observer.get_observable("text-text")
+                    entry.set_text(text)
+                if name == "Image":
+                    image = child.get_property("image")
+                    entry = self.observer.get_observable("image-file")
+                    entry.set_filename(image)
                 if name == "BarCode":
                     code = child.get_property("code")
-                    #self.entry.set_text(code) # TODO
+                    type = child.get_property("type")
+                    entry = self.observer.get_observable("barcode-code")
+                    entry.set_text(code)
+                    entry = self.observer.get_observable("barcode-type")
+                    entry.set_active(type)
                 if name == "Table":
                     columns = child.get_property("columns").split(':')
                     titles = child.get_property("titles").split(':')
+                    rows = child.get_property("rows")
+                    entry = self.observer.get_observable("table-rows")
+                    entry.set_value(int(rows))
                     entry = self.observer.get_observable("table-columns")
                     entry.set_value(len(columns))
                     entry = self.observer.get_observable("table-columns-editor")
