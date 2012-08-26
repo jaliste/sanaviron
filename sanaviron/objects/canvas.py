@@ -235,8 +235,8 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         """
         This code is executed when move the mouse pointer
         """
-        self.horizontal_ruler.emit("motion-notify-event", event)
-        self.vertical_ruler.emit("motion-notify-event", event)
+        self.horizontal_ruler.motion(self.horizontal_ruler, event, True)
+        self.vertical_ruler.motion(self.vertical_ruler, event, True)
         self.disconnect(self.motion_id)
         x = event.x / self.zoom - self.origin.x
         y = event.y / self.zoom - self.origin.y

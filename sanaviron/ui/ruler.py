@@ -28,12 +28,14 @@ class HorizontalRuler(gtk.Viewport):
         self.layout.add_events(gtk.gdk.EXPOSURE_MASK)
         self.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
 
-        self.connect("motion-notify-event", self.motion)
+        self.connect("motion-notify-event", self.motion, False)
         self.connect("button-release-event", self.release)
         self.layout.connect("expose-event", self.expose)
 
-    def motion(self, widget, event):
-        self.x = event.x - self.offset
+    def motion(self, widget, event, external):
+        self.x = event.x
+        if external or gtk.ver[0] == 2 and gtk.ver[1] < 28: # TODO: Check until version works.
+            self.x -= self.offset
         self.queue_draw()
         return True
 
@@ -78,7 +80,9 @@ class HorizontalRuler(gtk.Viewport):
         context.set_source_rgb(0.75, 0.0, 0.0)
         context.stroke()
 
-        x = self.x - self.offset
+        x = self.x
+        if gtk.ver[0] == 2 and gtk.ver[1] < 28: # TODO: Check until version works.
+            x -= self.offset
 
         if (x):
             border = 2
@@ -125,12 +129,14 @@ class VerticalRuler(gtk.Viewport):
         self.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
         self.add_events(gtk.gdk.POINTER_MOTION_MASK)
 
+        self.connect("motion-notify-event", self.motion, False)
         self.layout.connect("expose-event", self.expose)
         self.connect("button-release-event", self.release)
-        self.connect("motion-notify-event", self.motion)
 
-    def motion(self, widget, event):
-        self.y = event.y - self.offset
+    def motion(self, widget, event, external):
+        self.y = event.y
+        if external or gtk.ver[0] == 2 and gtk.ver[1] < 28: # TODO: Check until version works.
+            self.y -= self.offset
         self.queue_draw()
         return True
 
@@ -185,7 +191,9 @@ class VerticalRuler(gtk.Viewport):
         context.set_source_rgb(0.75, 0.0, 0.0)
         context.stroke()
 
-        y = self.y - self.offset
+        y = self.y
+        if gtk.ver[0] == 2 and gtk.ver[1] < 28: # TODO: Check until version works.
+            y -= self.offset
 
         if (y):
             border = 2
