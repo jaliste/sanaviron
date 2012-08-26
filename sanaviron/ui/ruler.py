@@ -18,6 +18,7 @@ class HorizontalRuler(gtk.Viewport):
         self.set_size_request(-1, 25)
 
         self.x = 0
+        self.offset = 0
         self.tags = list()
         self.zoom = 1.0
         self.layout = gtk.Layout()
@@ -32,7 +33,7 @@ class HorizontalRuler(gtk.Viewport):
         self.layout.connect("expose-event", self.expose)
 
     def motion(self, widget, event):
-        self.x = event.x
+        self.x = event.x - self.offset
         self.queue_draw()
         return True
 
@@ -77,11 +78,13 @@ class HorizontalRuler(gtk.Viewport):
         context.set_source_rgb(0.75, 0.0, 0.0)
         context.stroke()
 
-        if (self.x):
+        x = self.x - self.offset
+
+        if (x):
             border = 2
             context.set_line_width(1)
-            context.move_to(self.x, border)
-            context.line_to(self.x, height)
+            context.move_to(x, border)
+            context.line_to(x, height)
             context.set_source_rgba(0.0, 0.0, 0.75)
             context.stroke()
 
@@ -96,10 +99,10 @@ class HorizontalRuler(gtk.Viewport):
         font = pango.FontDescription(description)
         layout.set_justify(True)
         layout.set_font_description(font)
-        text = str(int(self.x))
+        text = str(int(x))
         layout.set_markup(text)
         context.set_source_rgb(0.0, 0.0, 0.0)
-        context.move_to(self.x + 2, 0)
+        context.move_to(x + 2, 0)
         context.show_layout(layout)
         context.set_antialias(cairo.ANTIALIAS_DEFAULT)
         return True
@@ -113,8 +116,8 @@ class VerticalRuler(gtk.Viewport):
         self.set_size_request(25, -1)
 
         self.y = 0
+        self.offset = 0
         self.tags = list()
-
         self.layout = gtk.Layout()
         self.add(self.layout)
 
@@ -127,7 +130,7 @@ class VerticalRuler(gtk.Viewport):
         self.connect("motion-notify-event", self.motion)
 
     def motion(self, widget, event):
-        self.y = event.y
+        self.y = event.y - self.offset
         self.queue_draw()
         return True
 
@@ -182,11 +185,13 @@ class VerticalRuler(gtk.Viewport):
         context.set_source_rgb(0.75, 0.0, 0.0)
         context.stroke()
 
-        if (self.y):
+        y = self.y - self.offset
+
+        if (y):
             border = 2
             context.set_line_width(1)
-            context.move_to(border, self.y)
-            context.line_to(width - border, self.y)
+            context.move_to(border, y)
+            context.line_to(width - border, y)
             context.set_source_rgb(0.0, 0.0, 0.75)
             context.stroke()
 
@@ -202,10 +207,10 @@ class VerticalRuler(gtk.Viewport):
         font = pango.FontDescription(description)
         layout.set_justify(True)
         layout.set_font_description(font)
-        text = str(int(self.y))
+        text = str(int(y))
         layout.set_markup(text)
         context.set_source_rgb(0.0, 0.0, 0.0)
-        context.move_to(2, self.y)
+        context.move_to(2, y)
         context.show_layout(layout)
         context.set_antialias(cairo.ANTIALIAS_DEFAULT)
         return True

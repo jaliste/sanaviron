@@ -9,6 +9,12 @@ import cairo
 
 if platform.system() != 'Windows':
     gtk.threads_init()
+else:
+    import locale
+    import os
+    if os.getenv('LANG') is None:
+        language, encoding = locale.getdefaultlocale()
+        os.environ['LANG'] = language
 
 import gettext
 TRANSLATION_DOMAIN = "test"

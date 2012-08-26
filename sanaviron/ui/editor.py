@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import gtk
+import sys
 
 from objects.canvas import TestingCanvas as Canvas
+from objects import HORIZONTAL, VERTICAL
 from ui.notification import Notification
 from ui.stock import EXPAND_PROPERTIES, CONTRACT_PROPERTIES
 from ui.properties import Properties
@@ -11,6 +13,7 @@ from ui.climber import Climber
 from ui.pager import Pager
 from ui.ruler import HorizontalRuler, VerticalRuler
 from ui.layer_selector import LayerSelector
+from ui import *
 
 class Editor(gtk.HPaned):
     """This class represents the main editor"""
@@ -27,15 +30,23 @@ class Editor(gtk.HPaned):
 
         box = gtk.VBox()
 
-        if 0:
-            panel = gtk.VPaned()
-            panel.pack1(box, True, False)
+        notification = Notification()
 
-            #sourcepad = SourcePad()
-            sourcepad = gtk.Label('TEST')
-            panel.pack2(sourcepad, False, True)
+        if '--source-editor-test' in sys.argv:
+            while True:
+                try:
+                    from ui.source_pad import SourcePad
+                except:
+                    notification.notificate(_("No module GtkSourceView installed"), ERROR)
+                    self.pack1(box, True, False)
+                    break
 
-            self.pack1(panel, True, False)
+                panel = gtk.VPaned()
+                panel.pack1(box, True, False)
+                sourcepad = SourcePad()
+                panel.pack2(sourcepad, False, True)
+                self.pack1(panel, True, False)
+                break
         else:
             self.pack1(box, True, False)
 
@@ -44,7 +55,6 @@ class Editor(gtk.HPaned):
         top = gtk.HBox()
         box.pack_start(top, False, False)
 
-        notification = Notification()
         top.pack_start(notification, False, False)
 
         layer_selector = LayerSelector()
@@ -87,6 +97,10 @@ class Editor(gtk.HPaned):
 
         area = gtk.ScrolledWindow()
         area.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        adjustment = area.get_vadjustment()
+        adjustment.connect("value-changed", self.scroll, VERTICAL)
+        adjustment = area.get_hadjustment()
+        adjustment.connect("value-changed", self.scroll, HORIZONTAL)
         table.attach(area, 1, 2, 1, 2, gtk.FILL | gtk.EXPAND, gtk.FILL | gtk.EXPAND)
 
         self.canvas.horizontal_ruler = self.horizontal_ruler
@@ -124,11 +138,18 @@ class Editor(gtk.HPaned):
             self.horizontal_ruler.zoom = self.canvas.zoom
             return True
 
+    def scroll(self, adjustment, direction):
+        offset = adjustment.get_value()
+        if direction == VERTICAL:
+            self.canvas.vertical_ruler.offset = offset
+        elif direction == HORIZONTAL:
+            self.canvas.horizontal_ruler.offset = offset
+
     def key_press(self, widget, event):
         pass
 
     def _select(self, widget, child, buffer):
-        #print "Se seleccionó un objeto \"%s\"" % child.__name__
+        #print "Selected object \"%s\"" % child.__name__
         #if child.__name__ == "Table":
         #if child.__name__ == "Text":
         #   if not child.x and not child.y:
