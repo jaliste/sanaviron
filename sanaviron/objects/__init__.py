@@ -37,12 +37,12 @@ VERTICAL = 0
 HORIZONTAL = 1
 
 # units
-CENTIMETERS = _("cm")
-MILLIMETERS = _("mm")
+CENTIMETERS = _("centimeters")
+MILLIMETERS = _("millimeters")
 DOTS = _("dots")
 INCHES = _("inches")
-RADIANS = _("rad")
-DEGREES = _("deg")
+RADIANS = _("radians")
+DEGREES = _("degrees")
 
 
 def grad2rad(grad):

@@ -79,6 +79,7 @@
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/paper.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/text.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/origin.py
+/home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/separator.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/control.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/cell.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/curve.py
@@ -87,6 +88,7 @@
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/localization/__init__.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/stock.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/ruler.py
+/home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/statusbar.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/gradienteditor.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/layer_selector.py
@@ -103,4 +105,4 @@
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/entry.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/notification.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/button.py
-/home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/__main__.py
+/home/juanma/Desarrollos/sanaviron/bin/./../setup.py

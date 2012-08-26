@@ -254,32 +254,21 @@ class Properties(gtk.ScrolledWindow):
         #---END---------------------------------------------------------
 
         #---START-------------------------------------------------------
+        button = Button(_("Line properties"))
+        self.objects["Line"] = button
+        properties.pack_start(button, False, False)
+
+        form = SizedObjectForm("line", self)
+        button.add(form)
+        #---END---------------------------------------------------------
+
+        #---START-------------------------------------------------------
         button = Button(_("Box properties"))
         self.objects["Box"] = button
         properties.pack_start(button, False, False)
 
         form = ColorizedObjectForm("box", self)
         button.add(form)
-
-        #form.add_section(_("Position"))
-
-        #entry = LinearEntry()
-        #self.observer.install_observable("x", entry)
-        #form.add_entry(_("Horizontal"), entry, "box-x")
-
-        #entry = LinearEntry()
-        #self.observer.install_observable("box-y", entry)
-        #form.add_entry(_("Vertical"), entry, "y")
-
-        #form.add_section(_("Size"))
-
-        #entry = LinearEntry()
-        #self.observer.install_observable("box-width", entry)
-        #form.add_entry(_("Width"), entry, "width")
-
-        #entry = LinearEntry()
-        #self.observer.install_observable("box-height", entry)
-        #form.add_entry(_("Height"), entry, "height")
         #---END---------------------------------------------------------
 
         #---START-------------------------------------------------------
@@ -309,19 +298,16 @@ class Properties(gtk.ScrolledWindow):
 
         entry = gtk.FontButton()
         entry.connect("font-set", self.change_font)
-        #self.observer.install_observable("text-font", entry)
         form.add_entry(_("Font"), entry, "font")
 
         entry = gtk.CheckButton(_("Preserve aspect"))
         entry.connect("toggled", self.preserve)
-        #self.observer.install_observable("text-aspect", entry)
         form.add_entry(None, entry, "preserve")
 
         form.add_section(_("Text"))
 
         entry = TextPad()
         self.disconnect_handler = entry.buffer.connect("changed", self.changed)
-        #self.observer.install_observable("text-text", entry)
         form.add_entry(None, entry, "text")
         #---END---------------------------------------------------------
 
@@ -335,11 +321,11 @@ class Properties(gtk.ScrolledWindow):
 
         form.add_section(_("Angle"))
         self.angle_start = AngularEntry()
-        form.add_entry(_("Start Angle"), self.angle_start, "start-angle")
+        form.add_entry(_("Start Angle"), self.angle_start, "start")
         self.angle_start.spin.connect("value-changed", self.change_angle_start)
 
         self.angle_stop = AngularEntry()
-        form.add_entry(_("Stop Angle"), self.angle_stop, "stop-angle")
+        form.add_entry(_("Stop Angle"), self.angle_stop, "stop")
         self.angle_stop.spin.connect("value-changed", self.change_angle_stop)
 
         form.add_section(_("Other"))
@@ -362,56 +348,24 @@ class Properties(gtk.ScrolledWindow):
 
         form.add_section(_("Spacing"))
 
-        #entry = gtk.SpinButton()
-        #entry.set_digits(0)
-        #entry.set_increments(1, 2)
-        #entry.set_range(0, 1024)
-        #entry.set_value(0)
-        #entry.set_numeric(True)
-        #entry.set_wrap(False)
         entry = LinearEntry()
         entry.set_value(0)
-        #self.observer.install_observable("table-vertical-spacing", entry)
         form.add_entry(_("Vertical"), entry, "vertical-spacing")
 
-        #entry = gtk.SpinButton()
-        #entry.set_digits(0)
-        #entry.set_increments(1, 2)
-        #entry.set_range(0, 1024)
-        #entry.set_value(0)
-        #entry.set_numeric(True)
-        #entry.set_wrap(False)
         entry = LinearEntry()
         entry.set_value(0)
-        #self.observer.install_observable("table-horizontal-spacing", entry)
         form.add_entry(_("Horizontal"), entry, "horizontal-spacing")
 
         form.add_section(_("Size"))
 
-        #entry = gtk.SpinButton()
-        #entry.set_digits(0)
-        #entry.set_increments(1, 2)
-        #entry.set_range(0, 1024)
-        #entry.set_value(1)
-        #entry.set_numeric(True)
-        #entry.set_wrap(False)
         entry = LinearEntry()
         entry.set_value(1)
         entry.connect("value-changed", self.set_table_columns)
-        #self.observer.install_observable("table-columns", entry)
         form.add_entry(_("Columns"), entry, "columns")
 
-        #entry = gtk.SpinButton()
-        #entry.set_digits(0)
-        #entry.set_increments(1, 2)
-        #entry.set_range(0, 1024)
-        #entry.set_value(5)
-        #entry.set_numeric(True)
-        #entry.set_wrap(False)
         entry = LinearEntry()
         entry.set_value(5)
         entry.connect("value-changed", self.set_table_rows)
-        #self.observer.install_observable("table-rows", entry)
         form.add_entry(_("Rows"), entry, "rows")
 
         form.add_section(_("Color"))
@@ -426,7 +380,6 @@ class Properties(gtk.ScrolledWindow):
 
         entry = gtk.FontButton()
         entry.connect("font-set", self.set_table_font)
-        #self.observer.install_observable("table-font", entry)
         form.add_entry(_("Font"), entry, "font")
 
         form.add_section(_("Columns"))
@@ -435,7 +388,6 @@ class Properties(gtk.ScrolledWindow):
         entry.add_column()
         entry.connect("width-edited", self.set_table_column_width)
         entry.connect("title-edited", self.set_table_column_title)
-        #self.observer.install_observable("table-columns-editor", entry)
         form.add_entry(None, entry, "columns-editor")
         #---END---------------------------------------------------------
 
@@ -453,12 +405,10 @@ class Properties(gtk.ScrolledWindow):
         entry.connect("changed", self.changed_barcode_type)
         for type in barcodes:
             entry.append_text(type)
-        #self.observer.install_observable("barcode-type", entry)
         form.add_entry(_("Type"), entry, "type")
 
         entry = gtk.Entry()
         entry.connect("changed", self.changed_barcode_code)
-        #self.observer.install_observable("barcode-code", entry)
         form.add_entry(_("Code"), entry, "code")
         #---END---------------------------------------------------------
 
@@ -512,7 +462,6 @@ class Properties(gtk.ScrolledWindow):
         dialog.connect("file-activated", self.changed_image_file)
 
         entry = gtk.FileChooserButton(dialog)
-        #self.observer.install_observable("image-file", entry)
         form.add_entry(_("Image file"), entry, "file", True)
         #---END---------------------------------------------------------
 
@@ -530,7 +479,6 @@ class Properties(gtk.ScrolledWindow):
         entry.connect("changed", self.changed_chart_type)
         for type in chart_types:
             entry.append_text(type)
-        #self.observer.install_observable("chart-type", entry)
         form.add_entry(_("Type"), entry, "type")
         #---END---------------------------------------------------------
 
@@ -547,12 +495,24 @@ class Properties(gtk.ScrolledWindow):
                     entry = self.observer.get_observable(observable)
                     entry.set_value(value)
 
-                if name in [ "Box", "Rounded" ]:
-                    set_property_from_child(name, "x", child.x)
-                    set_property_from_child(name, "y", child.y)
-                    set_property_from_child(name, "width", child.width)
-                    set_property_from_child(name, "height", child.height)
+                set_property_from_child(name, "x", child.x)
+                set_property_from_child(name, "y", child.y)
+                set_property_from_child(name, "width", child.width)
+                set_property_from_child(name, "height", child.height)
 
+                if name == "Arc":
+                    value = child.get_property("angle_start")
+                    entry = self.observer.get_observable("arc-start")
+                    entry.set_value(value)
+                    value = child.get_property("angle_stop")
+                    entry = self.observer.get_observable("arc-stop")
+                    entry.set_value(value)
+                    value = child.get_property("closed")
+                    entry = self.observer.get_observable("arc-closed")
+                    entry.set_active(value)
+                    value = child.get_property("closed_at_centre")
+                    entry = self.observer.get_observable("arc-closed-at-centre")
+                    entry.set_active(value)
                 if name == "Rounded":
                     radius = child.get_property("radius")
                     entry = self.observer.get_observable("rounded-radius")
@@ -561,6 +521,9 @@ class Properties(gtk.ScrolledWindow):
                     text = child.get_property("text")
                     entry = self.observer.get_observable("text-text")
                     entry.set_text(text)
+                    preserve = child.get_property("preserve")
+                    entry = self.observer.get_observable("text-preserve")
+                    entry.set_active(preserve)
                 if name == "Image":
                     image = child.get_property("image")
                     entry = self.observer.get_observable("image-file")
@@ -674,7 +637,9 @@ class Properties(gtk.ScrolledWindow):
             if child.__name__ == "Arc" and child.selected:
                 child.set_property('closed', int(state))
                 self.canvas.queue_draw()
-        self.closed_at_centre_btn.set_sensitive(state)
+        # The user check closed arc, not closed at centre.
+        # This property must be ser if the user check closed at centre.
+        #self.closed_at_centre_btn.set_sensitive(state)
 
     def close_at_centre_arc(self, widget):
         state = widget.get_active()

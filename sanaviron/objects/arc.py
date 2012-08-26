@@ -28,9 +28,8 @@ class Arc(Object):
         self.set_property("closed", int(self.closed))
         self.set_property("closed_at_centre", int(self.closed_at_centre))
 
-        control = Control()
-        self.handler.control.append(control)
-        self.handler.control.append(control)
+        self.handler.control.append(Control())
+        self.handler.control.append(Control())
 
         #self.block = False
 

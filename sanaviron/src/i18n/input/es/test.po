@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-21 00:33-0300\n"
+"POT-Creation-Date: 2012-08-26 04:33-0300\n"
 "PO-Revision-Date: 2011-10-17 17:16-0300\n"
 "Last-Translator: Juan Manuel Mouriz <jmouriz@gmail.com>\n"
 "Language-Team: Argentinian\n"
@@ -21,63 +21,64 @@ msgstr ""
 msgid "Document designer"
 msgstr "Diseñador de documentos"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:82
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:83
 msgid "Edit mode"
 msgstr "Modo edición"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:85
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:86
 msgid "Design view"
 msgstr "Vista de diseño"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:92
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:93
 msgid "XML view"
 msgstr "Vista XML"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:191
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:208
 msgid "Open document"
 msgstr "Abrir documento"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:202
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:237
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:219
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:254
 msgid "XML files"
 msgstr "Archivos XML"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:208
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:243
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:225
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:260
 msgid "All files"
 msgstr "Todos los archivos"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:226
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:243
 msgid "Save document as"
 msgstr "Guardar documento como"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:276
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:83
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:293
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:86
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:353
 msgid "Vertical"
 msgstr "Vertical"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:280
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:297
 msgid "Landscape"
 msgstr "Apaisado"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:296
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:313
 msgid "Save PDF file as"
 msgstr "Guardar archivo PDF como"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:307
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:324
 msgid "PDF files"
 msgstr "Archivos PDF"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:353
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:370
 msgid "Insert text here"
 msgstr "Inserte aquí el texto"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:364
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/table.py:14
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:381
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/table.py:16
 msgid "Column 1"
 msgstr "Columna 1"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:384
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:401
 msgid ""
 "A program to design reports, invoices, documents, labels and more. Based on "
 "the 2D drawing engine \"sanaviron\"."
@@ -85,29 +86,25 @@ msgstr ""
 "Un programa para diseñar informes, documentos comerciales, etiquetas y "
 "demás. Basado en el motor de dibujo 2D \"sanaviron\""
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:386
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:403
 msgid "Unofficial project site at Google"
 msgstr "Página no-oficial del proyecto en Google"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:388
-msgid ""
-"Este programa se distribuye como está bajo la Licencia General y Pública "
-"para Bibliotecas LGPL 2.1."
-msgstr ""
-"Este programa se distribuye como está bajo la Licencia General y Pública "
-"para Bibliotecas LGPL 2.1."
-
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:391
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:407
 msgid "Undocumented yet :'("
 msgstr "Aún no documentado :'("
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:394
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:410
 msgid "(Spanish)"
 msgstr "(Español)"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:394
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/sanaviron.py:410
 msgid "(Russian)"
 msgstr "(Ruso)"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/canvas.py:662
+msgid "WARNING: You are using a testing canvas."
+msgstr "ADVERTENCIA: Usted está usando un canvas de prueba."
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/barcode.py:55
 msgid "Choose best-fit"
@@ -165,28 +162,31 @@ msgstr "Codificación PLS"
 msgid "Code 93"
 msgstr "Codificación 93"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:35
-msgid "cm"
-msgstr "cm"
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:40
+msgid "centimeters"
+msgstr "centímetros"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:36
-msgid "mm"
-msgstr "mm"
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:41
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/columns_editor.py:19
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/columns_editor.py:89
+msgid "millimeters"
+msgstr "milímetros"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:37
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:42
 msgid "dots"
 msgstr "puntos"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:38
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:43
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/columns_editor.py:20
 msgid "inches"
 msgstr "pulgadas"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:39
-msgid "rad"
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:44
+msgid "radians"
 msgstr "radianes"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:40
-msgid "deg"
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/__init__.py:45
+msgid "degrees"
 msgstr "grados"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/text.py:15
@@ -294,7 +294,7 @@ msgid "Box"
 msgstr "Caja"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/stock.py:59
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:391
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:423
 msgid "Image"
 msgstr "Imágen"
 
@@ -323,12 +323,12 @@ msgid "Bubble"
 msgstr "Burbuja"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/stock.py:66
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:270
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:307
 msgid "Text"
 msgstr "Texto"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/stock.py:67
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:365
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:402
 msgid "Barcode"
 msgstr "Código de barras"
 
@@ -337,7 +337,7 @@ msgid "Table"
 msgstr "Tabla"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/stock.py:69
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:450
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:476
 msgid "Chart"
 msgstr "Gráfico"
 
@@ -350,16 +350,15 @@ msgid "Ungroup"
 msgstr "Desagrupar"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/stock.py:72
-#, fuzzy
 msgid "Guides"
-msgstr "Tamaño de las guías"
+msgstr "Guías"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/stock.py:73
 msgid "Grid"
 msgstr "Cuadrícula"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/stock.py:74
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:248
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:252
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/button.py:116
 msgid "Enable snap"
 msgstr "Cuadrícula imantada"
@@ -369,7 +368,7 @@ msgid "Disable snap"
 msgstr "Desimantar cuadrícula"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/stock.py:76
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:239
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:243
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/button.py:106
 msgid "Show margins"
 msgstr "Mostrar márgenes"
@@ -398,206 +397,240 @@ msgstr "Línea de eje"
 msgid "Export to PDF"
 msgstr "Exportar a PDF"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:77
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/stock.py:83
+msgid "Expand properties"
+msgstr "Expandir propiedades"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/stock.py:84
+msgid "Contract properties"
+msgstr "Contraer propiedades"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:80
 msgid "Position"
 msgstr "Posición"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:80
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:83
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:357
 msgid "Horizontal"
 msgstr "Horizontal"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:92
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:285
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:95
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:322
 msgid "Angle"
 msgstr "Ángulo"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:95
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:287
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:98
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:324
 msgid "Start Angle"
 msgstr "Ángulo inicial"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:98
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:291
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:101
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:328
 msgid "Stop Angle"
 msgstr "Ángulo final"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:107
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:209
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:312
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:110
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:213
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:359
 msgid "Size"
 msgstr "Tamaño"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:110
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:212
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:113
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:216
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/columns_editor.py:46
 msgid "Width"
 msgstr "Ancho"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:113
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:215
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:116
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:219
 msgid "Height"
 msgstr "Alto"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:122
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:334
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:126
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:371
 msgid "Color"
 msgstr "Color"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:127
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:337
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:131
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:374
 msgid "Stroke"
 msgstr "Trazo"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:132
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:340
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:136
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:377
 msgid "Fill"
 msgstr "Relleno"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:136
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:140
 msgid "Gradient"
 msgstr "Gradiente"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:177
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:181
 msgid "General properties"
 msgstr "Propiedades generales"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:183
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:187
 msgid "Units"
 msgstr "Unidades"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:192
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:196
 msgid "Preferred linear unit"
 msgstr "Unidad linear preferida"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:199
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:203
 msgid "Preferred angular unit"
 msgstr "Unidad angular preferida"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:203
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:207
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/button.py:50
 msgid "Document properties"
 msgstr "Propiedades del documento"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:217
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:221
 msgid "Margins"
 msgstr "Márgenes"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:220
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:224
 msgid "Top"
 msgstr "Superior"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:223
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:227
 msgid "Bottom"
 msgstr "Inferior"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:226
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:230
 msgid "Left"
 msgstr "Izquierda"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:229
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:233
 msgid "Right"
 msgstr "Derecha"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:231
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:235
 msgid "Config"
 msgstr "Configuración"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:234
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:238
 msgid "Grid size"
 msgstr "Tamaño de la cuadrícula"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:237
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:241
 msgid "Guides size"
 msgstr "Tamaño de las guías"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:242
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:246
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/button.py:110
 msgid "Show guides"
 msgstr "Mostrar guías"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:245
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:249
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/button.py:113
 msgid "Show grid"
 msgstr "Mostrar cuadrícula"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:253
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:257
+msgid "Line properties"
+msgstr "Propiedades de la línea"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:266
+msgid "Box properties"
+msgstr "Propiedades de la caja"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:275
+msgid "Rounded box properties"
+msgstr "Propiedades de la caja redondeada"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:282
+msgid "Shape"
+msgstr "Forma"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:286
+msgid "Radius"
+msgstr "Radio"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:290
 msgid "Text properties"
 msgstr "Propiedades del texto"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:260
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:342
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:297
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:379
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/menu.py:238
 msgid "Format"
 msgstr "Formato"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:264
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:346
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:301
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:383
 msgid "Font"
 msgstr "Tipografía"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:266
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:303
 msgid "Preserve aspect"
 msgstr "Conservar el aspecto"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:278
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:315
 msgid "Arc properties"
 msgstr "Propiedades del arco"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:294
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:331
 msgid "Other"
 msgstr "Otro"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:296
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:333
 msgid "Closed Arc"
 msgstr "Arco cerrado"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:300
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:337
 msgid "Closed Arc at Centre"
 msgstr "Arco cerrado en el centro"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:305
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:342
 msgid "Table properties"
 msgstr "Propiedades de la tabla"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:322
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:348
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:349
+msgid "Spacing"
+msgstr "Espaciado"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:364
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:385
 msgid "Columns"
 msgstr "Columnas"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:332
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:369
 msgid "Rows"
 msgstr "Filas"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:358
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:395
 msgid "Barcode properties"
 msgstr "Propiedades del código de barras"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:371
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:456
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:408
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:482
 msgid "Type"
 msgstr "Tipo"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:375
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:412
 msgid "Code"
 msgstr "Código"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:384
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:416
 msgid "Image properties"
 msgstr "Propiedades de la imágen"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:439
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:465
 msgid "Image file"
 msgstr "Archivo de imágen"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:443
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:469
 msgid "Chart properties"
 msgstr "Propiedades del gráfico"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:506
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:586
 #, python-format
 msgid "Column %d"
 msgstr "Columna %d"
 
-#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:643
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py:725
 msgid "Properties panel"
 msgstr "Panel de propiedades"
 
@@ -628,6 +661,18 @@ msgstr "capa-4"
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/layer_selector.py:35
 msgid "Layer selector"
 msgstr "Selector de capas"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/columns_editor.py:21
+msgid "pixels"
+msgstr "píxeles"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/columns_editor.py:34
+msgid "Title"
+msgstr "Título"
+
+#: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/columns_editor.py:56
+msgid "Unit"
+msgstr "Unidad"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/pager.py:78
 #, python-format
@@ -667,9 +712,8 @@ msgid "Portable browser"
 msgstr "Un navegador portable"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/notification.py:18
-#, fuzzy
 msgid "Notification"
-msgstr "Posición"
+msgstr "Notificación"
 
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/button.py:44
 msgid "Expander button"
@@ -726,21 +770,3 @@ msgstr "Texto:"
 #: /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/button.py:185
 msgid "Font:"
 msgstr "Tipografía:"
-
-#~ msgid "Page %d of %d"
-#~ msgstr "Página %d de %d"
-
-#~ msgid "Flex"
-#~ msgstr "Conector"
-
-#~ msgid "Axis"
-#~ msgstr "Guías"
-
-#~ msgid "Axis size:"
-#~ msgstr "Tamaño de las guías:"
-
-#~ msgid "Show axis"
-#~ msgstr "Mostrar guías"
-
-#~ msgid "Test canvas"
-#~ msgstr "Tablero de dibujo de muestra"
