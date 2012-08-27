@@ -4,449 +4,180 @@ import gtk
 import gobject
 from ui.stock import *
 
-class Menu(gtk.VBox):
+class Menu(gtk.MenuBar):
     """This class represents a pulldown menubar"""
 
     def __init__(self):
-        gtk.VBox.__init__(self)
+        gtk.MenuBar.__init__(self)
         self.connect("realize", self.realize)
 
-        gobject.signal_new("new", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("open", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("save", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("save-as", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("page-setup", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("print", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("export-to-pdf", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("quit", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("fullscreen", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("help", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("about", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
+        self.bindings = gtk.AccelGroup()
+        self.stack = None
+        self.submenu = None
 
-        gobject.signal_new("copy", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("cut", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("paste", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
+        self.install_signal("new")
+        self.install_signal("open")
+        self.install_signal("save")
+        self.install_signal("save-as")
+        self.install_signal("page-setup")
+        self.install_signal("print")
+        self.install_signal("export-to-pdf")
+        self.install_signal("quit")
+        self.install_signal("fullscreen")
+        self.install_signal("help")
+        self.install_signal("about")
+        self.install_signal("copy")
+        self.install_signal("cut")
+        self.install_signal("paste")
+        self.install_signal("delete")
+        self.install_signal("select-all")
+        self.install_signal("bring-to-front")
+        self.install_signal("bring-to-back")
+        self.install_signal("paper-center-horizontal")
+        self.install_signal("line")
+        self.install_signal("arc")
+        self.install_signal("curve")
+        self.install_signal("connector")
+        self.install_signal("box")
+        self.install_signal("rounded-box")
+        self.install_signal("bubble")
+        self.install_signal("text")
+        self.install_signal("barcode")
+        self.install_signal("table")
+        self.install_signal("chart")
+        
+    def install_signal(self, signal):
+        gobject.signal_new(signal, self.__class__, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+            (gobject.TYPE_PYOBJECT,))
 
-        gobject.signal_new("delete", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("select-all", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
+    def append_menu(self, label, descend=False, right=False):
+        menuitem = gtk.MenuItem(label)
+        if right:
+            menuitem.set_right_justified(True)
+        if descend:
+            self.stack = self.submenu
+            self.submenu.append(menuitem)
+        else:
+            self.append(menuitem)
+        self.submenu = gtk.Menu()
+        menuitem.set_submenu(self.submenu)
 
-        gobject.signal_new("bring-to-front", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("bring-to-back", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
+    def append_item(self, stock, signal, accelerator = None):
+        menuitem = gtk.ImageMenuItem(stock)
+        self.submenu.append(menuitem)
+        menuitem.connect("activate", self.activate, signal)
+        if accelerator:
+            key, mask = gtk.accelerator_parse(accelerator)
+            menuitem.add_accelerator("activate", self.bindings, key, mask, gtk.ACCEL_VISIBLE)
 
-        gobject.signal_new("paper-center-horizontal", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
+    def append_separator(self):
+        separator = gtk.SeparatorMenuItem()
+        self.submenu.append(separator)
 
-        gobject.signal_new("line", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("arc", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("curve", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("connector", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("box", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("rounded-box", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("bubble", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("text", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("barcode", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("table", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("chart", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("image", Menu, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
+    def ascend(self):
+        self.submenu = self.stack
 
     def realize(self, widget):
-        bindings = gtk.AccelGroup()
-
         toplevel = self.get_toplevel()
-        toplevel.add_accel_group(bindings)
-        
-        bar = gtk.MenuBar()
-        self.add(bar)
-
-        menuitem = gtk.MenuItem("_" + _("File"))
-        bar.append(menuitem)
-        menu = gtk.Menu()
-        menuitem.set_submenu(menu)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_NEW)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "new")
-        key, mask = gtk.accelerator_parse("<Control>N")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_OPEN)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "open")
-        key, mask = gtk.accelerator_parse("<Control>O")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_SAVE)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "save")
-        key, mask = gtk.accelerator_parse("<Control>S")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_SAVE_AS)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "save-as")
-        key, mask = gtk.accelerator_parse("<Control><Shift>S")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        separator = gtk.SeparatorMenuItem()
-        menu.append(separator)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_PAGE_SETUP)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "page-setup")
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_PRINT_PREVIEW)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "print-preview")
-        key, mask = gtk.accelerator_parse("<Control><Shift>P")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_PRINT)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "print")
-        key, mask = gtk.accelerator_parse("<Control>P")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        separator = gtk.SeparatorMenuItem()
-        menu.append(separator)
-
-        menuitem = gtk.MenuItem("_" + _("Export"))
-        menu.append(menuitem)
-        submenu = gtk.Menu()
-        menuitem.set_submenu(submenu)
-
-        menuitem = gtk.ImageMenuItem(EXPORT_TO_PDF)
-        submenu.append(menuitem)
-        menuitem.connect("activate", self.activate, "export-to-pdf")
-
-        separator = gtk.SeparatorMenuItem()
-        menu.append(separator)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_QUIT)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "quit")
-        key, mask = gtk.accelerator_parse("<Control>Q")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.MenuItem(_("Edit"))
-        bar.append(menuitem)
-        menu = gtk.Menu()
-        menuitem.set_submenu(menu)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_UNDO)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "undo")
-        key, mask = gtk.accelerator_parse("<Control>Z")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_REDO)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "redo")
-        key, mask = gtk.accelerator_parse("<Control>Y")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        separator = gtk.SeparatorMenuItem()
-        menu.append(separator)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_COPY)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "copy")
-        key, mask = gtk.accelerator_parse("<Control>C")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_CUT)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "cut")
-        key, mask = gtk.accelerator_parse("<Control>X")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_PASTE)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "paste")
-        key, mask = gtk.accelerator_parse("<Control>V")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        separator = gtk.SeparatorMenuItem()
-        menu.append(separator)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_DELETE)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "delete")
-        key, mask = gtk.accelerator_parse("Delete")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        separator = gtk.SeparatorMenuItem()
-        menu.append(separator)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_SELECT_ALL)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "select-all")
-        key, mask = gtk.accelerator_parse("<Control>A")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.MenuItem(_("Insert"))
-        bar.append(menuitem)
-        menu = gtk.Menu()
-        menuitem.set_submenu(menu)
-
-        menuitem = gtk.ImageMenuItem(LINE)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "line")
-
-        menuitem = gtk.ImageMenuItem(ARC)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "arc")
-
-        menuitem = gtk.ImageMenuItem(CURVE)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "curve")
-
-        menuitem = gtk.ImageMenuItem(CONNECTOR)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "connector")
-
-        menuitem = gtk.ImageMenuItem(BOX)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "box")
-
-        menuitem = gtk.ImageMenuItem(ROUNDED_BOX)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "rounded-box")
-
-        menuitem = gtk.ImageMenuItem(BUBBLE)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "bubble")
-
-        menuitem = gtk.ImageMenuItem(TEXT)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "text")
-
-        menuitem = gtk.ImageMenuItem(TABLE)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "barcode")
-
-        menuitem = gtk.ImageMenuItem(CHART)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "chart")
-
-        menuitem = gtk.ImageMenuItem(BARCODE)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "table")
-
-        menuitem = gtk.ImageMenuItem(IMAGE)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "image")
-
-        menuitem = gtk.MenuItem(_("Format"))
-        bar.append(menuitem)
-        menu = gtk.Menu()
-        menuitem.set_submenu(menu)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_SELECT_FONT)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "select-font")
-
-        separator = gtk.SeparatorMenuItem()
-        menu.append(separator)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_SELECT_COLOR)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "select-color")
-
-        menuitem = gtk.MenuItem(_("Tools"))
-        bar.append(menuitem)
-        menu = gtk.Menu()
-        menuitem.set_submenu(menu)
-
-        menuitem = gtk.ImageMenuItem(GROUP)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "group")
-        key, mask = gtk.accelerator_parse("<Control>G")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(UNGROUP)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "ungroup")
-        key, mask = gtk.accelerator_parse("<Control><Shift>G")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        separator = gtk.SeparatorMenuItem()
-        menu.append(separator)
-
-        menuitem = gtk.ImageMenuItem(BRING_TO_FRONT)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "bring-to-front")
-        key, mask = gtk.accelerator_parse("<Control>plus")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(BRING_TO_BACK)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "bring-to-back")
-        key, mask = gtk.accelerator_parse("<Control>minus")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        separator = gtk.SeparatorMenuItem()
-        menu.append(separator)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_ZOOM_FIT)
-        menu.append(menuitem)
-        submenu = gtk.Menu()
-        menuitem.set_submenu(submenu)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_ZOOM_FIT)
-        submenu.append(menuitem)
-        menuitem.connect("activate", self.activate, "zoom-fit")
-        key, mask = gtk.accelerator_parse("<Control>0")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_ZOOM_100)
-        submenu.append(menuitem)
-        menuitem.connect("activate", self.activate, "zoom-100")
-        key, mask = gtk.accelerator_parse("<Control>1")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_ZOOM_IN)
-        submenu.append(menuitem)
-        menuitem.connect("activate", self.activate, "zoom-in")
-        key, mask = gtk.accelerator_parse("<Control><Shift>plus")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_ZOOM_OUT)
-        submenu.append(menuitem)
-        menuitem.connect("activate", self.activate, "zoom-out")
-        key, mask = gtk.accelerator_parse("<Control><Shift>minus")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        separator = gtk.SeparatorMenuItem()
-        menu.append(separator)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_CENTER_BOTH) # TODO
-        menu.append(menuitem)
-        submenu = gtk.Menu()
-        menuitem.set_submenu(submenu)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_NORTHWEST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_NORTH)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_NORTHEAST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_SOUTHWEST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_SOUTH)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_SOUTHEAST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_WEST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_CENTER_BOTH)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_EAST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_CENTER_HORIZONTAL)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_OBJECTS_CENTER_VERTICAL)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_CENTER_BOTH) # TODO
-        menu.append(menuitem)
-        submenu = gtk.Menu()
-        menuitem.set_submenu(submenu)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_NORTHWEST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_NORTH)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_NORTHEAST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_SOUTHWEST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_SOUTH)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_SOUTHEAST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_WEST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_CENTER_BOTH)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_EAST)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_CENTER_HORIZONTAL)
-        submenu.append(menuitem)
-        menuitem.connect("activate", self.activate, "paper-center-horizontal")
-
-        menuitem = gtk.ImageMenuItem(ALIGN_PAPER_CENTER_VERTICAL)
-        submenu.append(menuitem)
-        #menuitem.connect("activate", gtk.main_quit)
-
-        menuitem = gtk.MenuItem(_("Window"))
-        bar.append(menuitem)
-        menu = gtk.Menu()
-        menuitem.set_submenu(menu)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_FULLSCREEN)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "fullscreen")
-        key, mask = gtk.accelerator_parse("<Control>F")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        menuitem = gtk.MenuItem(_("Help"))
-        menuitem.set_right_justified(True)
-        bar.append(menuitem)
-        menu = gtk.Menu()
-        menuitem.set_submenu(menu)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_HELP)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "help")
-        key, mask = gtk.accelerator_parse("F1")
-        menuitem.add_accelerator("activate", bindings, key, mask, gtk.ACCEL_VISIBLE)
-
-        separator = gtk.SeparatorMenuItem()
-        menu.append(separator)
-
-        menuitem = gtk.ImageMenuItem(gtk.STOCK_ABOUT)
-        menu.append(menuitem)
-        menuitem.connect("activate", self.activate, "about")
-
-        bar.show_all()
+        toplevel.add_accel_group(self.bindings)
+
+        self.append_menu("_" + _("File"))
+        self.append_item(gtk.STOCK_NEW, "new", "<Control>N")
+        self.append_item(gtk.STOCK_OPEN, "open", "<Control>O")
+        self.append_item(gtk.STOCK_SAVE, "save", "<Control>S")
+        self.append_item(gtk.STOCK_SAVE_AS, "save-as", "<Control><Shift>S")
+        self.append_separator()
+        self.append_item(gtk.STOCK_PAGE_SETUP, "page-setup")
+        self.append_item(gtk.STOCK_PRINT_PREVIEW, "print-preview", "<Control><Shift>P")
+        self.append_item(gtk.STOCK_PRINT, "print", "<Control>P")
+        self.append_separator()
+        self.append_menu("_" + _("Export"), True)
+        self.append_item(EXPORT_TO_PDF, "export-to-pdf")
+        self.ascend()
+        self.append_separator()
+        self.append_item(gtk.STOCK_QUIT, "quit", "<Control>Q")
+
+        self.append_menu("_" + _("Edit"))
+        self.append_item(gtk.STOCK_UNDO, "undo", "<Control>Z")
+        self.append_item(gtk.STOCK_REDO, "redo", "<Control>Y")
+        self.append_separator()
+        self.append_item(gtk.STOCK_COPY, "copy", "<Control>C")
+        self.append_item(gtk.STOCK_CUT, "cut", "<Control>X")
+        self.append_item(gtk.STOCK_PASTE, "paste", "<Control>V")
+        self.append_separator()
+        self.append_item(gtk.STOCK_DELETE, "delete", "Delete")
+        self.append_separator()
+        self.append_item(gtk.STOCK_SELECT_ALL, "select-all", "<Control>A")
+
+        self.append_menu("_" + _("Insert"))
+        self.append_item(LINE, "line")
+        self.append_item(ARC, "arc")
+        self.append_item(CURVE, "curve")
+        self.append_item(CONNECTOR, "connector")
+        self.append_item(BOX, "box")
+        self.append_item(ROUNDED_BOX, "rounded-box")
+        self.append_item(BUBBLE, "bubble")
+        self.append_item(TEXT, "text")
+        self.append_item(TABLE, "table")
+        self.append_item(CHART, "chart")
+        self.append_item(BARCODE, "barcode")
+        self.append_item(IMAGE, "image")
+
+        self.append_menu("_" + _("Format"))
+        self.append_item(gtk.STOCK_SELECT_FONT, "select-font")
+        self.append_separator()
+        self.append_item(gtk.STOCK_SELECT_COLOR, "select-color")
+
+        self.append_menu("_" + _("Tools"))
+        self.append_item(GROUP, "group", "<Control>G")
+        self.append_item(UNGROUP, "ungroup", "<Control><Shift>G")
+        self.append_separator()
+        self.append_item(BRING_TO_FRONT, "bring-to-front", "<Control>plus")
+        self.append_item(BRING_TO_BACK, "bring-to-back", "<Control>minus")
+        self.append_separator()
+        self.append_menu("_" + _("Zoom"), True)
+        self.append_item(gtk.STOCK_ZOOM_FIT, "zoom-fit", "<Control>0")
+        self.append_item(gtk.STOCK_ZOOM_100, "zoom-100", "<Control>1")
+        self.append_item(gtk.STOCK_ZOOM_IN, "zoom-in", "<Control><Shift>plus")
+        self.append_item(gtk.STOCK_ZOOM_OUT, "zoom-out", "<Control><Shift>minus")
+        self.ascend()
+        self.append_separator()
+        self.append_menu("_" + _("Objects alignment"), True)
+        self.append_item(ALIGN_OBJECTS_NORTHWEST, "align-objects-northwest")
+        self.append_item(ALIGN_OBJECTS_NORTH, "align-objects-north")
+        self.append_item(ALIGN_OBJECTS_NORTHEAST, "align-objects-northeast")
+        self.append_item(ALIGN_OBJECTS_SOUTHWEST, "align-objects-southwest")
+        self.append_item(ALIGN_OBJECTS_SOUTH, "align-objects-south")
+        self.append_item(ALIGN_OBJECTS_SOUTHEAST, "align-objects-southeast")
+        self.append_item(ALIGN_OBJECTS_WEST, "align-objects-west")
+        self.append_item(ALIGN_OBJECTS_CENTER_BOTH, "align-objects-center-both")
+        self.append_item(ALIGN_OBJECTS_EAST, "align-objects-east")
+        self.append_item(ALIGN_OBJECTS_CENTER_HORIZONTAL, "align-objects-center-horizontal")
+        self.append_item(ALIGN_OBJECTS_CENTER_VERTICAL, "align-objects-center-vertical")        
+        self.ascend()
+        self.append_menu("_" + _("Paper alignment"), True)
+        self.append_item(ALIGN_PAPER_NORTHWEST, "align-paper-northwest")
+        self.append_item(ALIGN_PAPER_NORTH, "align-paper-north")
+        self.append_item(ALIGN_PAPER_NORTHEAST, "align-paper-northeast")
+        self.append_item(ALIGN_PAPER_SOUTHWEST, "align-paper-southwest")
+        self.append_item(ALIGN_PAPER_SOUTH, "align-paper-south")
+        self.append_item(ALIGN_PAPER_SOUTHEAST, "align-paper-southeast")
+        self.append_item(ALIGN_PAPER_WEST, "align-paper-west")
+        self.append_item(ALIGN_PAPER_CENTER_BOTH, "align-paper-center-both")
+        self.append_item(ALIGN_PAPER_EAST, "align-paper-east")
+        self.append_item(ALIGN_PAPER_CENTER_HORIZONTAL, "align-paper-center-horizontal")
+        self.append_item(ALIGN_PAPER_CENTER_VERTICAL, "align-paper-center-vertical")        
+        self.ascend()
+
+        self.append_menu("_" + _("Window"))
+        self.append_item(gtk.STOCK_FULLSCREEN, "fullscreen", "<Control>F")
+
+        self.append_menu("_" + _("Help"), right=True)
+        self.append_item(gtk.STOCK_HELP, "help", "F1")
+        self.append_separator()
+        self.append_item(gtk.STOCK_ABOUT, "about")
+
+        self.show_all()
 
     def activate(self, widget, data):
         print data
