@@ -170,6 +170,9 @@ class Application(gtk.Window):
         vtoolbar.connect("chart", self.chart)
         vtoolbar.connect("image", self.image)
 
+        vtoolbar.connect("split-horizontally", self.editor.canvas.split_horizontally)
+        vtoolbar.connect("split-vertically", self.editor.canvas.split_vertically)
+
         notebook.connect("switch-page", self.switch)
 
         self.connect("key-press-event", self.key_press)

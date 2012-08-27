@@ -661,6 +661,15 @@ class TestingCanvas(ExtendedCanvas): ### TESTING CODE HERE
 
         print _("WARNING: You are using a testing canvas.")
 
+    def split_horizontally(self, *args):
+        self.add_box_separator_horizontal(args)
+
+    def split_vertically(self, *args):
+        self.add_box_separator_vertical(args)
+
+    def remove_split(self, *args):
+        pass
+
     def add_box_separator_vertical(self, *args):
         for child in self.children:
             if child.selected and child.__name__ == 'Box':

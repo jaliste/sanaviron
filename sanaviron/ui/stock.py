@@ -9,7 +9,8 @@ __all__ = ['ALIGN_OBJECTS_CENTER_BOTH', 'ALIGN_OBJECTS_CENTER_HORIZONTAL', 'ALIG
            'BRING_TO_BACK', 'BRING_TO_FRONT', 'BUBBLE', 'CHART', 'CURVE', 'EXPORT_TO_PDF', 'CONNECTOR', 'GRID', 'GROUP',
            'IMAGE', 'LINE', 'LINE_STYLE_CONTINUOUS', 'LINE_STYLE_DASH', 'LINE_STYLE_POINT', 'LINE_STYLE_POINT_DASH',
            'MARGINS_DISABLED', 'MARGINS_ENABLED', 'ROUNDED_BOX', 'SNAP_DISABLED', 'SNAP_ENABLED', 'TABLE', 'TEXT',
-           'UNGROUP', 'EXPAND_PROPERTIES', 'CONTRACT_PROPERTIES']
+           'UNGROUP', 'EXPAND_PROPERTIES', 'CONTRACT_PROPERTIES', 'SPLIT_HORIZONTALLY', 'SPLIT_VERTICALLY',
+           'REMOVE_SPLIT']
            
 import gtk
 
@@ -82,3 +83,6 @@ LINE_STYLE_POINT_DASH = register("line-style-point-dash", _("Axis line"), "X")
 EXPORT_TO_PDF = register("export-to-pdf", _("Export to PDF"), "X")
 EXPAND_PROPERTIES = register("expand-properties", _("Expand properties"), "X")
 CONTRACT_PROPERTIES = register("contract-properties", _("Contract properties"), "X")
+SPLIT_HORIZONTALLY = register("split-horizontally", _("Split horizontally"), "X")
+SPLIT_VERTICALLY = register("split-vertically", _("Split vertically"), "X")
+REMOVE_SPLIT = register("remove-split", _("Remove split"), "X")
