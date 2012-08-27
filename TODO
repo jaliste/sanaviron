@@ -9,9 +9,9 @@
 	           set_color
 	           set_color_rgba
 	           set_fill_style
-5. (Heavy) To add a widget of control of a gradient. In progress
-6. (Hard) Storage of gradients to assign property gradients in class Canvas.
-7. (Middle) Include README, COPYING, help and other data files and exclude sanaviron/src.
+5. (Heavy) To add a widget of control of a gradient. 30th of September
+6. (Hard) Storage of gradients to assign property gradients in class Canvas. Until 15th September.
+7. (Middle) Include README, COPYING, help and other data files and exclude sanaviron/src.(Juan see license pychart)
 8. (Middle) Add support for py2exe and Windows installer like Inno Setup Compiler or Bitrock.
 9. (Middle) Add support for documentation like (doxygen, ...). Requires additional research.
 
