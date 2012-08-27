@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from object import Object
+from control import Control
 from math import pi
 from objects import *
 
@@ -14,6 +15,7 @@ class Bubble(Object):
         Object.__init__(self)
         self.radius = 10
         self.distance = 10
+        self.handler.control.append(Control())
 
     def post(self):
         self.handler.control[NORTHWEST].x = self.x

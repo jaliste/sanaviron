@@ -407,7 +407,7 @@ class Application(gtk.Window):
             "A program to design reports, invoices, documents, labels and more. Based on the 2D drawing engine \"sanaviron\"."))
         dialog.set_website("http://code.google.com/p/sanaviron/")
         dialog.set_website_label(_("Unofficial project site at Google"))
-        dialog.set_license(open(os.path.join(os.path.dirname(__file__, "..", "COPYING"))).read())
+        dialog.set_license(open(os.path.join(os.path.dirname(__file__),  "..", "COPYING")).read())
         dialog.set_wrap_license(False)
         dialog.set_authors(["Juan Manuel Mouriz <jmouriz@gmail.com>", "Ivlev Denis <ivlevdenis.ru@gmail.com>"])
         dialog.set_documenters([_("Undocumented yet :'(")])
