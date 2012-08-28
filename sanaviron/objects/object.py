@@ -69,14 +69,15 @@ class Object(Rectangle):
 
     def draw_hints(self, context):
         radius = 12.5
+        offset = 6
 
         context.save()
         context.new_path()
-        context.arc(self.x - radius / 2, self.y - radius / 2, radius, 0, 2 * math.pi)
-        context.set_source_rgba(0.0, 0.0, 1.0, 0.5)
+        context.arc(self.x - radius / 2 - offset, self.y - radius / 2 - offset, radius, 0, 2 * math.pi)
+        context.set_source_rgba(229 / 255.0, 122298 / 255.0, 0.0, 0.5)
         context.fill_preserve()
-        context.set_line_width(4)
-        context.set_source_rgba(0.0, 0.0, 0.0, 0.5)
+        context.set_line_width(2)
+        context.set_source_rgb(122 / 255.0, 128 / 255.0, 54 / 255.0)
         context.stroke()
 
         context = pangocairo.CairoContext(context)
@@ -92,8 +93,8 @@ class Object(Rectangle):
         layout.set_font_description(font)
         text = str(int(self.z))
         layout.set_markup(text)
-        context.set_source_rgb(1.0, 1.0, 1.0)
-        context.move_to(self.x - radius, self.y - radius)
+        context.set_source_rgb(0, 0, 0)
+        context.move_to(self.x - radius - offset, self.y - radius - offset) # TODO Center in the bubble
         context.show_layout(layout)
         context.set_antialias(cairo.ANTIALIAS_DEFAULT)
         context.restore()
