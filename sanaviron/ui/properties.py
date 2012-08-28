@@ -5,23 +5,15 @@ import gtk
 from ui.button import Button
 from ui.entry import LinearEntry, AngularEntry
 from objects import *
+from objects.observer import Observer
 from objects.barcode import barcodes
 from objects.charts import *
 from objects.color import Color
+
 from ui.text_pad import TextPad
 from ui.columns_editor import ColumnsEditor
 from ui.gradienteditor import GradientEditor
 import sys
-
-class Observer:
-    def __init__(self):
-        self.observables = dict()
-
-    def install_observable(self, name, widget):
-        self.observables[name] = widget
-
-    def get_observable(self, name):
-        return self.observables[name]
 
 class Form(gtk.VBox):
     """This class represents a properties form"""
