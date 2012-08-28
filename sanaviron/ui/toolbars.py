@@ -173,13 +173,13 @@ class VerticalToolbar(Toolbar):
         self.append(CURVE, "curve")
         self.append(CONNECTOR, "connector")
 
-        self.append_with_submenu(BOX, "box")
-        self.append_to_submenu(SPLIT_HORIZONTALLY, "split-horizontally")
-        self.append_to_submenu(SPLIT_VERTICALLY, "split-vertically")
-        self.append_to_submenu(REMOVE_SPLIT, "remove-split")
-
-        if '--debug' not in sys.argv:
-            self.submenu.hide()
+        if '--debug' in sys.argv:
+            self.append_with_submenu(BOX, "box")
+            self.append_to_submenu(SPLIT_HORIZONTALLY, "split-horizontally")
+            self.append_to_submenu(SPLIT_VERTICALLY, "split-vertically")
+            self.append_to_submenu(REMOVE_SPLIT, "remove-split")
+        else:
+            self.append(BOX, "box")
 
         self.append(ROUNDED_BOX, "rounded-box")
         self.append(BUBBLE, "bubble")

@@ -46,13 +46,15 @@ class BaseCanvas(Holder, gtk.Layout): ### LOW-LEVEL CODE HERE
     def __init__(self):
         Holder.__init__(self)
         gtk.Layout.__init__(self)
-        
-        self.install_signals()
+
         self.configure_handlers()
         
         self.set_can_default(True)
         self.set_can_focus(True)
-        
+
+        self.install_signal("select")
+        self.install_signal("edit-child")
+
     def configure_handlers(self):
         self.set_events(0)
 
@@ -70,9 +72,9 @@ class BaseCanvas(Holder, gtk.Layout): ### LOW-LEVEL CODE HERE
         self.motion_id = self.connect("motion-notify-event", self.motion)
         #self.connect("key-press-event", self.key_press)
 
-    def install_signals(self):
-        gobject.signal_new("select", BaseCanvas, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
-        gobject.signal_new("edit-child", BaseCanvas, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, (gobject.TYPE_PYOBJECT,))
+    def install_signal(self, signal):
+        gobject.signal_new(signal, self.__class__, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+            (gobject.TYPE_PYOBJECT,))
         
     #def key_press(self, widget, event):
     #    raise NotImplementedError
@@ -116,10 +118,12 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         self.child = None
         self.stop_cursor_change = False
 
+
         self.horizontal_ruler = None
         self.vertical_ruler = None
-        #self.paper = None
         self.clipboard = None
+
+        self.hints = False
 
     #def key_press(self, widget, event):
     #    pass
@@ -235,9 +239,10 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         """
         This code is executed when move the mouse pointer
         """
+        #self.handler_block_by_func(self.motion)
+        self.disconnect(self.motion_id)
         self.horizontal_ruler.motion(self.horizontal_ruler, event, True)
         self.vertical_ruler.motion(self.vertical_ruler, event, True)
-        self.disconnect(self.motion_id)
         x = event.x / self.zoom - self.origin.x
         y = event.y / self.zoom - self.origin.y
 
@@ -277,6 +282,10 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
                     else:
                         self.move(child, x, y)
                     self.update()
+        #def unblock():
+        #    self.handler_unblock_by_func(self.motion)
+        #gobject.idle_add(unblock)
+        #self.handler_unblock_by_func(self.motion)
         self.motion_id = self.connect("motion-notify-event", self.motion)
         return True
 
@@ -366,6 +375,8 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
 
     def expose(self, widget, event):
         context = widget.bin_window.cairo_create()
+        context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
+        context.clip()
         context.scale(self.zoom, self.zoom)
         self.total.width = int(self.pages[0].width * self.zoom + 2 * self.border)
         self.total.height = int(len(self.pages) * self.pages[0].height * self.zoom +
@@ -400,6 +411,7 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         for child in sorted(self.children, key=lambda child: child.z):
             child.x += self.origin.x
             child.y += self.origin.y
+            child.hints = self.hints # TODO Not here
             child.draw(context)
             child.x -= self.origin.x
             child.y -= self.origin.y

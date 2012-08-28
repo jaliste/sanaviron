@@ -190,16 +190,19 @@ class Application(gtk.Window):
             self.editor.canvas.add_box_separator_vertical()
         if keyname == "<Control><Shift>H":
             self.editor.canvas.add_box_separator_horizontal()
+        print keyname
+        if keyname == "<Control><Shift>Colon":
+            self.editor.canvas.hints ^= 1
+            self.editor.canvas.update()
 
     def key_press(self, widget, event):
         keyval = event.keyval
         keyname = gtk.gdk.keyval_name (keyval)
         if keyname.startswith('Control') or\
            keyname.startswith('Shift') or\
-           keyname.startswith('Alt') or\
-           keyname.startswith('Meta'):
+           keyname.startswith('Alt'):
             return False
-        keyname = keyname.upper()
+        keyname = keyname.capitalize()
         if event.state & gtk.gdk.SHIFT_MASK:
             keyname = "<Shift>%s" % keyname
         if event.state & gtk.gdk.CONTROL_MASK:

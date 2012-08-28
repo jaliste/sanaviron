@@ -7,6 +7,11 @@ from color import Color
 from objects import *
 
 import gtk
+import cairo
+import pango
+import pangocairo
+import platform
+import math
 
 class Object(Rectangle):
     """This class represents the parent of all draweable objects"""
@@ -23,6 +28,7 @@ class Object(Rectangle):
         self.z = 0
 
         self.dash = []
+        self.hints = False
         self.fill_style = COLOR
         self.fill_color = Color(0.25, 0.25, 0.25, 0.25)
         self.stroke_color = Color(0.25, 0.25, 0.25, 1)
@@ -61,7 +67,41 @@ class Object(Rectangle):
         elif self.fill_style == PATTERN:
             self.gradient = self.get_property("pattern")
 
+    def draw_hints(self, context):
+        radius = 12.5
+
+        context.save()
+        context.new_path()
+        context.arc(self.x - radius / 2, self.y - radius / 2, radius, 0, 2 * math.pi)
+        context.set_source_rgba(0.0, 0.0, 1.0, 0.5)
+        context.fill_preserve()
+        context.set_line_width(4)
+        context.set_source_rgba(0.0, 0.0, 0.0, 0.5)
+        context.stroke()
+
+        context = pangocairo.CairoContext(context)
+        layout = pangocairo.CairoContext.create_layout(context)
+        if platform.system() == 'Windows':
+            fontname = 'Sans'
+        else:
+            fontname = 'Ubuntu'
+        size = 8
+        description = '%s Bold %d' % (fontname, size)
+        font = pango.FontDescription(description)
+        layout.set_justify(True)
+        layout.set_font_description(font)
+        text = str(int(self.z))
+        layout.set_markup(text)
+        context.set_source_rgb(1.0, 1.0, 1.0)
+        context.move_to(self.x - radius, self.y - radius)
+        context.show_layout(layout)
+        context.set_antialias(cairo.ANTIALIAS_DEFAULT)
+        context.restore()
+
     def draw(self, context):
+        if self.hints:
+            self.draw_hints(context)
+
         ###context.save()
         if self.selected:
             self.handler.x = self.x
@@ -70,7 +110,7 @@ class Object(Rectangle):
             self.handler.height = self.height
             self.post()
             self.handler.draw(context)
-            ###context.restore()
+        ###context.restore()
 
     def at_position(self, x, y):
         if len(self.handler.control) < 1:
