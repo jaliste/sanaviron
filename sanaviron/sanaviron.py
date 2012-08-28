@@ -191,7 +191,7 @@ class Application(gtk.Window):
         if keyname == "<Control><Shift>H":
             self.editor.canvas.add_box_separator_horizontal()
         print keyname
-        if keyname == "<Control><Shift>Colon":
+        if keyname in ["<Control><Shift>Colon", "<Control><Shift>Period"]:
             self.editor.canvas.hints ^= 1
             self.editor.canvas.update()
 

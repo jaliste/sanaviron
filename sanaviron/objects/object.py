@@ -73,7 +73,7 @@ class Object(Rectangle):
 
         context.save()
         context.new_path()
-        context.arc(self.x - radius / 2 - offset, self.y - radius / 2 - offset, radius, 0, 2 * math.pi)
+        context.arc(self.x - radius, self.y - radius, radius, 0, 2 * math.pi)
         context.set_source_rgba(229 / 255.0, 122298 / 255.0, 0.0, 0.5)
         context.fill_preserve()
         context.set_line_width(2)
@@ -86,15 +86,26 @@ class Object(Rectangle):
             fontname = 'Sans'
         else:
             fontname = 'Ubuntu'
-        size = 8
+        text = str(int(self.z))
+        if len(text) > 3:
+            size = 6
+            text = text[:3] + "..."
+        elif len(text) > 2:
+            size = 8
+        elif len(text) > 1:
+            size = 10
+        else:
+            size = 12
         description = '%s Bold %d' % (fontname, size)
         font = pango.FontDescription(description)
         layout.set_justify(True)
         layout.set_font_description(font)
-        text = str(int(self.z))
-        layout.set_markup(text)
+        layout.set_text(text)
         context.set_source_rgb(0, 0, 0)
-        context.move_to(self.x - radius - offset, self.y - radius - offset) # TODO Center in the bubble
+        width, height = layout.get_size()
+        width /= pango.SCALE
+        height /= pango.SCALE
+        context.move_to(self.x - radius - width / 2, self.y - radius - height / 2)
         context.show_layout(layout)
         context.set_antialias(cairo.ANTIALIAS_DEFAULT)
         context.restore()

@@ -1,5 +1,4 @@
-#PYTHON=python
-PYTHON=/c/Python27/python.exe
+PYTHON=python
 
 all: help
 
