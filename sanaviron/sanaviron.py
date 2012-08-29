@@ -99,14 +99,33 @@ class Application(gtk.Window):
         label = gtk.Label(_("XML view"))
         label.set_angle(90)
 
-        area = gtk.ScrolledWindow()
-        area.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        notebook.append_page(area, label)
+        def get_source_view():
+            source = gtk.ScrolledWindow()
+            source.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
 
-        view = gtk.TextView()
-        self.code = gtk.TextBuffer()
-        view.set_buffer(self.code)
-        area.add(view)
+            view = gtk.TextView()
+            self.code = gtk.TextBuffer()
+            view.set_buffer(self.code)
+            source.add(view)
+
+            return source
+
+        if '--source-editor-test' in sys.argv:
+            while True:
+                try:
+                    from ui.code_editor import SourcePad
+                except:
+                    source = get_source_view()
+                    break
+
+                source = SourcePad()
+                self.code = source.buffer
+                source.set_language("xml")
+                break
+        else:
+            source = get_source_view()
+
+        notebook.append_page(source, label)
 
         menu.connect("new", self.new)
         menu.connect("open", self.open)

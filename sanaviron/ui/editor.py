@@ -35,7 +35,7 @@ class Editor(gtk.HPaned):
         if '--source-editor-test' in sys.argv:
             while True:
                 try:
-                    from ui.source_pad import SourcePad
+                    from ui.code_editor import CodeEditor
                 except:
                     notification.notificate(_("No module GtkSourceView installed"), ERROR)
                     self.pack1(box, True, False)
@@ -43,8 +43,9 @@ class Editor(gtk.HPaned):
 
                 panel = gtk.VPaned()
                 panel.pack1(box, True, False)
-                sourcepad = SourcePad()
-                panel.pack2(sourcepad, False, True)
+                code_editor = CodeEditor()
+                code_editor.editor.set_language("sql")
+                panel.pack2(code_editor, False, True)
                 self.pack1(panel, True, False)
                 break
         else:
