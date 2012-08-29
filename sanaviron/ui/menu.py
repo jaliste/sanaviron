@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 import gtk
 import gobject
+import sys
 from ui.stock import *
 
-class Menu(gtk.MenuBar):
-    """This class represents a pulldown menubar"""
+class MenuBar(gtk.MenuBar):
+    """This class represents a pull-down menu bar"""
 
     def __init__(self):
         gtk.MenuBar.__init__(self)
@@ -14,44 +15,18 @@ class Menu(gtk.MenuBar):
         self.bindings = gtk.AccelGroup()
         self.stack = None
         self.submenu = None
+        self.signals = list()
 
-        self.install_signal("new")
-        self.install_signal("open")
-        self.install_signal("save")
-        self.install_signal("save-as")
-        self.install_signal("page-setup")
-        self.install_signal("print")
-        self.install_signal("export-to-pdf")
-        self.install_signal("quit")
-        self.install_signal("fullscreen")
-        self.install_signal("help")
-        self.install_signal("about")
-        self.install_signal("copy")
-        self.install_signal("cut")
-        self.install_signal("paste")
-        self.install_signal("delete")
-        self.install_signal("select-all")
-        self.install_signal("bring-to-front")
-        self.install_signal("bring-to-back")
-        self.install_signal("paper-center-horizontal")
-        self.install_signal("line")
-        self.install_signal("arc")
-        self.install_signal("curve")
-        self.install_signal("connector")
-        self.install_signal("box")
-        self.install_signal("rounded-box")
-        self.install_signal("bubble")
-        self.install_signal("text")
-        self.install_signal("barcode")
-        self.install_signal("table")
-        self.install_signal("chart")
-        
     def install_signal(self, signal):
         gobject.signal_new(signal, self.__class__, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_PYOBJECT,))
 
-    def append_menu(self, label, descend=False, right=False):
-        menuitem = gtk.MenuItem(label)
+    def install_signals(self):
+        for signal in self.signals:
+            self.install_signal(signal)
+
+    def append_menu(self, stock, descend=False, right=False):
+        menuitem = gtk.ImageMenuItem(stock)
         if right:
             menuitem.set_right_justified(True)
         if descend:
@@ -66,6 +41,7 @@ class Menu(gtk.MenuBar):
         menuitem = gtk.ImageMenuItem(stock)
         self.submenu.append(menuitem)
         menuitem.connect("activate", self.activate, signal)
+        self.signals.append(signal)
         if accelerator:
             key, mask = gtk.accelerator_parse(accelerator)
             menuitem.add_accelerator("activate", self.bindings, key, mask, gtk.ACCEL_VISIBLE)
@@ -80,6 +56,17 @@ class Menu(gtk.MenuBar):
     def realize(self, widget):
         toplevel = self.get_toplevel()
         toplevel.add_accel_group(self.bindings)
+
+    def activate(self, widget, data):
+        print data
+        self.emit(data, None)
+
+
+class Menu(MenuBar):
+    """this class represents the application menu bar"""
+
+    def __init__(self):
+        MenuBar.__init__(self)
 
         self.append_menu("_" + _("File"))
         self.append_item(gtk.STOCK_NEW, "new", "<Control>N")
@@ -114,7 +101,15 @@ class Menu(gtk.MenuBar):
         self.append_item(ARC, "arc")
         self.append_item(CURVE, "curve")
         self.append_item(CONNECTOR, "connector")
-        self.append_item(BOX, "box")
+        if "--debug" in sys.argv:
+            self.append_menu(BOX, "box", True)
+            self.append_item(BOX, "box")
+            self.append_item(SPLIT_HORIZONTALLY, "split-horizontally")
+            self.append_item(SPLIT_VERTICALLY, "split-vertically")
+            self.append_item(REMOVE_SPLIT, "remove-split")
+            self.ascend()
+        else:
+            self.append_item(BOX, "box")
         self.append_item(ROUNDED_BOX, "rounded-box")
         self.append_item(BUBBLE, "bubble")
         self.append_item(TEXT, "text")
@@ -153,7 +148,7 @@ class Menu(gtk.MenuBar):
         self.append_item(ALIGN_OBJECTS_CENTER_BOTH, "align-objects-center-both")
         self.append_item(ALIGN_OBJECTS_EAST, "align-objects-east")
         self.append_item(ALIGN_OBJECTS_CENTER_HORIZONTAL, "align-objects-center-horizontal")
-        self.append_item(ALIGN_OBJECTS_CENTER_VERTICAL, "align-objects-center-vertical")        
+        self.append_item(ALIGN_OBJECTS_CENTER_VERTICAL, "align-objects-center-vertical")
         self.ascend()
         self.append_menu("_" + _("Paper alignment"), True)
         self.append_item(ALIGN_PAPER_NORTHWEST, "align-paper-northwest")
@@ -166,7 +161,7 @@ class Menu(gtk.MenuBar):
         self.append_item(ALIGN_PAPER_CENTER_BOTH, "align-paper-center-both")
         self.append_item(ALIGN_PAPER_EAST, "align-paper-east")
         self.append_item(ALIGN_PAPER_CENTER_HORIZONTAL, "align-paper-center-horizontal")
-        self.append_item(ALIGN_PAPER_CENTER_VERTICAL, "align-paper-center-vertical")        
+        self.append_item(ALIGN_PAPER_CENTER_VERTICAL, "align-paper-center-vertical")
         self.ascend()
 
         self.append_menu("_" + _("Window"))
@@ -177,8 +172,5 @@ class Menu(gtk.MenuBar):
         self.append_separator()
         self.append_item(gtk.STOCK_ABOUT, "about")
 
+        self.install_signals()
         self.show_all()
-
-    def activate(self, widget, data):
-        print data
-        self.emit(data, None)

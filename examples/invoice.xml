@@ -59,6 +59,7 @@
         <property internal="true" name="y" value="0"/>
         <property internal="true" name="width" value="280"/>
         <property internal="true" name="height" value="48"/>
+        <property internal="false" name="radius" value="10"/>
     </object>
     <object type="Text">
         <property internal="true" name="x" value="472"/>
@@ -105,6 +106,7 @@
         <property internal="true" name="y" value="176"/>
         <property internal="true" name="width" value="195"/>
         <property internal="true" name="height" value="328"/>
+        <property internal="false" name="radius" value="10"/>
     </object>
     <object type="Text">
         <property internal="true" name="x" value="248"/>
@@ -121,6 +123,7 @@
         <property internal="true" name="y" value="112"/>
         <property internal="true" name="width" value="744"/>
         <property internal="true" name="height" value="30"/>
+        <property internal="false" name="radius" value="10"/>
     </object>
     <object type="Line">
         <property internal="true" name="x" value="0"/>
@@ -154,6 +157,7 @@
         <property internal="true" name="y" value="176"/>
         <property internal="true" name="width" value="536"/>
         <property internal="true" name="height" value="30"/>
+        <property internal="false" name="radius" value="10"/>
     </object>
     <object type="Text">
         <property internal="true" name="x" value="224"/>
@@ -190,6 +194,7 @@
         <property internal="true" name="y" value="472"/>
         <property internal="true" name="width" value="536"/>
         <property internal="true" name="height" value="30"/>
+        <property internal="false" name="radius" value="10"/>
     </object>
     <object type="Table">
         <property internal="true" name="x" value="224"/>

@@ -13,6 +13,7 @@ class Toolbar(gtk.Toolbar):
 
     def __init__(self, orientation=VERTICAL):
         gtk.Toolbar.__init__(self)
+        #self.connect("realize", self.realize)
 
         if orientation == HORIZONTAL:
             self.set_orientation(gtk.ORIENTATION_HORIZONTAL)
@@ -24,11 +25,13 @@ class Toolbar(gtk.Toolbar):
 
         self.position = 0
         self.submenu = None
+        self.signals = list()
 
     def append(self, stock, signal):
         button = gtk.ToolButton(stock)
         self.insert(button, self.position)
         button.connect("clicked", self.clicked, signal)
+        self.signals.append(signal)
         self.position += 1
 
     def append_toggle(self, stock, signal):
@@ -36,6 +39,7 @@ class Toolbar(gtk.Toolbar):
         button.set_active(True)
         self.insert(button, self.position)
         button.connect("clicked", self.clicked, signal)
+        self.signals.append(signal)
         self.position += 1
 
     def append_separator(self):
@@ -47,17 +51,18 @@ class Toolbar(gtk.Toolbar):
         button = gtk.MenuToolButton(stock)
         self.insert(button, self.position)
         if signal:
+            self.signals.append(signal)
             button.connect("clicked", self.clicked, signal)
         self.submenu = gtk.Menu()
-        print self.submenu
         button.set_menu(self.submenu)
-        self.submenu.show_all()
         self.position += 1
 
     def append_to_submenu(self, stock, signal):
         menuitem = gtk.ImageMenuItem(stock)
         self.submenu.append(menuitem)
         menuitem.connect("activate", self.clicked, signal)
+        self.signals.append(signal)
+        self.submenu.show_all()
 
     def clicked(self, widget, data):
         self.emit(data, None)
@@ -65,6 +70,11 @@ class Toolbar(gtk.Toolbar):
     def install_signal(self, signal):
         gobject.signal_new(signal, self.__class__, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
             (gobject.TYPE_PYOBJECT,))
+
+    def install_signals(self):
+        for signal in self.signals:
+            print "installing signal ", signal
+            self.install_signal(signal)
 
 
 class HorizontalToolbar(Toolbar):
@@ -143,21 +153,7 @@ class HorizontalToolbar(Toolbar):
         self.append_separator()
         self.append(gtk.STOCK_HELP, "help")
 
-        self.install_signal("new")
-        self.install_signal("open")
-        self.install_signal("save")
-        self.install_signal("cut")
-        self.install_signal("copy")
-        self.install_signal("paste")
-        self.install_signal("export-to-pdf")
-        self.install_signal("delete")
-        self.install_signal("bring-to-front")
-        self.install_signal("bring-to-back")
-        self.install_signal("grid")
-        self.install_signal("guides")
-        self.install_signal("snap")
-        self.install_signal("margins")
-        self.install_signal("help")
+        self.install_signals()
 
 
 class VerticalToolbar(Toolbar):
@@ -189,18 +185,4 @@ class VerticalToolbar(Toolbar):
         self.append(CHART, "chart")
         self.append(IMAGE, "image")
 
-        self.install_signal("line")
-        self.install_signal("arc")
-        self.install_signal("curve")
-        self.install_signal("connector")
-        self.install_signal("box")
-        self.install_signal("rounded-box")
-        self.install_signal("bubble")
-        self.install_signal("text")
-        self.install_signal("barcode")
-        self.install_signal("table")
-        self.install_signal("chart")
-        self.install_signal("image")
-        self.install_signal("split-horizontally")
-        self.install_signal("split-vertically")
-        self.install_signal("remove-split")
+        self.install_signals()

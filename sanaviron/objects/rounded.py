@@ -36,14 +36,14 @@ class Rounded(Object):
         self.handler.control[EAST].x = self.x + self.width
         self.handler.control[EAST].y = self.y + self.height / 2
 
-        radius = self.get_property("radius")
+        radius = float(self.get_property("radius"))
         self.handler.control[8].x = self.x + radius
         self.handler.control[8].y = self.y + radius
         self.handler.control[8].limbus = True
 
     def draw(self, context):
         ###context.save()
-        radius = self.get_property("radius")
+        radius = float(self.get_property("radius"))
 
         dash = list()
         context.set_dash(dash)

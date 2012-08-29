@@ -17,6 +17,7 @@ class Holder:
         self.height = 0
 
     def set_property(self, property, value):
+        print "setting property %s of type %s to %s" % (property, type(value), str(value))
         if value in [ "True", "False" ] and property != "text": # XXX
             value = eval(value)
         self.properties[property] = value

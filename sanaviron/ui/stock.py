@@ -20,8 +20,8 @@ def register(name, label, key):
     import os
 
     filename = os.path.join(os.path.dirname(__file__), "stock", filename)
-    domain = "slow"
-    id = "%s-%s" % (domain, name)
+    domain = "sanaviron"
+    id = "%s-stock-%s" % (domain, name)
     pixbuf = gtk.gdk.pixbuf_new_from_file(filename)
     iconset = gtk.IconSet(pixbuf)
     factory = gtk.IconFactory()

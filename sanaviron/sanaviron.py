@@ -53,12 +53,14 @@ class Application(gtk.Window):
 
     def __init__(self):
         gtk.Window.__init__(self)
-        self.set_title(_("Document designer"))
         self.set_size_request(640, 480)
         self.set_default_size(800, 600)
         self.winstate = 0
         self.maximize()
         self.connect("delete-event", self.quit)
+
+        self.filename = None
+        self.update_title()
 
         icon = gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__), "images", "canvas-logo.png"))
         self.set_icon(icon)
@@ -144,7 +146,7 @@ class Application(gtk.Window):
         menu.connect("bring-to-front", self.editor.canvas.bring_to_front)
         menu.connect("bring-to-back", self.editor.canvas.bring_to_back)
 
-        menu.connect("paper-center-horizontal", self.editor.canvas.paper_center_horizontal)
+        menu.connect("align-paper-center-horizontal", self.editor.canvas.paper_center_horizontal)
         
         menu.connect("line", self.line)
         menu.connect("curve", self.curve)
@@ -189,8 +191,9 @@ class Application(gtk.Window):
         vtoolbar.connect("chart", self.chart)
         vtoolbar.connect("image", self.image)
 
-        vtoolbar.connect("split-horizontally", self.editor.canvas.split_horizontally)
-        vtoolbar.connect("split-vertically", self.editor.canvas.split_vertically)
+        if DEBUG:
+            vtoolbar.connect("split-horizontally", self.editor.canvas.split_horizontally)
+            vtoolbar.connect("split-vertically", self.editor.canvas.split_vertically)
 
         notebook.connect("switch-page", self.switch)
 
@@ -199,6 +202,11 @@ class Application(gtk.Window):
     def run(self):
        self.show_all()
        gtk.main()
+
+    def update_title(self):
+        document = self.filename if self.filename else _("New document")
+        title = _("%(document)s - Sanaviron %(version)s") % {"document": document, "version": APP_VERSION}
+        self.set_title(title)
 
     def switch(self, widget, child, page):
         document = self.editor.canvas.serialize()
@@ -261,14 +269,24 @@ class Application(gtk.Window):
 
         if response == gtk.RESPONSE_ACCEPT:
             filename = dialog.get_filename()
+            self.filename = filename
             if filename is not None:
                 self.editor.canvas.load_from_xml(filename)
+                self.update_title()
 
         dialog.destroy()
 
     def save(self, widget, data):
-        pass
-    #    self.editor.canvas.save_to_xml()
+        if not self.filename:
+            return
+        current = self.editor.canvas.serialize()
+        original = open(self.filename).read()
+        print original
+        print current
+        if original == current:
+            return
+        print "saving"
+        #self.editor.canvas.save_to_xml(self.filename)
 
     def save_as(self, widget, data):
         dialog = gtk.FileChooserDialog(title=_("Save document as"),
