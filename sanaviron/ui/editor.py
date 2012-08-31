@@ -30,14 +30,14 @@ class Editor(gtk.HPaned):
 
         box = gtk.VBox()
 
-        notification = Notification()
+        self.notification = Notification()
 
         if '--source-editor-test' in sys.argv:
             while True:
                 try:
                     from ui.code_editor import CodeEditor
                 except:
-                    notification.notificate(_("No module GtkSourceView installed"), ERROR)
+                    self.notification.notificate(_("No module GtkSourceView installed"), ERROR)
                     self.pack1(box, True, False)
                     break
 
@@ -56,7 +56,7 @@ class Editor(gtk.HPaned):
         top = gtk.HBox()
         box.pack_start(top, False, False)
 
-        top.pack_start(notification, False, False)
+        top.pack_start(self.notification, False, False)
 
         layer_selector = LayerSelector()
         alignment = gtk.Alignment(1.0, 0.5)
@@ -66,14 +66,12 @@ class Editor(gtk.HPaned):
         separator = gtk.VSeparator()
         top.pack_start(separator, False, False)
 
-        #button = gtk.Button(">|")
-        image = gtk.Image()
-        image.set_from_stock(CONTRACT_PROPERTIES, gtk.ICON_SIZE_MENU)
+        self.image = gtk.Image()
+        self.image.set_from_stock(CONTRACT_PROPERTIES, gtk.ICON_SIZE_MENU)
         button = gtk.Button()
-        button.add(image)
+        button.add(self.image)
         button.set_relief(gtk.RELIEF_NONE)
-        button.connect("clicked", self.expand)
-        self.expanded = False
+        button.connect("clicked", self.toggle_properties)
         top.pack_start(button, False, False)
 
         table = gtk.Table()
@@ -108,18 +106,14 @@ class Editor(gtk.HPaned):
         self.canvas.vertical_ruler = self.vertical_ruler
         area.add_with_viewport(self.canvas)
 
-    def expand(self, widget):
-        image = widget.get_children()[0]
-        self.expanded ^= 1
-        if self.expanded:
-            #widget.set_label("<")
-            image.set_from_stock(EXPAND_PROPERTIES, gtk.ICON_SIZE_MENU)
-            self.get_children()[1].hide()
+    def toggle_properties(self, *args):
+        properties = self.get_children()[1]
+        if self.properties.get_visible():
+            self.image.set_from_stock(EXPAND_PROPERTIES, gtk.ICON_SIZE_MENU)
+            properties.hide()
         else:
-            #widget.set_label(">|")
-            image.set_from_stock(CONTRACT_PROPERTIES, gtk.ICON_SIZE_MENU)
-            self.get_children()[1].show()
-        self.canvas.queue_draw()
+            self.image.set_from_stock(CONTRACT_PROPERTIES, gtk.ICON_SIZE_MENU)
+            properties.show()
 
     def select(self, widget, child):
         self.properties.select(child.__name__, child)

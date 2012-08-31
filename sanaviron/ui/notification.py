@@ -19,21 +19,29 @@ class Notification(gtk.HBox):
         self.pack_start(self.image, False, False)
 
         self.label = gtk.Label("")
-        self.label.set_markup(_("Notification"))
+        self.label.set_markup(_("Press <i><b>F1</b></i> to get help."))
         self.label.set_alignment(0.0, 0.5)
         self.pack_start(self.label, False, False)
-        
+
     def set_text(self, text):
         self.label.set_markup(text)
 
     def notificate(self, message, type):
-        self.set_text('<span weight="heavy" color="red">%s</span>' % message)
+
         if type == INFORMATION:
             self.image.set_from_stock(gtk.STOCK_DIALOG_INFO, gtk.ICON_SIZE_MENU)
+            color = "black"
+            weight = "normal"
         if type == ERROR:
             self.image.set_from_stock(gtk.STOCK_DIALOG_ERROR, gtk.ICON_SIZE_MENU)
+            color = "red"
+            weight = "heavy"
         if type == WARNING:
             self.image.set_from_stock(gtk.STOCK_DIALOG_WARNING, gtk.ICON_SIZE_MENU)
+            color = "yellow"
+            weight = "heavy"
+        self.set_text('<span weight="%s" color="%s">%s</span>' % (weight, color, message))
+        self.show()
 
 if __name__ == '__main__':
     window = gtk.Window()

@@ -46,6 +46,18 @@ class MenuBar(gtk.MenuBar):
             key, mask = gtk.accelerator_parse(accelerator)
             menuitem.add_accelerator("activate", self.bindings, key, mask, gtk.ACCEL_VISIBLE)
 
+    def append_toggle(self, stock, signal, accelerator = None, toggled = True):
+        info = gtk.stock_lookup(stock)
+        label = info[1] if info else stock
+        menuitem = gtk.CheckMenuItem(label)
+        menuitem.set_active(toggled)
+        self.submenu.append(menuitem)
+        menuitem.connect("toggled", self.activate, signal)
+        self.signals.append(signal)
+        if accelerator:
+            key, mask = gtk.accelerator_parse(accelerator)
+            menuitem.add_accelerator("toggled", self.bindings, key, mask, gtk.ACCEL_VISIBLE)
+
     def append_separator(self):
         separator = gtk.SeparatorMenuItem()
         self.submenu.append(separator)
@@ -96,20 +108,28 @@ class Menu(MenuBar):
         self.append_separator()
         self.append_item(gtk.STOCK_SELECT_ALL, "select-all", "<Control>A")
 
+        self.append_menu("_" + _("View"))
+        self.append_toggle(MARGINS_ENABLED, "margins")
+        self.append_toggle(GRID, "grid")
+        self.append_toggle(GUIDES, "guides")
+        self.append_toggle(SNAP_ENABLED, "snap")
+        self.append_toggle(_("Z-Order hint"), "hints", toggled = False)
+        self.append_separator()
+        self.append_toggle(gtk.STOCK_PROPERTIES, "properties")
+        self.append_toggle(_("Menubar"), "menubar")
+        self.append_toggle(_("Statusbar"), "statusbar")
+
         self.append_menu("_" + _("Insert"))
         self.append_item(LINE, "line")
         self.append_item(ARC, "arc")
         self.append_item(CURVE, "curve")
         self.append_item(CONNECTOR, "connector")
-        if "--debug" in sys.argv:
-            self.append_menu(BOX, "box", True)
-            self.append_item(BOX, "box")
-            self.append_item(SPLIT_HORIZONTALLY, "split-horizontally")
-            self.append_item(SPLIT_VERTICALLY, "split-vertically")
-            self.append_item(REMOVE_SPLIT, "remove-split")
-            self.ascend()
-        else:
-            self.append_item(BOX, "box")
+        self.append_menu(BOX, "box", True)
+        self.append_item(BOX, "box")
+        self.append_item(SPLIT_HORIZONTALLY, "split-horizontally")
+        self.append_item(SPLIT_VERTICALLY, "split-vertically")
+        self.append_item(REMOVE_SPLIT, "remove-split")
+        self.ascend()
         self.append_item(ROUNDED_BOX, "rounded-box")
         self.append_item(BUBBLE, "bubble")
         self.append_item(TEXT, "text")

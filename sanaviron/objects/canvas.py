@@ -561,6 +561,10 @@ class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
             page.active ^= 1
         self.queue_draw()
 
+    def toggle_hints(self, *args):
+        self.hints ^= 1
+        self.queue_draw()
+
     def get_filename(self, filename, extension):
         if not filename.endswith("." + extension):
             return filename + "." + extension

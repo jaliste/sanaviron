@@ -16,7 +16,6 @@ import gtk
 
 def register(name, label, key):
     filename = "%s.png" % name
-    import sys
     import os
 
     filename = os.path.join(os.path.dirname(__file__), "stock", filename)
@@ -29,7 +28,7 @@ def register(name, label, key):
     factory.add_default()
     keyval = gtk.gdk.keyval_from_name(key)
     modifier = gtk.gdk.MOD1_MASK
-    gtk.stock_add(((id, label, modifier, keyval, domain),))
+    gtk.stock_add([(id, label, modifier, keyval, domain)])
     return id
 
 ALIGN_OBJECTS_CENTER_BOTH = register("align-objects-center-both", _("Center"), "X")

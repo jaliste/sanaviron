@@ -1,19 +1,18 @@
 [ # Priority. (Difficulty) Task. Comment ]
 
 1. (Easy) Rename translation domain from test to sanaviron.
-2. (Easy) Add check to show/hide menubar and statusbar.
-3. (Easy - Larger) Synchronize object properties with entry widgets. Install each entry as observable and normalize
+2. (Easy - Larger) Synchronize object properties with entry widgets. Install each entry as observable and normalize
                    object and property names width observable name. Started.
-4. (Heavy) To a class "Object" to transfer following functions from a class an "Arc":
+3. (Heavy) To a class "Object" to transfer following functions from a class an "Arc":
 	           set_gradient
 	           set_color
 	           set_color_rgba
 	           set_fill_style
-5. (Heavy) To add a widget of control of a gradient. 30th of September
-6. (Hard) Storage of gradients to assign property gradients in class Canvas. Until 15th September.
-7. (Middle) Include README, COPYING, help and other data files and exclude sanaviron/src.(Juan see license pychart)
-8. (Middle) Add support for py2exe and Windows installer like Inno Setup Compiler or Bitrock.
-9. (Middle) Add support for documentation like (doxygen, ...). Requires additional research.
+4. (Heavy) To add a widget of control of a gradient. 30th of September
+5. (Hard) Storage of gradients to assign property gradients in class Canvas. Until 15th September.
+6. (Middle) Include README, COPYING, help and other data files and exclude sanaviron/src.(Juan see license pychart)
+7. (Middle) Add support for py2exe and Windows installer like Inno Setup Compiler or Bitrock.
+8. (Middle) Add support for documentation like (doxygen, ...). Requires additional research.
 
 Use servant design pattern: Putting the things in their places.
 

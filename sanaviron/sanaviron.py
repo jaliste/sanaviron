@@ -40,6 +40,7 @@ from ui.toolbars import HorizontalToolbar, VerticalToolbar
 #from ui.browser import Browser
 from ui.editor import Editor
 from ui.statusbar import Statusbar
+from ui import INFORMATION
 
 setup = gtk.PageSetup()
 settings = gtk.PrintSettings()
@@ -68,8 +69,8 @@ class Application(gtk.Window):
         vbox = gtk.VBox()
         self.add(vbox)
 
-        menu = Menu()
-        vbox.pack_start(menu, False, False)
+        self.menu = Menu()
+        vbox.pack_start(self.menu, False, False)
 
         htoolbar = HorizontalToolbar()
         vbox.pack_start(htoolbar, False, False)
@@ -129,38 +130,47 @@ class Application(gtk.Window):
 
         notebook.append_page(source, label)
 
-        menu.connect("new", self.new)
-        menu.connect("open", self.open)
-        menu.connect("save", self.save)
-        menu.connect("save-as", self.save_as)
-        menu.connect("page-setup", self.page_setup)
-        menu.connect("export-to-pdf", self.export_to_pdf)
-        menu.connect("quit", self.quit)
+        self.menu.connect("new", self.new)
+        self.menu.connect("open", self.open)
+        self.menu.connect("save", self.save)
+        self.menu.connect("save-as", self.save_as)
+        self.menu.connect("page-setup", self.page_setup)
+        self.menu.connect("export-to-pdf", self.export_to_pdf)
+        self.menu.connect("quit", self.quit)
 
-        menu.connect("cut", self.editor.canvas.cut)
-        menu.connect("copy", self.editor.canvas.copy)
-        menu.connect("paste", self.editor.canvas.paste)
-        menu.connect("delete", self.editor.canvas.delete)
-        menu.connect("select-all", self.editor.canvas.select_all)
+        self.menu.connect("cut", self.editor.canvas.cut)
+        self.menu.connect("copy", self.editor.canvas.copy)
+        self.menu.connect("paste", self.editor.canvas.paste)
+        self.menu.connect("delete", self.editor.canvas.delete)
+        self.menu.connect("select-all", self.editor.canvas.select_all)
 
-        menu.connect("bring-to-front", self.editor.canvas.bring_to_front)
-        menu.connect("bring-to-back", self.editor.canvas.bring_to_back)
+        self.menu.connect("margins", self.editor.canvas.toggle_margins)
+        self.menu.connect("grid", self.editor.canvas.toggle_grid)
+        self.menu.connect("guides", self.editor.canvas.toggle_guides)
+        self.menu.connect("snap", self.editor.canvas.toggle_snap)
+        self.menu.connect("hints", self.editor.canvas.toggle_hints)
+        self.menu.connect("properties", self.editor.toggle_properties)
+        self.menu.connect("menubar", self.toggle_menubar)
+        self.menu.connect("statusbar", self.toggle_statusbar)
 
-        menu.connect("align-paper-center-horizontal", self.editor.canvas.paper_center_horizontal)
+        self.menu.connect("bring-to-front", self.editor.canvas.bring_to_front)
+        self.menu.connect("bring-to-back", self.editor.canvas.bring_to_back)
+
+        self.menu.connect("align-paper-center-horizontal", self.editor.canvas.paper_center_horizontal)
         
-        menu.connect("line", self.line)
-        menu.connect("curve", self.curve)
-        menu.connect("connector", self.connector)
-        menu.connect("box", self.box)
-        menu.connect("rounded-box", self.rounded_box)
-        menu.connect("bubble", self.bubble)
-        menu.connect("text", self.text)
-        menu.connect("barcode", self.table)
-        menu.connect("table", self.barcode)
-        menu.connect("chart", self.chart)
-        menu.connect("fullscreen", self.fullscreen)
-        menu.connect("about", self.about)
-        menu.connect("help", self.help)
+        self.menu.connect("line", self.line)
+        self.menu.connect("curve", self.curve)
+        self.menu.connect("connector", self.connector)
+        self.menu.connect("box", self.box)
+        self.menu.connect("rounded-box", self.rounded_box)
+        self.menu.connect("bubble", self.bubble)
+        self.menu.connect("text", self.text)
+        self.menu.connect("barcode", self.table)
+        self.menu.connect("table", self.barcode)
+        self.menu.connect("chart", self.chart)
+        self.menu.connect("fullscreen", self.fullscreen)
+        self.menu.connect("about", self.about)
+        self.menu.connect("help", self.help)
 
         htoolbar.connect("new", self.new)
         htoolbar.connect("open", self.open)
@@ -217,7 +227,8 @@ class Application(gtk.Window):
             self.editor.canvas.add_box_separator_vertical()
         if keyname == "<Control><Shift>H":
             self.editor.canvas.add_box_separator_horizontal()
-        print keyname
+        if keyname == "<Control><Shift>Escape":
+            self.toggle_menubar()
         if keyname in ["<Control><Shift>Colon", "<Control><Shift>Period"]:
             self.editor.canvas.hints ^= 1
             self.editor.canvas.update()
@@ -237,6 +248,19 @@ class Application(gtk.Window):
         print "%s has pressed" % keyname
         self.key_handler(keyname)
         return False
+
+    def toggle_menubar(self, *args):
+        if self.menu.get_visible():
+            self.menu.hide()
+            self.editor.notification.notificate(_("Press <i><b>Control+Shift+Escape</b></i> to show again."), INFORMATION)
+        else:
+            self.menu.show()
+
+    def toggle_statusbar(self, *args):
+        if self.status.get_visible():
+            self.status.hide()
+        else:
+            self.status.show()
 
     def new(self, widget, data):
         self.editor.canvas.children = list()
@@ -434,7 +458,10 @@ class Application(gtk.Window):
 
     def help(self, widget, data):
         cwd = os.getcwd()
-        url = "file://" + cwd + "/help/index.html"
+        language = os.environ['LANG'].split('_')[0]
+        if not language or language == 'C':
+            language = "es"
+        url = "file://" + cwd + "/../doc/help/%s/index.html" % language
         import webbrowser
 
         webbrowser.open_new(url)
