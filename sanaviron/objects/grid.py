@@ -13,7 +13,7 @@ class Grid(Rectangle):
         Size.__init__(self)
         self.active = True
         self.size = 15.0
-        self.snap = False
+        self.snap = True
 
     def draw(self, context):
         ###context.save()

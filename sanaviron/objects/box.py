@@ -59,9 +59,9 @@ class Box(Object):
         if len(self.separators) > 0:
             if direction >= ANONIMOUS:
                 separator = self.separators[direction-ANONIMOUS]
-                if separator.direction == VERTICAL:
+                if separator.direction == VERTICAL and x >= self.x and x - self.x <= self.width:
                     separator.position = x - self.x
-                elif separator.direction == HORIZONTAL:
+                elif separator.direction == HORIZONTAL and y >= self.y and y - self.y <= self.height:
                     separator.position = y - self.y
 
     def add_separator_vertical(self, position):

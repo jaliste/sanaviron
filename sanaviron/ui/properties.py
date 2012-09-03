@@ -326,6 +326,7 @@ class Properties(gtk.ScrolledWindow):
         self.closed_btn.connect("toggled", self.close_arc)
 
         self.closed_at_centre_btn = gtk.CheckButton()
+        self.closed_at_centre_btn.set_active(1)
         form.add_entry(_("Closed Arc at Centre"), self.closed_at_centre_btn, "closed-at-centre")
         self.closed_at_centre_btn.connect("toggled", self.close_at_centre_arc)
         #---END---------------------------------------------------------
@@ -630,7 +631,8 @@ class Properties(gtk.ScrolledWindow):
                 child.set_property('closed', int(state))
                 self.canvas.queue_draw()
         # The user check closed arc, not closed at centre.
-        # This property must be ser if the user check closed at centre.
+        # This property must be set only if the user check
+        # closed at centre.
         #self.closed_at_centre_btn.set_sensitive(state)
 
     def close_at_centre_arc(self, widget):

@@ -46,9 +46,6 @@ class Line(Object):
         b.x = self.x + self.width + length * math.cos(angle + degrees)
         b.y = self.y + self.height + length * math.sin(angle + degrees)
 
-        context.fill_preserve()
-        context.stroke()
-
         # line
         context.move_to(self.x, self.y)
         context.line_to(self.x + self.width, self.y + self.height)
@@ -61,6 +58,8 @@ class Line(Object):
         context.line_to(a.x, a.y)
         context.line_to(b.x, b.y)
         context.line_to(self.x + self.width, self.y + self.height)
+
+        context.fill_preserve()
         context.stroke()
 
         Object.draw(self, context)

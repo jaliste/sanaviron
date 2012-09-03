@@ -20,6 +20,7 @@ from guides import Guides
 from selection import Selection
 from paper import Paper
 from size import Size
+from point import Point
 
 from barcode import BarCode
 from image import Image
@@ -35,6 +36,7 @@ from chart import Chart
 from bubble import Bubble
 
 from objects import *
+from objects import opossite
 
 import xml.parsers.expat
 
@@ -128,89 +130,89 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
     #def key_press(self, widget, event):
     #    pass
 
-    #def update_cursor(self, widget, direction):
-    #    if direction == NORTHWEST:
-    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_LEFT_CORNER))
-    #    elif direction == NORTH:
-    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_SIDE))
-    #    elif direction == NORTHEAST:
-    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.TOP_RIGHT_CORNER))
-    #    elif direction == WEST:
-    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.LEFT_SIDE))
-    #    elif direction == EAST:
-    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.RIGHT_SIDE))
-    #    elif direction == SOUTHWEST:
-    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_LEFT_CORNER))
-    #    elif direction == SOUTH:
-    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_SIDE))
-    #    elif direction == SOUTHEAST:
-    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_RIGHT_CORNER))
-    #    elif direction == 8:
-    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.CROSSHAIR))
-    #    elif direction == 9:
-    #        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.CROSSHAIR))
-
     def move(self, child, x, y):
         child.x = self.grid.nearest(x - child.offset.x)
         child.y = self.grid.nearest(y - child.offset.y)
         
     def resize(self, child, x, y):
-        def set_position(child, x, y, width, height):
-            #print x, y, width, height
-            if (width >= 0) and (height >= 0):
-                (child.x, child.y, child.width, child.height) = (x, y, width, height)
-                
+        position = Point()
+        offset = Point()
+        size = Size()
+
+        def fix(child):
+            if child.width < 0:
+                child.direction = opossite(child.direction, HORIZONTAL)
+                if not self.pick:
+                    child.offset.width = child.width
+                    child.width *= -1
+                    child.x -= child.width
+            if child.height < 0:
+                child.direction = opossite(child.direction, VERTICAL)
+                if not self.pick:
+                    child.offset.height = child.height
+                    child.height *= -1
+                    child.y -= child.height
+
+        def set_position(child, position, size):
+            (child.x, child.y, child.width, child.height) = (position.x, position.y, size.width, size.height)
+            if child.__name__ != 'Line':
+                fix(child)
+
+        offset.x = child.handler.control[child.direction].offset.x
+        offset.y = child.handler.control[child.direction].offset.y
+
         if child.direction == EAST:
-            _x = child.x
-            _y = child.y
-            _width = self.grid.nearest(child.offset.width + (x - child.offset.x))
-            _height = child.height
-            set_position(child, _x, _y, _width, _height)
+            position.x = child.x
+            position.y = child.y
+            size.width = self.grid.nearest(child.offset.width + x - child.offset.x)
+            size.height = child.height
+            set_position(child, position, size)
         elif child.direction == NORTH:
-            _x = child.x
-            _y = self.grid.nearest(y - child.handler.control[NORTH].offset.y)
-            _width = child.width
-            _height = self.grid.nearest(child.offset.height + (child.offset.y - y))
-            set_position(child, _x, _y, _width, _height)
+            position.x = child.x
+            position.y = self.grid.nearest(y)
+            size.width = child.width
+            size.height = child.offset.height + child.offset.y - position.y - offset.y
+            set_position(child, position, size)
         elif child.direction == SOUTH:
-            _x = child.x
-            _y = child.y
-            _width = child.width
-            _height = self.grid.nearest(child.offset.height + (y - child.offset.y))
-            set_position(child, _x, _y, _width, _height)
+            position.x = child.x
+            position.y = child.y
+            size.width = child.width
+            size.height = self.grid.nearest(child.offset.height + y - child.offset.y)
+            set_position(child, position, size)
         elif child.direction == WEST:
-            _x = self.grid.nearest(x - child.handler.control[WEST].offset.x)
-            _y = child.y
-            _width = self.grid.nearest(child.offset.width + (child.offset.x - x))
-            _height = child.height
-            set_position(child, _x, _y, _width, _height)
+            position.x = self.grid.nearest(x)
+            position.y = child.y
+            size.width = child.offset.width + child.offset.x - position.x - offset.x
+            size.height = child.height
+            set_position(child, position, size)
         elif child.direction == SOUTHEAST:
-            _x = child.x
-            _y = child.y
-            _width = self.grid.nearest(child.offset.width + (x - child.offset.x))
-            _height = self.grid.nearest(child.offset.height + (y - child.offset.y))
-            set_position(child, _x, _y, _width, _height)
+            position.x = child.x
+            position.y = child.y
+            size.width = self.grid.nearest(child.offset.width + x - child.offset.x)
+            size.height = self.grid.nearest(child.offset.height + y - child.offset.y)
+            set_position(child, position, size)
         elif child.direction == SOUTHWEST:
-            _x = self.grid.nearest(x - child.handler.control[SOUTHWEST].offset.x)
-            _y = child.y
-            _width = self.grid.nearest(child.offset.width + (child.offset.x - x))
-            _height = self.grid.nearest(child.offset.height + (y - child.offset.y))
-            set_position(child, _x, _y, _width, _height)
+            position.x = self.grid.nearest(x)
+            position.y = child.y
+            size.width = child.offset.width + child.offset.x - position.x - offset.x
+            size.height = self.grid.nearest(child.offset.height + y - child.offset.y)
+            set_position(child, position, size)
         elif child.direction == NORTHEAST:
-            _x = child.x
-            _y = self.grid.nearest(y - child.handler.control[NORTHEAST].offset.y)
-            _width = self.grid.nearest(child.offset.width + (x - child.offset.x))
-            _height = self.grid.nearest(child.offset.height + (child.offset.y - y))
-            set_position(child, _x, _y, _width, _height)
+            position.x = child.x
+            position.y = self.grid.nearest(y)
+            size.width = self.grid.nearest(child.offset.width + x - child.offset.x)
+            size.height = child.offset.height + child.offset.y - position.y - offset.y
+            set_position(child, position, size)
         elif child.direction == NORTHWEST:
-            _x = self.grid.nearest(x - child.handler.control[NORTHWEST].offset.x)
-            _y = self.grid.nearest(y - child.handler.control[NORTHWEST].offset.y)
-            _width = self.grid.nearest(child.offset.width + (child.offset.x - x))
-            _height = self.grid.nearest(child.offset.height + (child.offset.y - y))
-            set_position(child, _x, _y, _width, _height)
+            position.x = self.grid.nearest(x)
+            position.y = self.grid.nearest(y)
+            size.width = child.offset.width + child.offset.x - position.x - offset.x
+            size.height = child.offset.height + child.offset.y - position.y - offset.y
+            set_position(child, position, size)
         else:
             return False
-      
+
+        #print child.x, child.y, child.width, child.height
         return True
       
     def release(self, widget, event):
@@ -219,13 +221,30 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         """
         if self.selection.active:
             self.unselect_all()
-            for child in sorted(self.children, key=lambda child: child.z):
+            #for child in sorted(self.children, key=lambda child: child.z):
+            for child in self.children:
                 if child.in_selection(self.selection):
                     child.selected = True
                     self.emit("select", child)
                 elif child.resize:
                     child.resize ^= 1
             self.selection.active = False
+
+        #def fix_position(child):
+        #    width = child.width
+        #    height = child.height
+        #    if width < 0:
+        #        child.width *= -1
+        #        child.x += width
+        #    if height < 0:
+        #        child.height *= -1
+        #        child.y += height
+        #
+        #for child in self.children:
+        #    #if child.resize:
+        #    #    print "fixing"
+        #    #    fix_position(child)
+        #    fix_position(child)
 
         self.pick = False
         widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
@@ -251,6 +270,7 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
                 if child.selected and child.at_position(x, y) and child.handler.at_position(x + origin.x, y + origin.y):
                         direction = child.handler.get_direction(x + origin.x, y + origin.y)
                         widget.bin_window.set_cursor(child.get_cursor(direction))
+                        #child.direction = direction
                         return direction
             return NONE
 
@@ -371,6 +391,7 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
                 self.updated = False
             self.update() # XXX
             self.stop_cursor_change = True
+
         return True
 
     def expose(self, widget, event):

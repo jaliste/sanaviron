@@ -73,7 +73,7 @@ class Rounded(Object):
         context.stroke()
         Object.draw(self, context)
         ###context.restore()
-        
+
     def transform(self, direction, x, y):
         radius = x - self.x
         if (radius > 0 and radius < self.height / 2 and radius < self.width / 2):
