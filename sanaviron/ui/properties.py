@@ -395,7 +395,7 @@ class Properties(gtk.ScrolledWindow):
 
         entry = gtk.combo_box_new_text()
         entry.connect("changed", self.changed_barcode_type)
-        for type in barcodes:
+        for type in sorted(barcodes, key=lambda type: barcodes[type]):
             entry.append_text(type)
         form.add_entry(_("Type"), entry, "type")
 
@@ -469,7 +469,7 @@ class Properties(gtk.ScrolledWindow):
 
         entry = gtk.combo_box_new_text()
         entry.connect("changed", self.changed_chart_type)
-        for type in chart_types:
+        for type in sorted(chart_types, key=lambda type: chart_types[type]):
             entry.append_text(type)
         form.add_entry(_("Type"), entry, "type")
         #---END---------------------------------------------------------

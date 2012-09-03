@@ -65,20 +65,20 @@ class Text(Object, gtk.Editable):
 
         preserve = self.get_property('preserve')
 
-        if not preserve:
-            width, height = layout.get_size()
-            width /= pango.SCALE
-            height /= pango.SCALE
-            #//context.save()
-            self.scale(context, width, height)
-            #//context.restore()
-        else:
+        if preserve:
             layout.set_width(int(self.width) * pango.SCALE)
             width, height = layout.get_size()
             height /= pango.SCALE
             #width /= pango.SCALE
             #self.width = width + 20
             self.height = height
+        else:
+            width, height = layout.get_size()
+            width /= pango.SCALE
+            height /= pango.SCALE
+            #//context.save()
+            self.scale(context, width, height)
+            #//context.restore()
 
         context.show_layout(layout)
         context.restore()

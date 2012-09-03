@@ -38,7 +38,7 @@ class Rotated():
    def radians(self, degress):
       return degress * math.pi / 180
       
-   def rotate(self, context, width, height, angle = 90):
+   def rotate(self, context, width, angle = 90):
       middle = width / 2
       rotation = self.radians(angle)
       
@@ -114,7 +114,7 @@ class AddSplitVertically(AddSplitHorizontally, Rotated):
       AddSplitHorizontally.__init__(self, filename)
       
    def draw(self, context, width, height, border):
-      Rotated.rotate(self, context, width, height)
+      Rotated.rotate(self, context, width)
       AddSplitHorizontally.draw(self, context, width, height, border)
 
 class RemoveSplitHorizontally(SplitHorizontally):
@@ -144,7 +144,7 @@ class RemoveSplitVertically(RemoveSplitHorizontally, Rotated):
       RemoveSplitHorizontally.__init__(self, filename)
       
    def draw(self, context, width, height, border):
-      Rotated.rotate(self, context, width, height)
+      Rotated.rotate(self, context, width)
       RemoveSplitHorizontally.draw(self, context, width, height, border)
 
 class RemoveSplit(RemoveSplitHorizontally, RemoveSplitVertically):

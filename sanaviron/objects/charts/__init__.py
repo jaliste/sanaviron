@@ -43,18 +43,17 @@ STACKED_VERTICAL_BAR_CHART_TYPE = 5
 STACKED_HORIZONTAL_BAR_CHART_TYPE = 6
 
 chart_types = {
-    #"Barras verticales": VERTICAL_BAR_CHART_TYPE,
-    #"Barras horizontales": HORIZONTAL_BAR_CHART_TYPE,
+    _("Verticals bars"): VERTICAL_BAR_CHART_TYPE, # Barras verticales
+    _("Horizontals bars"): HORIZONTAL_BAR_CHART_TYPE, # Barras horizontales
+    _("Lines"): LINE_CHART_TYPE, # Líneas
+    _("Pie"): PIE_CHART_TYPE, # Torta circular
+    _("Scatter plot"): SCATTER_PLOT_CHART_TYPE, # Puntos dispersos
+    _("Stacked verticals bars"): STACKED_VERTICAL_BAR_CHART_TYPE, # Barras apiladas verticalmente
+    _("Stacked horizontals bars"): STACKED_HORIZONTAL_BAR_CHART_TYPE, # Barras apiladas horizontalmente
     #"Líneas": LINE_CHART_TYPE,
     #"Torta circular": PIE_CHART_TYPE,
     #"Puntos dispersos": SCATTER_PLOT_CHART_TYPE,
-    #"Barras apiladas verticalmente": STACKED_VERTICAL_BAR_CHART_TYPE,
-    #"Barras apiladas horizontalmente": STACKED_HORIZONTAL_BAR_CHART_TYPE,
-    "Barras": VERTICAL_BAR_CHART_TYPE,
-    "Líneas": LINE_CHART_TYPE,
-    "Torta circular": PIE_CHART_TYPE,
-    "Puntos dispersos": SCATTER_PLOT_CHART_TYPE,
-    "Barras apiladas": STACKED_VERTICAL_BAR_CHART_TYPE,
+    #"Barras apiladas": STACKED_VERTICAL_BAR_CHART_TYPE,
     }
 
 #(VERTICAL_BAR_CHART_TYPE,

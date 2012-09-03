@@ -7,6 +7,7 @@ import platform
 import pango
 import pangocairo
 from ctypes import c_char_p, CDLL
+import cairo
 from object import Object
 from objects import *
 
@@ -56,7 +57,7 @@ barcodes = {
     _("Code EAN"): BARCODE_EAN,
     _("UPC"): BARCODE_UPC,
     _("ISBN"): BARCODE_ISBN,
-    _("Code 39"): BARCODE_ISBN,
+    _("Code 39"): BARCODE_39,
     _("Code 128"): BARCODE_128,
     _("Code 128C"): BARCODE_128C,
     _("Code 128B"): BARCODE_128B,
@@ -119,11 +120,42 @@ class BarCode(Object):
     def draw(self, context):
         code = self.get_property('code')
         type = self.get_property('type')
+        description = "Verdana 12"
 
         partial = BCIface.get_partial(type, code)
         textinfo = BCIface.get_textinfo(type, code)
 
         if not partial:
+            margin = 10
+            context.rectangle(self.x, self.y, self.width, self.height)
+            context.set_source_rgba(0.75, 0, 0, 0.25)
+            context.fill_preserve()
+            context.set_source_rgb(0.75, 0, 0)
+            context.set_line_width(4.0)
+            context.set_dash([])
+            context.stroke()
+
+            context = pangocairo.CairoContext(context)
+            layout = pangocairo.CairoContext.create_layout(context)
+            font = pango.FontDescription(description)
+            layout.set_font_description(font)
+            layout.set_alignment(pango.ALIGN_CENTER)
+            layout.set_markup(_("Code <b>%(code)s</b> can't\n"
+                                "be displayed in this codification.\n"
+                                "Please select another one.") % {"code": code})
+            width, height = layout.get_size()
+            width /= pango.SCALE
+            height /= pango.SCALE
+            width += 2 * margin
+            height += margin
+            horizontal = self.width / width
+            vertical = self.height / height
+            context.move_to(self.x + margin, self.y + margin / 2)
+            context.save()
+            context.scale(horizontal, vertical)
+            context.show_layout(layout)
+            context.restore()
+            Object.draw(self, context)
             return
 
         #from:int svg_bars(struct Barcode_Item *bc, FILE *f)
@@ -183,7 +215,6 @@ class BarCode(Object):
         context = pangocairo.CairoContext(context)
 
         correction = 0 # /* This correction seems to be needed to align text properly */
-        description = "Verdana 12"
         #x = 0
         px = 0
         #d = 0.0
@@ -214,8 +245,7 @@ class BarCode(Object):
             context.move_to(self.x + (x * ratio - correction), self.y + self.height - height)
             context.show_layout(layout)
 
-            Object.draw(self, context)
-
+        Object.draw(self, context)
 
 if __name__ == "__main__":
     partial = BCIface.get_partial(BARCODE_EAN, "800894002700")
