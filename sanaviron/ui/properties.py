@@ -490,8 +490,12 @@ class Properties(gtk.ScrolledWindow):
 
                 set_property_from_child(name, "x", child.x)
                 set_property_from_child(name, "y", child.y)
-                set_property_from_child(name, "width", child.width)
-                set_property_from_child(name, "height", child.height)
+
+                try:
+                    set_property_from_child(name, "width", child.width)
+                    set_property_from_child(name, "height", child.height)
+                except:
+                    pass
 
                 if name == "Arc":
                     value = child.get_property("angle_start")
@@ -563,23 +567,23 @@ class Properties(gtk.ScrolledWindow):
                 self.canvas.queue_draw()
                 break
 
-    def set_table_columns(self, widget):
-        n_columns = widget.get_value_as_int()
+    def set_table_columns(self, widget, data):
+        n_columns = widget.spin.get_value_as_int()
         for child in self.canvas.children:
             if child.__name__ == "Table" and child.selected:
                 entry = self.observer.get_observable("table-columns-editor")
                 columns = child.get_property('columns').split(':')
                 titles = child.get_property('titles').split(':')
-                if n_columns < len(columns):  # Eliminar columna
+                if n_columns < len(columns):  # Remove column
                     del columns[n_columns]
                     del titles[n_columns]
                     entry.remove_column()
-                elif n_columns > len(columns):  # Agregar columna
+                elif n_columns > len(columns):  # Append column
                     columns.append('0')
                     title = _("Column %d") % n_columns
                     titles.append(title)
                     entry.add_column()
-                else: # XXX ::: No deberían ser iguales
+                else:
                     entry.add_column()
                 columns = ':'.join(columns)
                 #print titles
@@ -589,8 +593,8 @@ class Properties(gtk.ScrolledWindow):
                 self.canvas.queue_draw()
                 break
 
-    def set_table_rows(self, widget):
-        rows = widget.get_value_as_int()
+    def set_table_rows(self, widget, data):
+        rows = widget.spin.get_value_as_int()
         for child in self.canvas.children:
             if child.__name__ == "Table" and child.selected:
                 child.set_property('rows', rows)
