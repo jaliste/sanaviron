@@ -32,6 +32,8 @@ class Editor(gtk.HPaned):
 
         self.notification = Notification()
 
+        code_editor = None
+
         if '--source-editor-test' in sys.argv:
             while True:
                 try:
@@ -102,6 +104,7 @@ class Editor(gtk.HPaned):
         adjustment.connect("value-changed", self.scroll, HORIZONTAL)
         table.attach(area, 1, 2, 1, 2, gtk.FILL | gtk.EXPAND, gtk.FILL | gtk.EXPAND)
 
+        self.canvas.code_editor = code_editor
         self.canvas.horizontal_ruler = self.horizontal_ruler
         self.canvas.vertical_ruler = self.vertical_ruler
         area.add_with_viewport(self.canvas)

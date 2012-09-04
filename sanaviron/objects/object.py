@@ -4,6 +4,9 @@
 from handler import Handler
 from rectangle import Rectangle
 from color import Color
+from point import Point
+from size import Size
+from objects import opossite
 from objects import *
 
 import gtk
@@ -22,7 +25,7 @@ class Object(Rectangle):
         self.handler = Handler()
         self.offset = Rectangle()
         self.selected = False
-        self.resize = False
+        self.resizing = False
         self.direction = NONE
         self.control = AUTOMATIC
         self.z = 0
@@ -169,3 +172,74 @@ class Object(Rectangle):
             return gtk.gdk.Cursor(gtk.gdk.CROSSHAIR)
 
         return gtk.gdk.Cursor(gtk.gdk.ARROW)
+
+    def fix(self, x, y):
+        if self.width <= 0:
+            #offset = Point()
+            #offset.x = self.handler.control[self.direction].offset.x
+            #offset.y = self.handler.control[self.direction].offset.y
+            #self.handler.control[self.direction].offset.x = 0
+            #self.handler.control[self.direction].offset.y = 0
+            self.direction = opossite(self.direction, HORIZONTAL)
+            #self.handler.control[self.direction].offset.x = offset.x
+            #self.handler.control[self.direction].offset.y = offset.y
+        if self.height <= 0:
+            self.direction = opossite(self.direction, VERTICAL)
+    
+    def set_position(self, position, size):
+        (self.x, self.y, self.width, self.height) = (position.x, position.y, size.width, size.height)
+
+    def resize(self, x, y, grid):
+        position = Point()
+        position.x = self.x
+        position.y = self.y
+
+        size = Size()
+        size.width = self.width
+        size.height = self.height
+
+        #offset = Point()
+        #offset.x = self.handler.control[self.direction].offset.x
+        #offset.y = self.handler.control[self.direction].offset.y
+
+        if self.direction == EAST:
+            size.width = grid.nearest(x - self.x)
+        elif self.direction == NORTH:
+            position.y = grid.nearest(y)
+            size.height = self.height - position.y + self.y
+        elif self.direction == SOUTH:
+            size.height = grid.nearest(y - self.y)
+        elif self.direction == WEST:
+            position.x = grid.nearest(x)
+            size.width = self.width - position.x + self.x
+        elif self.direction == SOUTHEAST:
+            size.width = grid.nearest(x - self.x)
+            size.height = grid.nearest(y - self.y)
+        elif self.direction == SOUTHWEST:
+            position.x = grid.nearest(x)
+            size.width = self.width - position.x + self.x
+            size.height = grid.nearest(y - self.y)
+        elif self.direction == NORTHEAST:
+            position.y = grid.nearest(y)
+            size.width = grid.nearest(x - self.x)
+            size.height = self.height - position.y + self.y
+        elif self.direction == NORTHWEST:
+            position.x = grid.nearest(x)
+            position.y = grid.nearest(y)
+            size.width = self.width - position.x + self.x #+ offset.x
+            size.height = self.height - position.y + self.y #+ offset.x
+        else:
+            return False
+
+        output = "%d|%d|%d|%d|%d|%d|" % (x, y, self.x, self.y, self.width, self.height)
+        self.set_position(position, size)
+        if self.__name__ != 'Line':
+            self.fix(x, y)
+        output += "%d|%d|%d|%d|%d|%d" % (x, y, self.x, self.y, self.width, self.height)
+        print output
+
+        return True
+
+    def move(self, x, y, grid):
+        self.x = grid.nearest(x - self.offset.x)
+        self.y = grid.nearest(y - self.offset.y)

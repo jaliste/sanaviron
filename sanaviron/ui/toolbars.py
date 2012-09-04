@@ -73,7 +73,6 @@ class Toolbar(gtk.Toolbar):
 
     def install_signals(self):
         for signal in self.signals:
-            print "installing signal ", signal
             self.install_signal(signal)
 
 
@@ -97,16 +96,11 @@ class HorizontalToolbar(Toolbar):
         self.append(gtk.STOCK_PASTE, "paste")
         self.append_separator()
         self.append(gtk.STOCK_DELETE, "delete")
-        #self.append_separator()
-        #self.append_toggle(gtk.STOCK_BOLD, "bold")
-        #self.append_toggle(gtk.STOCK_ITALIC, "italic")
-        #self.append_toggle(gtk.STOCK_UNDERLINE, "underline")
-        #self.append_toggle(gtk.STOCK_STRIKEOUT, "strikeout")
-        #self.append_separator()
-        #self.append_to_submenu(LINE_STYLE_POINT_DASH, "line-style-point-dash")
-        #self.append_to_submenu(LINE_STYLE_CONTINUOUS, "line-style-continuous")
-        #self.append_to_submenu(LINE_STYLE_POINT, "line-style-point")
-        #self.append_to_submenu(LINE_STYLE_DASH, "line-style-dash")
+        self.append_separator()
+        self.append_with_submenu(LINE_STYLE_CONTINUOUS, "line-style-continuous")
+        self.append_to_submenu(LINE_STYLE_POINT_DASH, "line-style-point-dash")
+        self.append_to_submenu(LINE_STYLE_POINT, "line-style-point")
+        self.append_to_submenu(LINE_STYLE_DASH, "line-style-dash")
         self.append_separator()
         self.append_with_submenu(gtk.STOCK_ZOOM_FIT, "zoom-fit")
         self.append_to_submenu(gtk.STOCK_ZOOM_100, "zoom-100")
@@ -125,7 +119,6 @@ class HorizontalToolbar(Toolbar):
         self.append(BRING_TO_FRONT, "bring-to-front")
         self.append(BRING_TO_BACK, "bring-to-back")
         self.append_separator()
-
         self.append_with_submenu(ALIGN_OBJECTS_CENTER_BOTH, "align-object-center-both")
         self.append_to_submenu(ALIGN_OBJECTS_NORTHWEST, "align-object-northwest")
         self.append_to_submenu(ALIGN_OBJECTS_NORTH, "align-object-north")
@@ -137,7 +130,6 @@ class HorizontalToolbar(Toolbar):
         self.append_to_submenu(ALIGN_OBJECTS_EAST, "align-object-east")
         self.append_to_submenu(ALIGN_OBJECTS_CENTER_HORIZONTAL, "align-object-center-horizontal")
         self.append_to_submenu(ALIGN_OBJECTS_CENTER_VERTICAL, "align-object-center-vertical")
-
         self.append_with_submenu(ALIGN_PAPER_CENTER_BOTH, "align-paper-center-both")
         self.append_to_submenu(ALIGN_PAPER_NORTHWEST, "align-paper-northwest")
         self.append_to_submenu(ALIGN_PAPER_NORTH, "align-paper-north")
@@ -149,7 +141,6 @@ class HorizontalToolbar(Toolbar):
         self.append_to_submenu(ALIGN_PAPER_EAST, "align-paper-east")
         self.append_to_submenu(ALIGN_PAPER_CENTER_HORIZONTAL, "align-paper-center-horizontal")
         self.append_to_submenu(ALIGN_PAPER_CENTER_VERTICAL, "align-paper-center-vertical")
-
         self.append_separator()
         self.append(gtk.STOCK_HELP, "help")
 

@@ -65,7 +65,6 @@ class Box(Object):
                     separator.position = y - self.y
 
     def add_separator_vertical(self, position):
-        print "add-separator-vertical"
         separator = Separator()
         separator.position = position
         separator.direction = VERTICAL
@@ -80,3 +79,7 @@ class Box(Object):
         #separator.synchronize(self)
         self.separators.append(separator)
         self.handler.control.append(separator.control)
+
+    def remove_separator(self):
+        if self.separators.pop():
+            self.handler.control.pop()

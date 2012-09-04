@@ -172,6 +172,10 @@ class Application(gtk.Window):
         self.menu.connect("about", self.about)
         self.menu.connect("help", self.help)
 
+        self.menu.connect("split-horizontally", self.editor.canvas.split_horizontally)
+        self.menu.connect("split-vertically", self.editor.canvas.split_vertically)
+        self.menu.connect("remove-split", self.editor.canvas.remove_split)
+
         htoolbar.connect("new", self.new)
         htoolbar.connect("open", self.open)
         htoolbar.connect("save", self.save)
@@ -201,9 +205,9 @@ class Application(gtk.Window):
         vtoolbar.connect("chart", self.chart)
         vtoolbar.connect("image", self.image)
 
-        if DEBUG:
-            vtoolbar.connect("split-horizontally", self.editor.canvas.split_horizontally)
-            vtoolbar.connect("split-vertically", self.editor.canvas.split_vertically)
+        vtoolbar.connect("split-horizontally", self.editor.canvas.split_horizontally)
+        vtoolbar.connect("split-vertically", self.editor.canvas.split_vertically)
+        vtoolbar.connect("remove-split", self.editor.canvas.remove_split)
 
         notebook.connect("switch-page", self.switch)
 

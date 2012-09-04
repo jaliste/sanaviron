@@ -42,8 +42,8 @@ import xml.parsers.expat
 
 object = None
 
-class BaseCanvas(Holder, gtk.Layout): ### LOW-LEVEL CODE HERE
-    """This class represents a canvas"""
+class BaseCanvas(Holder, gtk.Layout):
+    """This class represents a low level canvas"""
 
     def __init__(self):
         Holder.__init__(self)
@@ -68,10 +68,10 @@ class BaseCanvas(Holder, gtk.Layout): ### LOW-LEVEL CODE HERE
         #self.add_events(gtk.gdk.KEY_PRESS_MASK)
 
         #self.expose_id = self.connect("expose-event", self.expose)
-        self.connect("expose-event", self.expose)
+        self.expose_id = self.connect("expose-event", self.expose)
+        self.motion_id = self.connect("motion-notify-event", self.motion)
         self.connect("button-press-event", self.press)
         self.connect("button-release-event", self.release)
-        self.motion_id = self.connect("motion-notify-event", self.motion)
         #self.connect("key-press-event", self.key_press)
 
     def install_signal(self, signal):
@@ -93,8 +93,8 @@ class BaseCanvas(Holder, gtk.Layout): ### LOW-LEVEL CODE HERE
     def expose(self, widget, event):
         raise NotImplementedError
         
-class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
-    """This class represents a canvas"""
+class Canvas(BaseCanvas):
+    """This class represents a middle level canvas"""
 
     def __init__(self):
         BaseCanvas.__init__(self)
@@ -127,93 +127,8 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
 
         self.hints = False
 
-    #def key_press(self, widget, event):
-    #    pass
-
-    def move(self, child, x, y):
-        child.x = self.grid.nearest(x - child.offset.x)
-        child.y = self.grid.nearest(y - child.offset.y)
-        
-    def resize(self, child, x, y):
-        position = Point()
-        offset = Point()
-        size = Size()
-
-        def fix(child):
-            if child.width < 0:
-                child.direction = opossite(child.direction, HORIZONTAL)
-                if not self.pick:
-                    child.offset.width = child.width
-                    child.width *= -1
-                    child.x -= child.width
-            if child.height < 0:
-                child.direction = opossite(child.direction, VERTICAL)
-                if not self.pick:
-                    child.offset.height = child.height
-                    child.height *= -1
-                    child.y -= child.height
-
-        def set_position(child, position, size):
-            (child.x, child.y, child.width, child.height) = (position.x, position.y, size.width, size.height)
-            if child.__name__ != 'Line':
-                fix(child)
-
-        offset.x = child.handler.control[child.direction].offset.x
-        offset.y = child.handler.control[child.direction].offset.y
-
-        if child.direction == EAST:
-            position.x = child.x
-            position.y = child.y
-            size.width = self.grid.nearest(child.offset.width + x - child.offset.x)
-            size.height = child.height
-            set_position(child, position, size)
-        elif child.direction == NORTH:
-            position.x = child.x
-            position.y = self.grid.nearest(y)
-            size.width = child.width
-            size.height = child.offset.height + child.offset.y - position.y - offset.y
-            set_position(child, position, size)
-        elif child.direction == SOUTH:
-            position.x = child.x
-            position.y = child.y
-            size.width = child.width
-            size.height = self.grid.nearest(child.offset.height + y - child.offset.y)
-            set_position(child, position, size)
-        elif child.direction == WEST:
-            position.x = self.grid.nearest(x)
-            position.y = child.y
-            size.width = child.offset.width + child.offset.x - position.x - offset.x
-            size.height = child.height
-            set_position(child, position, size)
-        elif child.direction == SOUTHEAST:
-            position.x = child.x
-            position.y = child.y
-            size.width = self.grid.nearest(child.offset.width + x - child.offset.x)
-            size.height = self.grid.nearest(child.offset.height + y - child.offset.y)
-            set_position(child, position, size)
-        elif child.direction == SOUTHWEST:
-            position.x = self.grid.nearest(x)
-            position.y = child.y
-            size.width = child.offset.width + child.offset.x - position.x - offset.x
-            size.height = self.grid.nearest(child.offset.height + y - child.offset.y)
-            set_position(child, position, size)
-        elif child.direction == NORTHEAST:
-            position.x = child.x
-            position.y = self.grid.nearest(y)
-            size.width = self.grid.nearest(child.offset.width + x - child.offset.x)
-            size.height = child.offset.height + child.offset.y - position.y - offset.y
-            set_position(child, position, size)
-        elif child.direction == NORTHWEST:
-            position.x = self.grid.nearest(x)
-            position.y = self.grid.nearest(y)
-            size.width = child.offset.width + child.offset.x - position.x - offset.x
-            size.height = child.offset.height + child.offset.y - position.y - offset.y
-            set_position(child, position, size)
-        else:
-            return False
-
-        #print child.x, child.y, child.width, child.height
-        return True
+    def debug(self, message):
+        self.code_editor.editor.buffer.set_text(message)
       
     def release(self, widget, event):
         """
@@ -221,30 +136,13 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         """
         if self.selection.active:
             self.unselect_all()
-            #for child in sorted(self.children, key=lambda child: child.z):
             for child in self.children:
                 if child.in_selection(self.selection):
                     child.selected = True
                     self.emit("select", child)
-                elif child.resize:
-                    child.resize ^= 1
+                elif child.resizing:
+                    child.resizing ^= 1
             self.selection.active = False
-
-        #def fix_position(child):
-        #    width = child.width
-        #    height = child.height
-        #    if width < 0:
-        #        child.width *= -1
-        #        child.x += width
-        #    if height < 0:
-        #        child.height *= -1
-        #        child.y += height
-        #
-        #for child in self.children:
-        #    #if child.resize:
-        #    #    print "fixing"
-        #    #    fix_position(child)
-        #    fix_position(child)
 
         self.pick = False
         widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
@@ -258,7 +156,6 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         """
         This code is executed when move the mouse pointer
         """
-        #self.handler_block_by_func(self.motion)
         self.disconnect(self.motion_id)
         self.horizontal_ruler.motion(self.horizontal_ruler, event, True)
         self.vertical_ruler.motion(self.vertical_ruler, event, True)
@@ -293,19 +190,15 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         elif event.state & gtk.gdk.BUTTON1_MASK:
             for child in self.children: # TODO
                 if child.selected:
-                    if child.resize:
+                    if child.resizing:
                         self.emit("edit-child", child)
-                        if not self.resize(child, x, y):
+                        if not child.resize(x, y, self.grid):
                             x = self.grid.nearest(x)
                             y = self.grid.nearest(y)
                             child.transform(child.direction, x, y)
                     else:
-                        self.move(child, x, y)
+                        child.move(x, y, self.grid)
                     self.update()
-        #def unblock():
-        #    self.handler_unblock_by_func(self.motion)
-        #gobject.idle_add(unblock)
-        #self.handler_unblock_by_func(self.motion)
         self.motion_id = self.connect("motion-notify-event", self.motion)
         return True
 
@@ -324,28 +217,22 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
             child = self.child
             child.selected = True
             self.emit("select", child)
-            child.resize = True
+            child.resizing = True
+            child.direction = SOUTHEAST
             child.x = self.grid.nearest(event.x)
             child.y = self.grid.nearest(event.y)
             child.width = 0
             child.height = 0
             self.add(child)
-
-            child.offset.x = event.x
-            child.offset.y = event.y
-            child.offset.width = child.width
-            child.offset.height = child.height
-
-            child.direction = SOUTHEAST
-            child.handler.control[child.direction].offset.x = event.x - child.x
-            child.handler.control[child.direction].offset.y = event.y - child.y
+            #child.handler.control[child.direction].offset.x = event.x - child.x
+            #child.handler.control[child.direction].offset.y = event.y - child.y
             widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_RIGHT_CORNER))
             self.stop_cursor_change = True
             return True
 
         selected = False
         move = False
-        resize = False
+        resizing = False
         self.unselect_all()
         for child in sorted(self.children, key=lambda child: child.z, reverse=True):
             if child.at_position(event.x, event.y):
@@ -354,21 +241,17 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
                 selected = True
                 child.selected = True
                 if child.handler.at_position(event.x + self.origin.x, event.y + self.origin.y):
-                    child.offset.x = event.x
-                    child.offset.y = event.y
-                    child.offset.width = child.width
-                    child.offset.height = child.height
-                    child.resize = True
+                    child.resizing = True
                     child.direction = child.handler.get_direction(event.x + self.origin.x, event.y + self.origin.y)
-                    child.handler.control[child.direction].offset.x = event.x - child.x
-                    child.handler.control[child.direction].offset.y = event.y - child.y
-                    resize = True
+                    #child.handler.control[child.direction].offset.x = event.x - child.x
+                    #child.handler.control[child.direction].offset.y = event.y - child.y
+                    resizing = True
                     self.stop_cursor_change = True
                 break
 
-        if not resize:
+        if not resizing:
             for child in self.children:
-                child.resize = False
+                child.resizing = False
                 if child.selected:
                     child.offset.x = event.x - child.x
                     child.offset.y = event.y - child.y
@@ -395,6 +278,7 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
         return True
 
     def expose(self, widget, event):
+        self.disconnect(self.expose_id)
         context = widget.bin_window.cairo_create()
         context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
         context.clip()
@@ -444,6 +328,7 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
             self.selection.x -= self.origin.x
             self.selection.y -= self.origin.y
         self.updated = True
+        self.expose_id = self.connect("expose-event", self.expose)
         return True
 
     add = lambda self, child: self.children.append(child)
@@ -454,8 +339,8 @@ class Canvas(BaseCanvas): ### MIDDLE-LEVEL CODE HERE
             pass
         self.queue_draw()
 
-class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
-    """This class represents a canvas"""
+class ExtendedCanvas(Canvas):
+    """This class represents a high level canvas"""
 
     def __init__(self):
         Canvas.__init__(self)
@@ -501,7 +386,7 @@ class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
 
     def paste(self, *args):
         self.unserialize(self.clipboard)
-        self.unselect_all()
+        self.unselect_all(False)
         self.select_last()
         # Select last
 
@@ -514,21 +399,22 @@ class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
                     self.children.remove(child)
                     restart = True
                     break
-        self.queue_draw()
+        self.update()
 
     def select_all(self, *args):
         for child in self.children:
             child.selected = True
         self.queue_draw()
 
-    def unselect_all(self, *args):
+    def unselect_all(self, update=True, *args):
         for child in self.children:
             child.selected = False
-        self.queue_draw()
+        if update:
+            self.update()
 
     def select_last(self, *args):
         self.children[len(self.children) - 1].selected = True
-        self.queue_draw()
+        self.update()
 
     def bring_to_back(self, *args):
         for child in self.children:
@@ -536,7 +422,7 @@ class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
                 child.z -= 1
             else:
                 child.z += 1
-        self.queue_draw()
+        self.update()
 
     def bring_to_front(self, *args):
         for child in self.children:
@@ -544,13 +430,31 @@ class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
                 child.z += 1
             else:
                 child.z -= 1
-        self.queue_draw()
+        self.update()
+
+    def remove_split(self, *args):
+        for child in self.children:
+            if child.selected and child.__name__ == 'Box':
+                child.remove_separator()
+        self.update()
+
+    def split_vertically(self, *args):
+        for child in self.children:
+            if child.selected and child.__name__ == 'Box':
+                child.add_separator_vertical(child.width / 2)
+        self.update()
+
+    def split_horizontally(self, *args):
+        for child in self.children:
+            if child.selected and child.__name__ == 'Box':
+                child.add_separator_horizontal(child.height / 2)
+        self.update()
 
     def paper_center_horizontal(self, *args):
         for child in self.children:
             if child.selected:
                 child.x = int((self.pages[0].width - child.width) / 2 - self.border)
-        self.queue_draw()
+        self.update()
 
     def get_first_page(self):
         return self.pages[0]
@@ -571,20 +475,20 @@ class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
 
     def toggle_grid(self, *args):
         self.grid.active ^= 1
-        self.queue_draw()
+        self.update()
 
     def toggle_guides(self, *args):
         self.guides.active ^= 1
-        self.queue_draw()
+        self.update()
 
     def toggle_margins(self, *args):
         for page in self.pages:
             page.active ^= 1
-        self.queue_draw()
+        self.update()
 
     def toggle_hints(self, *args):
         self.hints ^= 1
-        self.queue_draw()
+        self.update()
 
     def get_filename(self, filename, extension):
         if not filename.endswith("." + extension):
@@ -593,7 +497,6 @@ class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
             return filename
 
     def save_to_pdf(self, filename):
-        # TODO: fix save to PDF
         filename = self.get_filename(filename, "pdf")
         for i, page in enumerate(self.pages):
             surface = cairo.PDFSurface(filename, self.pages[i].width, self.pages[i].height)
@@ -610,6 +513,7 @@ class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
         context = cairo.Context(surface)
         self.draw_children(page, context)
         context.show_page()
+        #surface.flush()
 
     def save_to_postscript(self, filename):
         pass # TODO
@@ -681,7 +585,7 @@ class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
 
         parser.Parse(document, 1)
 
-        self.queue_draw()
+        self.update()
 
     def serialize(self):
         text = "<document page=\"1\">\n"
@@ -690,31 +594,10 @@ class ExtendedCanvas(Canvas): ### HIGH-LEVEL CODE HERE
         text += "</document>\n"
         return text
         
-class TestingCanvas(ExtendedCanvas): ### TESTING CODE HERE
-    """This class represents a canvas"""
+class TestingCanvas(ExtendedCanvas):
+    """This class represents a testing canvas"""
 
     def __init__(self):
         ExtendedCanvas.__init__(self)
 
         print _("WARNING: You are using a testing canvas.")
-
-    def split_horizontally(self, *args):
-        self.add_box_separator_horizontal(args)
-
-    def split_vertically(self, *args):
-        self.add_box_separator_vertical(args)
-
-    def remove_split(self, *args):
-        pass
-
-    def add_box_separator_vertical(self, *args):
-        for child in self.children:
-            if child.selected and child.__name__ == 'Box':
-                child.add_separator_vertical(child.width / 2)
-        self.queue_draw()
-
-    def add_box_separator_horizontal(self, *args):
-        for child in self.children:
-            if child.selected and child.__name__ == 'Box':
-                child.add_separator_horizontal(child.height / 2)
-        self.queue_draw()
