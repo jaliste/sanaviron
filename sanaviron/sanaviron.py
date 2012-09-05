@@ -505,7 +505,7 @@ def startapp():
     application = Application()
     
     if '--sample' in sys.argv:
-        application.editor.canvas.load_from_xml(os.path.join("examples", "invoice.xml"))
+        application.editor.canvas.load_from_xml(os.path.join("..", "examples", "invoice.xml"))
     
     application.run()
 

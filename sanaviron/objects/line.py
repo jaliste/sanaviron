@@ -30,7 +30,7 @@ class Line(Object):
         context.set_dash(self.dash)
         context.set_line_width(self.thickness)
 
-        # arrow
+        # arrow config
         #arrow_tip_length = self.get_property("arrow-tip-length")
         arrow_length = self.get_property("arrow-length")
         arrow_width = self.get_property("arrow-width")
@@ -54,12 +54,14 @@ class Line(Object):
             self.stroke_color.blue, self.stroke_color.alpha)
         context.stroke()
 
-        context.move_to(self.x + self.width, self.y + self.height)
-        context.line_to(a.x, a.y)
-        context.line_to(b.x, b.y)
-        context.line_to(self.x + self.width, self.y + self.height)
+        # arrow
+        if 0:
+            context.move_to(self.x + self.width, self.y + self.height)
+            context.line_to(a.x, a.y)
+            context.line_to(b.x, b.y)
+            context.line_to(self.x + self.width, self.y + self.height)
 
-        context.fill_preserve()
-        context.stroke()
+            context.fill_preserve()
+            context.stroke()
 
         Object.draw(self, context)

@@ -93,8 +93,6 @@ class BarCode(Object):
 
     def __init__(self, code="800894002700", type=DEFAULT_CODE_TYPE):
         Object.__init__(self)
-        #self.code = code
-        #self.type = type
 
         self.set_property('code', code)
         self.set_property('type', type)
@@ -118,8 +116,8 @@ class BarCode(Object):
         self.handler.control[EAST].y = self.y + self.height / 2
 
     def draw(self, context):
-        code = self.get_property('code')
-        type = self.get_property('type')
+        code = str(self.get_property('code'))
+        type = int(self.get_property('type'))
         description = "Verdana 12"
 
         partial = BCIface.get_partial(type, code)
@@ -148,8 +146,8 @@ class BarCode(Object):
             height /= pango.SCALE
             width += 2 * margin
             height += margin
-            horizontal = self.width / width
-            vertical = self.height / height
+            horizontal = self.width / float(width)
+            vertical = self.height / float(height)
             context.move_to(self.x + margin, self.y + margin / 2)
             context.save()
             context.scale(horizontal, vertical)

@@ -3,16 +3,12 @@
 
 import cairo
 
-from holder import Holder
-from rectangle import Rectangle
 from margins import Margins
 
-class Paper(Holder, Rectangle, Margins):
+class Paper(Margins):
     """This class represents a paper"""
 
     def __init__(self):
-        Holder.__init__(self)
-        Rectangle.__init__(self)
         Margins.__init__(self)
 
     def draw(self, context):

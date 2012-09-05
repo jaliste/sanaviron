@@ -513,7 +513,7 @@ class Properties(gtk.ScrolledWindow):
                 if name == "Rounded":
                     radius = child.get_property("radius")
                     entry = self.observer.get_observable("rounded-radius")
-                    entry.set_value(radius)
+                    entry.set_value(float(radius))
                 if name == "Text":
                     text = child.get_property("text")
                     entry = self.observer.get_observable("text-text")
@@ -527,7 +527,7 @@ class Properties(gtk.ScrolledWindow):
                     entry.set_filename(image)
                 if name == "BarCode":
                     code = child.get_property("code")
-                    type = child.get_property("type")
+                    type = int(child.get_property("type"))
                     entry = self.observer.get_observable("barcode-code")
                     entry.set_text(code)
                     entry = self.observer.get_observable("barcode-type")

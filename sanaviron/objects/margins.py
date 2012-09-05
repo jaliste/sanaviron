@@ -3,15 +3,13 @@
 
 import cairo
 
-from holder import Holder
 from rectangle import Rectangle
 from control import Control
 
-class Margins(Holder, Rectangle):
+class Margins(Rectangle):
     """This class represents the margins"""
 
     def __init__(self):
-        Holder.__init__(self)
         Rectangle.__init__(self)
         self.active = True
         self.top = 0

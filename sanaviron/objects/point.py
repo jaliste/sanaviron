@@ -4,7 +4,6 @@
 from holder import Holder
 
 class Point(Holder):
-#class Point():
     """This class represents a point"""
 
     def __init__(self):

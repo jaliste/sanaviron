@@ -1,4 +1,4 @@
-[ # Priority. (Difficulty) Task. Comment ]
+[ # Priority. (Difficulty) Task. Comment. Status ]
 
 1. (Easy) Rename translation domain from test to sanaviron.
 2. (Easy - Larger) Synchronize object properties with entry widgets. Install each entry as observable and normalize
@@ -10,14 +10,14 @@
 	           set_fill_style
 4. (Heavy) To add a widget of control of a gradient. 30th of September
 5. (Hard) Storage of gradients to assign property gradients in class Canvas. Until 15th September.
-6. (Middle) Include README, COPYING, help and other data files and exclude sanaviron/src.(Juan see license pychart)
+6. (Middle) Include README, COPYING, help and other data files and exclude sanaviron/src. (Juan see license pychart)
 7. (Middle) Add support for py2exe and Windows installer like Inno Setup Compiler or Bitrock.
 8. (Middle) Add support for documentation like (doxygen, ...). Requires additional research.
 
 Use servant design pattern: Putting the things in their places.
 
 1. (Very Easy) Create a new branch with the name "Servant design pattern".
-2. (Middle) Move movable and resizable related code from canvas to object. Transformable code already moved.
+2. (Middle) Move movable and resizable related code from canvas to object. Transformable code already moved. Done
 3. (Hard) Split object in interfaces: movable, resizable. Transformable is not necessary, yet.
 4. (Easy) Implement these interfaces in object and clean object class.
 5. (Hard) Research if draweable interface can replace object-parent method.
