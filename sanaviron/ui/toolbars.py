@@ -2,13 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import gtk
-import gobject
-import sys
 
 from ui.stock import *
+from objects.signalized import Signalized
 from objects import HORIZONTAL, VERTICAL
 
-class Toolbar(gtk.Toolbar):
+class Toolbar(gtk.Toolbar, Signalized):
     """This class represents a toolbar"""
 
     def __init__(self, orientation=VERTICAL):
@@ -31,7 +30,7 @@ class Toolbar(gtk.Toolbar):
         button = gtk.ToolButton(stock)
         self.insert(button, self.position)
         button.connect("clicked", self.clicked, signal)
-        self.signals.append(signal)
+        self.install_signal(signal)
         self.position += 1
 
     def append_toggle(self, stock, signal):
@@ -39,7 +38,7 @@ class Toolbar(gtk.Toolbar):
         button.set_active(True)
         self.insert(button, self.position)
         button.connect("clicked", self.clicked, signal)
-        self.signals.append(signal)
+        self.install_signal(signal)
         self.position += 1
 
     def append_separator(self):
@@ -51,7 +50,7 @@ class Toolbar(gtk.Toolbar):
         button = gtk.MenuToolButton(stock)
         self.insert(button, self.position)
         if signal:
-            self.signals.append(signal)
+            self.install_signal(signal)
             button.connect("clicked", self.clicked, signal)
         self.submenu = gtk.Menu()
         button.set_menu(self.submenu)
@@ -61,19 +60,11 @@ class Toolbar(gtk.Toolbar):
         menuitem = gtk.ImageMenuItem(stock)
         self.submenu.append(menuitem)
         menuitem.connect("activate", self.clicked, signal)
-        self.signals.append(signal)
+        self.install_signal(signal)
         self.submenu.show_all()
 
     def clicked(self, widget, data):
         self.emit(data, None)
-
-    def install_signal(self, signal):
-        gobject.signal_new(signal, self.__class__, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
-            (gobject.TYPE_PYOBJECT,))
-
-    def install_signals(self):
-        for signal in self.signals:
-            self.install_signal(signal)
 
 
 class HorizontalToolbar(Toolbar):
@@ -144,8 +135,6 @@ class HorizontalToolbar(Toolbar):
         self.append_separator()
         self.append(gtk.STOCK_HELP, "help")
 
-        self.install_signals()
-
 
 class VerticalToolbar(Toolbar):
     """This class represents a vertical toolbar"""
@@ -170,5 +159,3 @@ class VerticalToolbar(Toolbar):
         self.append(TABLE, "table")
         self.append(CHART, "chart")
         self.append(IMAGE, "image")
-
-        self.install_signals()

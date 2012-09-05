@@ -20,7 +20,7 @@ from guides import Guides
 from selection import Selection
 from paper import Paper
 from size import Size
-from point import Point
+from signalized import Signalized
 
 from barcode import BarCode
 from image import Image
@@ -42,7 +42,7 @@ import xml.parsers.expat
 
 object = None
 
-class BaseCanvas(Holder, gtk.Layout):
+class BaseCanvas(Holder, gtk.Layout, Signalized):
     """This class represents a low level canvas"""
 
     def __init__(self):
@@ -73,10 +73,6 @@ class BaseCanvas(Holder, gtk.Layout):
         self.connect("button-press-event", self.press)
         self.connect("button-release-event", self.release)
         #self.connect("key-press-event", self.key_press)
-
-    def install_signal(self, signal):
-        gobject.signal_new(signal, self.__class__, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
-            (gobject.TYPE_PYOBJECT,))
         
     #def key_press(self, widget, event):
     #    raise NotImplementedError

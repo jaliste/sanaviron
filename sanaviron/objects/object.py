@@ -183,8 +183,10 @@ class Object(Rectangle):
             self.direction = opossite(self.direction, HORIZONTAL)
             #self.handler.control[self.direction].offset.x = offset.x
             #self.handler.control[self.direction].offset.y = offset.y
+            self.width = abs(self.width)
         if self.height <= 0:
             self.direction = opossite(self.direction, VERTICAL)
+            self.height = abs(self.height)
     
     def set_position(self, position, size):
         (self.x, self.y, self.width, self.height) = (position.x, position.y, size.width, size.height)

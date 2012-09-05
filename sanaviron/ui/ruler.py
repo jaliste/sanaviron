@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 import platform
 import gtk
-import gobject
+
+from objects.signalized import Signalized
 
 if platform.system() != 'Windows':
     gtk.threads_init()
@@ -11,7 +12,7 @@ import cairo
 import pango
 import pangocairo
 
-class Ruler(gtk.Viewport):
+class Ruler(gtk.Viewport, Signalized):
     """This class represents a non-orientated ruler interface"""
 
     def __init__(self):
@@ -33,12 +34,7 @@ class Ruler(gtk.Viewport):
         self.connect("button-release-event", self.release)
         self.layout.connect("expose-event", self.expose)
 
-        if not gobject.signal_lookup("append-mark", self.__class__):
-            self.install_signal("append-mark") # TODO
-
-    def install_signal(self, signal):
-        gobject.signal_new(signal, self.__class__, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
-            (gobject.TYPE_PYOBJECT,))
+        self.install_signal("append-mark")
 
     def motion(self, widget, event, external):
         raise NotImplementedError

@@ -1,11 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import gtk
-import gobject
-import sys
 from ui.stock import *
+from objects.signalized import Signalized
 
-class MenuBar(gtk.MenuBar):
+class MenuBar(gtk.MenuBar, Signalized):
     """This class represents a pull-down menu bar"""
 
     def __init__(self):
@@ -15,15 +14,6 @@ class MenuBar(gtk.MenuBar):
         self.bindings = gtk.AccelGroup()
         self.stack = None
         self.submenu = None
-        self.signals = list()
-
-    def install_signal(self, signal):
-        gobject.signal_new(signal, self.__class__, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
-            (gobject.TYPE_PYOBJECT,))
-
-    def install_signals(self):
-        for signal in self.signals:
-            self.install_signal(signal)
 
     def append_menu(self, stock, descend=False, right=False):
         menuitem = gtk.ImageMenuItem(stock)
@@ -41,7 +31,7 @@ class MenuBar(gtk.MenuBar):
         menuitem = gtk.ImageMenuItem(stock)
         self.submenu.append(menuitem)
         menuitem.connect("activate", self.activate, signal)
-        self.signals.append(signal)
+        self.install_signal(signal)
         if accelerator:
             key, mask = gtk.accelerator_parse(accelerator)
             menuitem.add_accelerator("activate", self.bindings, key, mask, gtk.ACCEL_VISIBLE)
@@ -53,7 +43,7 @@ class MenuBar(gtk.MenuBar):
         menuitem.set_active(toggled)
         self.submenu.append(menuitem)
         menuitem.connect("toggled", self.activate, signal)
-        self.signals.append(signal)
+        self.install_signal(signal)
         if accelerator:
             key, mask = gtk.accelerator_parse(accelerator)
             menuitem.add_accelerator("toggled", self.bindings, key, mask, gtk.ACCEL_VISIBLE)
@@ -70,7 +60,6 @@ class MenuBar(gtk.MenuBar):
         toplevel.add_accel_group(self.bindings)
 
     def activate(self, widget, data):
-        print data
         self.emit(data, None)
 
 
@@ -192,5 +181,4 @@ class Menu(MenuBar):
         self.append_separator()
         self.append_item(gtk.STOCK_ABOUT, "about")
 
-        self.install_signals()
         self.show_all()
