@@ -33,10 +33,8 @@ class Ruler(gtk.Viewport):
         self.connect("button-release-event", self.release)
         self.layout.connect("expose-event", self.expose)
 
-        try:
+        if not gobject.signal_lookup("append-mark", self.__class__):
             self.install_signal("append-mark") # TODO
-        except:
-            pass
 
     def install_signal(self, signal):
         gobject.signal_new(signal, self.__class__, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
@@ -136,7 +134,7 @@ class HorizontalRuler(Ruler):
 
 
 class VerticalRuler(Ruler):
-    """This class represents a vertical rule"""
+    """This class represents a vertical ruler"""
 
     def __init__(self):
         Ruler.__init__(self)

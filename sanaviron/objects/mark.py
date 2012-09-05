@@ -5,7 +5,7 @@ from rectangle import Rectangle
 from objects import NONE, HORIZONTAL, VERTICAL
 
 class Mark(Rectangle):
-    """This class represents a box separator"""
+    """This class represents a guide mark"""
 
     def __init__(self):
         Rectangle.__init__(self)
