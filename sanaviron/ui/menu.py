@@ -120,7 +120,6 @@ class Menu(MenuBar):
         self.append_item(REMOVE_SPLIT, "remove-split")
         self.ascend()
         self.append_item(ROUNDED_BOX, "rounded-box")
-        self.append_item(BUBBLE, "bubble")
         self.append_item(TEXT, "text")
         self.append_item(TABLE, "table")
         self.append_item(CHART, "chart")

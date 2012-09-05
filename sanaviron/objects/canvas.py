@@ -33,7 +33,6 @@ from arc import Arc
 from curve import Curve
 from connector import Connector
 from chart import Chart
-from bubble import Bubble
 
 from objects import *
 from objects import opossite

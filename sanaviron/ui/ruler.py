@@ -4,6 +4,7 @@ import platform
 import gtk
 
 from objects.signalized import Signalized
+from objects import HORIZONTAL, VERTICAL
 
 if platform.system() != 'Windows':
     gtk.threads_init()
@@ -15,9 +16,10 @@ import pangocairo
 class Ruler(gtk.Viewport, Signalized):
     """This class represents a non-orientated ruler interface"""
 
-    def __init__(self):
+    def __init__(self, orientation=VERTICAL):
         gtk.Viewport.__init__(self)
 
+        self.orientation = orientation
         self.x = 0
         self.y = 0
         self.offset = 0
@@ -25,6 +27,12 @@ class Ruler(gtk.Viewport, Signalized):
         self.zoom = 1.0
         self.layout = gtk.Layout()
         self.add(self.layout)
+
+        size = 25
+        if self.orientation == HORIZONTAL:
+            self.set_size_request(-1, size)
+        elif self.orientation == VERTICAL:
+            self.set_size_request(size, -1)
 
         self.add_events(gtk.gdk.POINTER_MOTION_MASK)
         self.layout.add_events(gtk.gdk.EXPOSURE_MASK)
@@ -37,96 +45,99 @@ class Ruler(gtk.Viewport, Signalized):
         self.install_signal("append-mark")
 
     def motion(self, widget, event, external):
-        raise NotImplementedError
-
-    def release(self, widget, event):
-        raise NotImplementedError
-
-    def expose(self, widget, event):
-        raise NotImplementedError
-
-class HorizontalRuler(Ruler):
-    """This class represents a horizontal ruler"""
-
-    def __init__(self):
-        Ruler.__init__(self)
-        self.set_size_request(-1, 25)
-
-    def motion(self, widget, event, external):
-        self.x = event.x
-        if external:
-            self.x -= self.offset
+        if self.orientation == HORIZONTAL:
+            self.x = event.x - self.offset * external
+        elif self.orientation == VERTICAL:
+            self.y = event.y - self.offset * external
         self.queue_draw()
         return True
 
     def release(self, widget, event):
-        self.tags.append(event.x)
-        self.emit("append-mark", event.x)
-        self.queue_draw()
+        if self.orientation == HORIZONTAL:
+            position = event.x
+        elif self.orientation == VERTICAL:
+            position = event.y
+        self.tags.append(position)
+        self.emit("append-mark", position)
         return True
 
     def expose(self, widget, event):
-        def paint_lines(context, x, left, width, size, zoom):
-            while x <= width:
-                context.move_to(x * zoom, left)
-                context.line_to(x * zoom, width)
-                x += size
-
         context = widget.bin_window.cairo_create()
         context.set_antialias(cairo.ANTIALIAS_NONE)
         width, height = self.window.get_size()
+        size = width if self.orientation == HORIZONTAL else height
+        context.set_dash([])
 
-        dash = list()
-        context.set_dash(dash)
+        def draw_lines(context, position, margin, size, unit, zoom):
+            while position <= size:
+                if self.orientation == HORIZONTAL:
+                    context.move_to(position * zoom, margin)
+                    context.line_to(position * zoom, size)
+                elif self.orientation == VERTICAL:
+                    context.move_to(margin, position * zoom)
+                    context.line_to(size, position * zoom)
+                position += unit
+
         context.set_line_width(1)
-        paint_lines(context, 25, 18, width, 10, self.zoom)
-        context.set_source_rgb(0.0, 0.0, 0.0)
-        context.stroke()
-
-        context.set_line_width(1.0)
-        paint_lines(context, 25, 10, width, 50, self.zoom)
-        context.set_source_rgb(0.0, 0.0, 0.0)
+        draw_lines(context, 25, 18, size, 10, self.zoom)
+        draw_lines(context, 25, 10, size, 50, self.zoom)
         context.stroke()
 
         context.set_line_width(2)
-        paint_lines(context, 25, 8, width, 100, self.zoom)
-        context.set_source_rgb(0.0, 0.0, 0.0)
+        draw_lines(context, 25, 8, size, 100, self.zoom)
         context.stroke()
 
-        border = 5
         context.set_line_width(3)
-        for x in self.tags:
-            context.move_to(x, border)
-            context.line_to(x, height - border)
+        for position in self.tags:
+            if self.orientation == HORIZONTAL:
+                border = 5
+                context.move_to(position, border)
+                context.line_to(position, size - border)
+            elif self.orientation == VERTICAL:
+                border = 4
+                context.move_to(border, position)
+                context.line_to(size - border, position)
         context.set_source_rgb(0.75, 0.0, 0.0)
         context.stroke()
 
-        if (self.x):
-            border = 2
-            context.set_line_width(1)
+        context.set_line_width(1)
+        context.set_source_rgb(0.0, 0.0, 0.75)
+        border = 2
+        if self.orientation == HORIZONTAL and self.x:
             context.move_to(self.x, border)
-            context.line_to(self.x, height)
-            context.set_source_rgba(0.0, 0.0, 0.75)
-            context.stroke()
+            context.line_to(self.x, size)
+        elif self.orientation == VERTICAL and self.y:
+            context.move_to(border, self.y)
+            context.line_to(size - border, self.y)
+        context.stroke()
 
-        context = pangocairo.CairoContext(context) # XXX
+        context = pangocairo.CairoContext(context)
         layout = pangocairo.CairoContext.create_layout(context)
-        if platform.system() == 'Windows': # to avoid console warning on windows
-            fontname = 'Sans'
-        else:
-            fontname = 'Ubuntu'
+        fontname = 'Sans' if platform.system() == 'Windows' else 'Ubuntu'
         size = 8
         description = '%s %d' % (fontname, size)
         font = pango.FontDescription(description)
         layout.set_justify(True)
         layout.set_font_description(font)
-        text = str(int(self.x))
-        layout.set_markup(text)
-        context.set_source_rgb(0.0, 0.0, 0.0)
-        context.move_to(self.x + 2, 0)
-        context.show_layout(layout)
+        text = None
+        if self.orientation == HORIZONTAL:
+            context.move_to(self.x + 2, 0)
+            text = str(int(self.x))
+        elif self.orientation == VERTICAL:
+            context.move_to(2, self.y)
+            text = str(int(self.y))
+        layout.set_text(text)
         context.set_antialias(cairo.ANTIALIAS_DEFAULT)
+        context.set_source_rgb(0.0, 0.0, 0.0)
+        context.show_layout(layout)
         return True
+
+
+class HorizontalRuler(Ruler):
+    """This class represents a horizontal ruler"""
+
+    def __init__(self):
+        Ruler.__init__(self, HORIZONTAL)
 
 
 class VerticalRuler(Ruler):
@@ -134,94 +145,7 @@ class VerticalRuler(Ruler):
 
     def __init__(self):
         Ruler.__init__(self)
-        self.set_size_request(25, -1)
 
-    def motion(self, widget, event, external):
-        self.y = event.y
-        if external:
-            self.y -= self.offset
-        self.queue_draw()
-        return True
-
-    def release(self, widget, event):
-        self.tags.append(event.y)
-        self.emit("append-mark", event.y)
-        self.queue_draw()
-        return True
-
-    def expose(self, widget, event):
-        def paint_lines(context, y, left, width, size):
-            while y <= height:
-                context.move_to(left, y)
-                context.line_to(width, y)
-                y += size
-
-        context = widget.bin_window.cairo_create()
-        context.set_antialias(cairo.ANTIALIAS_NONE)
-        width, height = self.window.get_size()
-
-        dash = list()
-        context.set_dash(dash)
-
-        context.set_line_width(1.0)
-        y = 0
-        left = 18
-        size = 10
-        paint_lines(context, y, left, width, size)
-        context.set_source_rgb(0.0, 0.0, 0.0)
-        context.stroke()
-
-        context.set_line_width(1.0)
-        y = 0
-        left = 10
-        size = 50
-        paint_lines(context, y, left, width, size)
-        context.set_source_rgb(0.0, 0.0, 0.0)
-        context.stroke()
-
-        context.set_line_width(2)
-        y = 0
-        left = 8
-        size = 100
-        paint_lines(context, y, left, width, size)
-        context.set_source_rgb(0.0, 0.0, 0.0)
-        context.stroke()
-
-        border = 4
-        context.set_line_width(3)
-        for y in self.tags:
-            context.move_to(border, y)
-            context.line_to(width - border, y)
-        context.set_source_rgb(0.75, 0.0, 0.0)
-        context.stroke()
-
-        if (self.y):
-            border = 2
-            context.set_line_width(1)
-            context.move_to(border, self.y)
-            context.line_to(width - border, self.y)
-            context.set_source_rgb(0.0, 0.0, 0.75)
-            context.stroke()
-
-        # text
-        pangocontext = pangocairo.CairoContext(context) # XXX
-        layout = pangocairo.CairoContext.create_layout(pangocontext)
-        if platform.system() == 'Windows': # to avoid console warning on windows
-            fontname = 'Sans'
-        else:
-            fontname = 'Ubuntu'
-        size = 8
-        description = '%s %d' % (fontname, size)
-        font = pango.FontDescription(description)
-        layout.set_justify(True)
-        layout.set_font_description(font)
-        text = str(int(self.y))
-        layout.set_markup(text)
-        context.set_source_rgb(0.0, 0.0, 0.0)
-        context.move_to(2, self.y)
-        context.show_layout(layout)
-        context.set_antialias(cairo.ANTIALIAS_DEFAULT)
-        return True
 
 if __name__ == '__main__':
     horizontal_window = gtk.Window()

@@ -153,7 +153,6 @@ class VerticalToolbar(Toolbar):
         self.append_to_submenu(SPLIT_VERTICALLY, "split-vertically")
         self.append_to_submenu(REMOVE_SPLIT, "remove-split")
         self.append(ROUNDED_BOX, "rounded-box")
-        self.append(BUBBLE, "bubble")
         self.append(TEXT, "text")
         self.append(BARCODE, "barcode")
         self.append(TABLE, "table")

@@ -25,7 +25,6 @@ from objects.arc import Arc
 from objects.barcode import BARCODE_39
 from objects.barcode import BarCode
 from objects.box import Box
-from objects.bubble import Bubble
 from objects.chart import Chart
 from objects.curve import Curve
 from objects.connector import Connector
@@ -37,7 +36,6 @@ from objects.text import Text
 
 from ui.menu import Menu
 from ui.toolbars import HorizontalToolbar, VerticalToolbar
-#from ui.browser import Browser
 from ui.editor import Editor
 from ui.statusbar import Statusbar
 from ui import INFORMATION
@@ -163,7 +161,6 @@ class Application(gtk.Window):
         self.menu.connect("connector", self.connector)
         self.menu.connect("box", self.box)
         self.menu.connect("rounded-box", self.rounded_box)
-        self.menu.connect("bubble", self.bubble)
         self.menu.connect("text", self.text)
         self.menu.connect("barcode", self.table)
         self.menu.connect("table", self.barcode)
@@ -198,7 +195,6 @@ class Application(gtk.Window):
         vtoolbar.connect("connector", self.connector)
         vtoolbar.connect("box", self.box)
         vtoolbar.connect("rounded-box", self.rounded_box)
-        vtoolbar.connect("bubble", self.bubble)
         vtoolbar.connect("text", self.text)
         vtoolbar.connect("barcode", self.barcode)
         vtoolbar.connect("table", self.table)
@@ -439,9 +435,6 @@ class Application(gtk.Window):
 
     def rounded_box(self, widget, data):
         self.editor.canvas.create(Rounded())
-
-    def bubble(self, widget, data):
-        self.editor.canvas.create(Bubble())
 
     def text(self, widget, data):
         child = Text(_("Insert text here"))
