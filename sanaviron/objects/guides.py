@@ -3,16 +3,19 @@
 
 import cairo
 from rectangle import Rectangle
-from size import Size
+#from size import Size
+from mark import Mark
+from objects import HORIZONTAL, VERTICAL
 
 class Guides(Rectangle):
     """This class represets the auxiliary guides"""
 
     def __init__(self):
-        Size.__init__(self)
+        Rectangle.__init__(self)
         self.active = True
-        self.size = 15.0 * 8.0
+        #self.size = 15.0 * 8.0
 
+        self.marks = list()
 
     def draw(self, context):
         ###context.save()
@@ -23,18 +26,16 @@ class Guides(Rectangle):
         context.set_source_rgba(0.0, 0.0, 0.0, 0.4)
         context.set_dash(self.dash)
 
-        x, y = self.x, self.y
-
-        while x <= self.x + self.width:
-            context.move_to(x, self.y)
-            context.line_to(x, self.y + self.height)
-            x += self.size
-
-        while y <= self.y + self.height:
-            context.move_to(self.x, y)
-            context.line_to(self.x + self.width, y)
-            y += self.size
+        for mark in self.marks:
+            mark.draw(context)
 
         context.stroke()
         context.set_antialias(cairo.ANTIALIAS_DEFAULT)
         ###context.restore()
+
+    def add_mark(self, position, orientation):
+        mark = Mark()
+        mark.synchronize(self)
+        mark.position = position
+        mark.direction = orientation
+        self.marks.append(mark)

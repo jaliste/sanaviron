@@ -91,9 +91,11 @@ class Editor(gtk.HPaned):
         bottom.pack_start(alignment, True, True)
 
         self.horizontal_ruler = HorizontalRuler()
+        self.horizontal_ruler.connect("append-mark", self.append_mark, HORIZONTAL)
         table.attach(self.horizontal_ruler, 1, 2, 0, 1, gtk.FILL | gtk.EXPAND, 0)
 
         self.vertical_ruler = VerticalRuler()
+        self.vertical_ruler.connect("append-mark", self.append_mark, VERTICAL)
         table.attach(self.vertical_ruler, 0, 1, 1, 2, 0, gtk.FILL | gtk.EXPAND)
 
         area = gtk.ScrolledWindow()
@@ -117,6 +119,10 @@ class Editor(gtk.HPaned):
         else:
             self.image.set_from_stock(CONTRACT_PROPERTIES, gtk.ICON_SIZE_MENU)
             properties.show()
+
+    def append_mark(self, widget, position, orientation):
+        self.canvas.guides.add_mark(position, orientation)
+        self.canvas.update()
 
     def select(self, widget, child):
         self.properties.select(child.__name__, child)

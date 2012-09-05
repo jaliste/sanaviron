@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import platform
 import gtk
+import gobject
 
 if platform.system() != 'Windows':
     gtk.threads_init()
@@ -10,14 +11,14 @@ import cairo
 import pango
 import pangocairo
 
-class HorizontalRuler(gtk.Viewport):
-    """This class represents a horizontal ruler"""
+class Ruler(gtk.Viewport):
+    """This class represents a non-orientated ruler interface"""
 
     def __init__(self):
         gtk.Viewport.__init__(self)
-        self.set_size_request(-1, 25)
 
         self.x = 0
+        self.y = 0
         self.offset = 0
         self.tags = list()
         self.zoom = 1.0
@@ -32,6 +33,31 @@ class HorizontalRuler(gtk.Viewport):
         self.connect("button-release-event", self.release)
         self.layout.connect("expose-event", self.expose)
 
+        try:
+            self.install_signal("append-mark") # TODO
+        except:
+            pass
+
+    def install_signal(self, signal):
+        gobject.signal_new(signal, self.__class__, gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE,
+            (gobject.TYPE_PYOBJECT,))
+
+    def motion(self, widget, event, external):
+        raise NotImplementedError
+
+    def release(self, widget, event):
+        raise NotImplementedError
+
+    def expose(self, widget, event):
+        raise NotImplementedError
+
+class HorizontalRuler(Ruler):
+    """This class represents a horizontal ruler"""
+
+    def __init__(self):
+        Ruler.__init__(self)
+        self.set_size_request(-1, 25)
+
     def motion(self, widget, event, external):
         self.x = event.x
         if external:
@@ -41,6 +67,7 @@ class HorizontalRuler(gtk.Viewport):
 
     def release(self, widget, event):
         self.tags.append(event.x)
+        self.emit("append-mark", event.x)
         self.queue_draw()
         return True
 
@@ -108,26 +135,12 @@ class HorizontalRuler(gtk.Viewport):
         return True
 
 
-class VerticalRuler(gtk.Viewport):
+class VerticalRuler(Ruler):
     """This class represents a vertical rule"""
 
     def __init__(self):
-        gtk.Viewport.__init__(self)
+        Ruler.__init__(self)
         self.set_size_request(25, -1)
-
-        self.y = 0
-        self.offset = 0
-        self.tags = list()
-        self.layout = gtk.Layout()
-        self.add(self.layout)
-
-        self.layout.add_events(gtk.gdk.EXPOSURE_MASK)
-        self.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
-        self.add_events(gtk.gdk.POINTER_MOTION_MASK)
-
-        self.connect("motion-notify-event", self.motion, False)
-        self.layout.connect("expose-event", self.expose)
-        self.connect("button-release-event", self.release)
 
     def motion(self, widget, event, external):
         self.y = event.y
@@ -138,6 +151,7 @@ class VerticalRuler(gtk.Viewport):
 
     def release(self, widget, event):
         self.tags.append(event.y)
+        self.emit("append-mark", event.y)
         self.queue_draw()
         return True
 

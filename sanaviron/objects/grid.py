@@ -4,13 +4,13 @@
 import cairo
 
 from rectangle import Rectangle
-from size import Size
+#from size import Size
 
 class Grid(Rectangle):
     """This class represents a grid"""
 
     def __init__(self):
-        Size.__init__(self)
+        Rectangle.__init__(self)
         self.active = True
         self.size = 15.0
         self.snap = True
