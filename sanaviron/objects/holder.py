@@ -3,24 +3,29 @@
 
 AUTOMATIC = "AUTOMATIC"
 
+fundamentals = ["x", "y", "z", "width", "height"]
+
+def bool(value):
+    return eval("%s" % str(value))
+
 class Property(dict):
     """This class represents a single typed and XML representable/serializable property"""
 
     def __repr__(self):
         return self.serialize()
 
-    def __init__(self, name, value, type_name=AUTOMATIC):
+    def __init__(self, name, value, type=AUTOMATIC):
         dict.__init__(self)
         self.name = name
-        if type_name == AUTOMATIC:
-            self.type = str(type(value)).split("'")[1]
+        if type == AUTOMATIC:
+            self.type = self.get_type_from_value(value)
             self.value = value
-        elif type_name == "bool":
-            self.type = type_name
-            self.value = eval("%s" % str(value))
         else:
-            self.type = type_name
-            self.value = eval('%s("%s")' % (type_name, value))
+            self.type = type
+            self.value = eval('%s("%s")' % (type, value))
+
+    def get_type_from_value(self, value):
+        return str(type(value)).split("'")[1]
 
     def serialize(self):
         return "<property name=\"%s\" type=\"%s\" value=\"%s\"/>" % (self.name, self.type, self.value)
@@ -53,13 +58,13 @@ class Holder(object):
         self.properties = Properties()
 
     def __setattr__(self, name, value):
-        if name in [ "x", "y", "z", "width", "height" ]:
+        if name in fundamentals:
             self.set_property(name, value)#, "float")
         else:
             super(Holder, self).__setattr__(name, value)
 
     def __getattr__(self, name):
-        if name in [ "x", "y", "z", "width", "height" ]:
+        if name in fundamentals:
             return self.get_property(name)
         return super(Holder, self).__getattr__(name)
 

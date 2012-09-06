@@ -6,7 +6,6 @@ __all__ = ['NONE', 'NORTHWEST', 'NORTH', 'NORTHEAST', 'WEST', 'EAST', 'SOUTHWEST
            'CENTIMETERS', 'MILLIMETERS', 'DOTS', 'INCHES', 'RADIANS', 'DEGREES', 'grad2rad', 'rad2grad',
            'angle_from_coordinates']
 
-#import localization
 from math import pi, atan2
 
 NONE = -1

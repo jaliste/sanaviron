@@ -115,8 +115,8 @@ class Table(Object):
     def get_cursor(self, direction):
         return gtk.gdk.Cursor(gtk.gdk.FLEUR)
 
-    def transform(self, direction, x, y):
-        direction -= ANONIMOUS
+    def transform(self, x, y):
+        direction = self.direction - ANONIMOUS
         columns = self.get_property("columns").split(':')
         n_columns = len(columns)
         offset = self.x

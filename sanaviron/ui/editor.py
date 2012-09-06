@@ -25,6 +25,7 @@ class Editor(gtk.HPaned):
         self.properties = Properties(self.canvas)
 
         self.canvas.connect("select", self.select)
+        self.canvas.connect("finalize", self.finalize)
         self.canvas.connect("edit-child", self.edit_child)
         self.canvas.connect("scroll-event", self.wheel)
 
@@ -125,6 +126,12 @@ class Editor(gtk.HPaned):
         self.canvas.update()
 
     def select(self, widget, child):
+        self.update(child)
+
+    def finalize(self, widget, child):
+        self.update(child)
+
+    def update(self, child):
         self.properties.select(child.__name__, child)
 
     def edit_child(self, widget, child):

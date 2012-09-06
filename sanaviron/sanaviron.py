@@ -338,8 +338,10 @@ class Application(gtk.Window):
 
         if response == gtk.RESPONSE_ACCEPT:
             filename = dialog.get_filename()
+            self.filename = filename
             if filename is not None:
                 self.editor.canvas.save_to_xml(filename)
+                self.update_title()
 
         dialog.destroy()
 

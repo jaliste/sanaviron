@@ -127,8 +127,8 @@ class Arc(Object):
         context.stroke()
         Object.draw(self, context)
 
-    def transform(self, direction, x, y):
-        if direction == 8:
+    def transform(self, x, y):
+        if self.direction == 8:
             x0 = self.x + self.radius_horizontal
             y0 = self.y + self.radius_vertical
         

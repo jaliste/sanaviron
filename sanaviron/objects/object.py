@@ -148,7 +148,7 @@ class Object(Rectangle):
     def in_selection(self, selection):
         return self.in_region(selection.x, selection.y, selection.width, selection.height)
 
-    def transform(self, direction, x, y):
+    def transform(self, x, y):
         pass
 
     def get_cursor(self, direction):
@@ -174,22 +174,34 @@ class Object(Rectangle):
         return gtk.gdk.Cursor(gtk.gdk.ARROW)
 
     def fix(self, x, y):
+        fixed = False
         if self.width <= 0:
-            #offset = Point()
-            #offset.x = self.handler.control[self.direction].offset.x
-            #offset.y = self.handler.control[self.direction].offset.y
-            #self.handler.control[self.direction].offset.x = 0
-            #self.handler.control[self.direction].offset.y = 0
             self.direction = opossite(self.direction, HORIZONTAL)
-            #self.handler.control[self.direction].offset.x = offset.x
-            #self.handler.control[self.direction].offset.y = offset.y
             self.width = abs(self.width)
+            fixed = True
         if self.height <= 0:
             self.direction = opossite(self.direction, VERTICAL)
             self.height = abs(self.height)
-    
-    def set_position(self, position, size):
-        (self.x, self.y, self.width, self.height) = (position.x, position.y, size.width, size.height)
+            fixed = True
+        return fixed
+
+    def fix(self, x, y):
+        fixed = False
+        if self.width <= 0:
+            self.direction = opossite(self.direction, HORIZONTAL)
+            self.width = abs(self.width)
+            fixed = True
+        if self.height <= 0:
+            self.direction = opossite(self.direction, VERTICAL)
+            self.height = abs(self.height)
+            fixed = True
+        return fixed
+
+    def set_position(self, position):
+        (self.x, self.y) = (position.x, position.y)
+
+    def set_size(self, size):
+        (self.width, self.height) = (size.width, size.height)
 
     def resize(self, x, y, grid):
         position = Point()
@@ -199,10 +211,6 @@ class Object(Rectangle):
         size = Size()
         size.width = self.width
         size.height = self.height
-
-        #offset = Point()
-        #offset.x = self.handler.control[self.direction].offset.x
-        #offset.y = self.handler.control[self.direction].offset.y
 
         if self.direction == EAST:
             size.width = grid.nearest(x - self.x)
@@ -228,16 +236,17 @@ class Object(Rectangle):
         elif self.direction == NORTHWEST:
             position.x = grid.nearest(x)
             position.y = grid.nearest(y)
-            size.width = self.width - position.x + self.x #+ offset.x
-            size.height = self.height - position.y + self.y #+ offset.x
+            size.width = self.width - position.x + self.x
+            size.height = self.height - position.y + self.y
         else:
             return False
 
-        output = "%d|%d|%d|%d|%d|%d|" % (x, y, self.x, self.y, self.width, self.height)
-        self.set_position(position, size)
-        if self.__name__ != 'Line':
-            self.fix(x, y)
-        output += "%d|%d|%d|%d|%d|%d" % (x, y, self.x, self.y, self.width, self.height)
+        output = "%d|%d|%d|%d|%d|%d|%d|" % (x, y, self.x, self.y, self.width, self.height, self.direction)
+        self.set_position(position)
+        self.set_size(size)
+        #if self.__name__ != 'Line':
+        self.fix(x, y)
+        output += "%d|%d|%d|%d|%d|%d|%d" % (x, y, self.x, self.y, self.width, self.height, self.direction)
         print output
 
         return True
