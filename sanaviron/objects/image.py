@@ -80,8 +80,8 @@ class Image(Object):
             self.height = height
 
         scale = Scale()
-        scale.horizontal = self.width / width
-        scale.vertical = self.height / height
+        scale.horizontal = self.width / float(width)
+        scale.vertical = self.height / float(height)
 
         if scale.horizontal:
             context.scale(scale.horizontal, 1.0)

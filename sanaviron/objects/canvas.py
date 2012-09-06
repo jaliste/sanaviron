@@ -543,30 +543,6 @@ class ExtendedCanvas(Canvas):
                 value = attributes["value"]
                 property = Property(attribute, value, type)
                 object.set_property(attribute, value, type)
-#                internal = attributes["internal"]
-#                if attribute in ["x", "y", "z", "width", "height"]:
-#                    #code = "object.%s = %s" % (attribute, value)
-#                    #eval(code, dict({"object": object}))
-#                    # XXX XXX
-#                    #print value
-#                    value = int(round(float(value)))
-#                    if attribute == 'x':
-#                        object.x = value
-#                    elif attribute == 'y':
-#                        object.y = value
-#                    elif attribute == 'z':
-#                        object.z = value
-#                    elif attribute == 'width':
-#                        object.width = value
-#                    elif attribute == 'height':
-#                        object.height = value
-#                        # XXX XXX
-#                else:
-#                    #if not object.__name__ == 'BarCode': # XXX
-#                    #if not attribute == 'type' and not attribute == 'code': # XXX
-#                    object.set_property(attribute, value, type)
-#                    #else:
-#                    #    pass # FIXME
 
         def element_end(name):
             if name == "object":
