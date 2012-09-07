@@ -63,8 +63,15 @@ def angle_from_coordinates(x, y, x0, y0, a, b):  #calculation of the angle from 
         ang += 360
     return ang
 
+def get_side(direction):
+    if direction in [EAST, WEST]:
+        return HORIZONTAL
+    elif direction in [NORTH, SOUTH]:
+        return VERTICAL
+    else:
+        return NONE
 
-def opossite(direction, orientation):
+def opossite(direction, orientation=NONE):
     if orientation == HORIZONTAL:
         if direction == NORTHEAST:
             return NORTHWEST
@@ -91,5 +98,22 @@ def opossite(direction, orientation):
             return NORTH
         if direction == SOUTHWEST:
             return NORTHWEST
+    else:
+        if direction == NORTHEAST:
+            return SOUTHWEST
+        if direction == NORTH:
+            return SOUTH
+        if direction == NORTHWEST:
+            return SOUTHEAST
+        if direction == SOUTHEAST:
+            return NORTHWEST
+        if direction == SOUTH:
+            return NORTH
+        if direction == SOUTHWEST:
+            return NORTHEAST
+        if direction == WEST:
+            return EAST
+        if direction == EAST:
+            return WEST
 
     return NONE

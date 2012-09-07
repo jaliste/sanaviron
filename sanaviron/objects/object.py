@@ -6,7 +6,7 @@ from rectangle import Rectangle
 from color import Color
 from point import Point
 from size import Size
-from objects import opossite
+from objects import opossite, get_side
 from objects import *
 
 import gtk
@@ -24,6 +24,7 @@ class Object(Rectangle):
         Rectangle.__init__(self)
         self.handler = Handler()
         self.offset = Rectangle()
+        self.pivot = Point()
         self.selected = False
         self.resizing = False
         self.direction = NONE
@@ -173,37 +174,16 @@ class Object(Rectangle):
 
         return gtk.gdk.Cursor(gtk.gdk.ARROW)
 
-    def fix(self, x, y):
-        fixed = False
-        if self.width <= 0:
-            self.direction = opossite(self.direction, HORIZONTAL)
-            self.width = abs(self.width)
-            fixed = True
-        if self.height <= 0:
-            self.direction = opossite(self.direction, VERTICAL)
-            self.height = abs(self.height)
-            fixed = True
-        return fixed
-
-    def fix(self, x, y):
-        fixed = False
-        if self.width <= 0:
-            self.direction = opossite(self.direction, HORIZONTAL)
-            self.width = abs(self.width)
-            fixed = True
-        if self.height <= 0:
-            self.direction = opossite(self.direction, VERTICAL)
-            self.height = abs(self.height)
-            fixed = True
-        return fixed
-
     def set_position(self, position):
         (self.x, self.y) = (position.x, position.y)
 
     def set_size(self, size):
-        (self.width, self.height) = (size.width, size.height)
+        (self.width, self.height) = (abs(size.width), abs(size.height))
 
     def resize(self, x, y, grid):
+        if self.direction == NONE:
+            return False
+
         position = Point()
         position.x = self.x
         position.y = self.y
@@ -212,42 +192,37 @@ class Object(Rectangle):
         size.width = self.width
         size.height = self.height
 
-        if self.direction == EAST:
-            size.width = grid.nearest(x - self.x)
-        elif self.direction == NORTH:
-            position.y = grid.nearest(y)
-            size.height = self.height - position.y + self.y
-        elif self.direction == SOUTH:
-            size.height = grid.nearest(y - self.y)
-        elif self.direction == WEST:
-            position.x = grid.nearest(x)
-            size.width = self.width - position.x + self.x
-        elif self.direction == SOUTHEAST:
-            size.width = grid.nearest(x - self.x)
-            size.height = grid.nearest(y - self.y)
-        elif self.direction == SOUTHWEST:
-            position.x = grid.nearest(x)
-            size.width = self.width - position.x + self.x
-            size.height = grid.nearest(y - self.y)
-        elif self.direction == NORTHEAST:
-            position.y = grid.nearest(y)
-            size.width = grid.nearest(x - self.x)
-            size.height = self.height - position.y + self.y
-        elif self.direction == NORTHWEST:
-            position.x = grid.nearest(x)
-            position.y = grid.nearest(y)
-            size.width = self.width - position.x + self.x
-            size.height = self.height - position.y + self.y
-        else:
-            return False
+        target = Point()
+        target.x = grid.nearest(x)
+        target.y = grid.nearest(y)
 
-        output = "%d|%d|%d|%d|%d|%d|%d|" % (x, y, self.x, self.y, self.width, self.height, self.direction)
+        def invert_pivot(direction):
+            self.handler.control[direction].pivot = True
+            self.handler.control[opossite(direction)].pivot = False
+
+        side = get_side(self.direction)
+
+        if side is not VERTICAL:
+            size.width = target.x - self.pivot.x
+            print self.width, self.pivot.x, target.x, size.width
+            if size.width < 0:
+                position.x = target.x
+                invert_pivot(EAST)
+            else:
+                position.x = self.pivot.x
+                invert_pivot(WEST)
+
+        if side is not HORIZONTAL:
+            size.height = target.y - self.pivot.y
+            if size.height < 0:
+                position.y = target.y
+                invert_pivot(SOUTH)
+            else:
+                position.y = self.pivot.y
+                invert_pivot(NORTH)
+
         self.set_position(position)
         self.set_size(size)
-        #if self.__name__ != 'Line':
-        self.fix(x, y)
-        output += "%d|%d|%d|%d|%d|%d|%d" % (x, y, self.x, self.y, self.width, self.height, self.direction)
-        print output
 
         return True
 

@@ -54,6 +54,7 @@ class BaseCanvas(Holder, gtk.Layout, Signalized):
         self.set_can_focus(True)
 
         self.install_signal("select")
+        self.install_signal("finalize")
         self.install_signal("edit-child")
 
     def configure_handlers(self):
@@ -135,9 +136,19 @@ class Canvas(BaseCanvas):
                 if child.in_selection(self.selection):
                     child.selected = True
                     self.emit("select", child)
-                elif child.resizing:
-                    child.resizing ^= 1
+                #elif child.resizing:
+                #    child.resizing ^= 1
             self.selection.active = False
+        else:
+            for child in self.children:
+                if child.selected:
+                    self.emit("finalize", child)
+                if child.resizing:
+                    child.resizing ^= 1
+                    child.direction = NONE
+                    for control in child.handler.control:
+                        control.pivot = False
+                    self.emit("finalize", child)
 
         self.pick = False
         widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
@@ -157,22 +168,20 @@ class Canvas(BaseCanvas):
         x = event.x / self.zoom - self.origin.x
         y = event.y / self.zoom - self.origin.y
 
-        def get_direction_for_child_at_position(x, y, origin, children):
-            for child in children:
-                if child.selected and child.at_position(x, y) and child.handler.at_position(x + origin.x, y + origin.y):
-                        direction = child.handler.get_direction(x + origin.x, y + origin.y)
-                        widget.bin_window.set_cursor(child.get_cursor(direction))
-                        #child.direction = direction
-                        return direction
-            return NONE
-
-        direction = get_direction_for_child_at_position(x, y, self.origin, self.children)
-
         if not self.stop_cursor_change:
+            def get_direction_for_child_at_position(x, y, origin, children):
+                for child in children:
+                    if child.selected and child.at_position(x, y) and child.handler.at_position(x + origin.x, y + origin.y):
+                            direction = child.handler.get_direction(x + origin.x, y + origin.y)
+                            widget.bin_window.set_cursor(child.get_cursor(direction))
+                            #child.direction = direction
+                            return direction
+                return NONE
+
+            direction = get_direction_for_child_at_position(x, y, self.origin, self.children)
+
             if direction == NONE:
-                if event.state & gtk.gdk.BUTTON1_MASK:
-                    widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.FLEUR))
-                elif self.pick:
+                if self.pick:
                     widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.PENCIL))
                 else:
                     widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
@@ -186,13 +195,14 @@ class Canvas(BaseCanvas):
             for child in self.children: # TODO
                 if child.selected:
                     if child.resizing:
-                        self.emit("edit-child", child)
                         if not child.resize(x, y, self.grid):
                             x = self.grid.nearest(x)
                             y = self.grid.nearest(y)
-                            child.transform(child.direction, x, y)
+                            child.transform(x, y)
                     else:
+                        widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.FLEUR))
                         child.move(x, y, self.grid)
+                    self.emit("edit-child", child)
                     self.update()
         self.motion_id = self.connect("motion-notify-event", self.motion)
         return True
@@ -216,6 +226,8 @@ class Canvas(BaseCanvas):
             child.direction = SOUTHEAST
             child.x = self.grid.nearest(event.x)
             child.y = self.grid.nearest(event.y)
+            child.pivot.x = child.x
+            child.pivot.y = child.y
             child.width = 0
             child.height = 0
             self.add(child)
@@ -238,8 +250,12 @@ class Canvas(BaseCanvas):
                 if child.handler.at_position(event.x + self.origin.x, event.y + self.origin.y):
                     child.resizing = True
                     child.direction = child.handler.get_direction(event.x + self.origin.x, event.y + self.origin.y)
-                    #child.handler.control[child.direction].offset.x = event.x - child.x
-                    #child.handler.control[child.direction].offset.y = event.y - child.y
+                    for control in child.handler.control:
+                        control.pivot = False
+                    pivot = child.handler.control[opossite(child.direction)]
+                    pivot.pivot = True
+                    child.pivot.x = self.grid.nearest(pivot.x - self.origin.x)
+                    child.pivot.y = self.grid.nearest(pivot.y - self.origin.x)
                     resizing = True
                     self.stop_cursor_change = True
                 break
