@@ -63,6 +63,7 @@ def angle_from_coordinates(x, y, x0, y0, a, b):  #calculation of the angle from 
         ang += 360
     return ang
 
+
 def get_side(direction):
     if direction in [EAST, WEST]:
         return HORIZONTAL
@@ -71,49 +72,23 @@ def get_side(direction):
     else:
         return NONE
 
-def opossite(direction, orientation=NONE):
-    if orientation == HORIZONTAL:
-        if direction == NORTHEAST:
-            return NORTHWEST
-        if direction == EAST:
-            return WEST
-        if direction == SOUTHEAST:
-            return SOUTHWEST
-        if direction == NORTHWEST:
-            return NORTHEAST
-        if direction == WEST:
-            return EAST
-        if direction == SOUTHWEST:
-            return SOUTHEAST
-    elif orientation == VERTICAL:
-        if direction == NORTHEAST:
-            return SOUTHEAST
-        if direction == NORTH:
-            return SOUTH
-        if direction == NORTHWEST:
-            return SOUTHWEST
-        if direction == SOUTHEAST:
-            return NORTHEAST
-        if direction == SOUTH:
-            return NORTH
-        if direction == SOUTHWEST:
-            return NORTHWEST
-    else:
-        if direction == NORTHEAST:
-            return SOUTHWEST
-        if direction == NORTH:
-            return SOUTH
-        if direction == NORTHWEST:
-            return SOUTHEAST
-        if direction == SOUTHEAST:
-            return NORTHWEST
-        if direction == SOUTH:
-            return NORTH
-        if direction == SOUTHWEST:
-            return NORTHEAST
-        if direction == WEST:
-            return EAST
-        if direction == EAST:
-            return WEST
+
+def opossite(direction):
+    if direction == NORTHEAST:
+        return SOUTHWEST
+    if direction == NORTH:
+        return SOUTH
+    if direction == NORTHWEST:
+        return SOUTHEAST
+    if direction == SOUTHEAST:
+        return NORTHWEST
+    if direction == SOUTH:
+        return NORTH
+    if direction == SOUTHWEST:
+        return NORTHEAST
+    if direction == WEST:
+        return EAST
+    if direction == EAST:
+        return WEST
 
     return NONE

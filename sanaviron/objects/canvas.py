@@ -195,13 +195,15 @@ class Canvas(BaseCanvas):
             for child in self.children: # TODO
                 if child.selected:
                     if child.resizing:
-                        if not child.resize(x, y, self.grid):
-                            x = self.grid.nearest(x)
-                            y = self.grid.nearest(y)
+                        x = self.grid.nearest(x)
+                        y = self.grid.nearest(y)
+                        if not child.resize(x, y):
                             child.transform(x, y)
                     else:
                         widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.FLEUR))
-                        child.move(x, y, self.grid)
+                        x = self.grid.nearest(x - child.offset.x)
+                        y = self.grid.nearest(y - child.offset.y)
+                        child.move(x, y)
                     self.emit("edit-child", child)
                     self.update()
         self.motion_id = self.connect("motion-notify-event", self.motion)
@@ -231,8 +233,6 @@ class Canvas(BaseCanvas):
             child.width = 0
             child.height = 0
             self.add(child)
-            #child.handler.control[child.direction].offset.x = event.x - child.x
-            #child.handler.control[child.direction].offset.y = event.y - child.y
             widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_RIGHT_CORNER))
             self.stop_cursor_change = True
             return True
@@ -252,10 +252,10 @@ class Canvas(BaseCanvas):
                     child.direction = child.handler.get_direction(event.x + self.origin.x, event.y + self.origin.y)
                     for control in child.handler.control:
                         control.pivot = False
-                    pivot = child.handler.control[opossite(child.direction)]
-                    pivot.pivot = True
-                    child.pivot.x = self.grid.nearest(pivot.x - self.origin.x)
-                    child.pivot.y = self.grid.nearest(pivot.y - self.origin.x)
+                    control = child.handler.control[opossite(child.direction)]
+                    control.pivot = True
+                    child.pivot.x = self.grid.nearest(control.x - self.origin.x)
+                    child.pivot.y = self.grid.nearest(control.y - self.origin.x)
                     resizing = True
                     self.stop_cursor_change = True
                 break
