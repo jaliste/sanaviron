@@ -196,49 +196,21 @@ class Object(Rectangle):
         size.width = self.width
         size.height = self.height
 
-        def set_pivot(direction):
-            self.handler.control[direction].pivot = True
-            self.handler.control[opossite(direction)].pivot = False
-
         side = get_side(direction)
 
         if side is not VERTICAL:
             size.width = x - self.pivot.x
             if size.width < 0:
                 position.x = x
-                if direction in [NORTHWEST, SOUTHEAST]:
-                    set_pivot(SOUTHEAST)
-                elif direction in [SOUTHWEST, NORTHEAST]:
-                    set_pivot(SOUTHWEST)
-                else:
-                    set_pivot(EAST)
             else:
                 position.x = self.pivot.x
-                if direction in [NORTHWEST, SOUTHEAST]:
-                    set_pivot(NORTHWEST)
-                elif direction in [SOUTHWEST, NORTHEAST]:
-                    set_pivot(NORTHEAST)
-                else:
-                    set_pivot(WEST)
 
         if side is not HORIZONTAL:
             size.height = y - self.pivot.y
             if size.height < 0:
                 position.y = y
-                if direction in [NORTHWEST, SOUTHEAST]:
-                    set_pivot(SOUTHEAST)
-                elif direction in [SOUTHWEST, NORTHEAST]:
-                    set_pivot(SOUTHWEST)
-                else:
-                    set_pivot(SOUTH)
             else:
                 position.y = self.pivot.y
-                if direction in [NORTHWEST, SOUTHEAST]:
-                    set_pivot(NORTHWEST)
-                elif direction in [SOUTHWEST, NORTHEAST]:
-                    set_pivot(NORTHEAST)
-                else:
-                    set_pivot(NORTH)
 
         self.set_position(position)
         self.set_size(size)

@@ -146,8 +146,7 @@ class Canvas(BaseCanvas):
                 if child.resizing:
                     child.resizing ^= 1
                     child.direction = NONE
-                    for control in child.handler.control:
-                        control.pivot = False
+                    child.handler.pivot.active = False
                     self.emit("finalize", child)
 
         self.pick = False
@@ -226,10 +225,11 @@ class Canvas(BaseCanvas):
             self.emit("select", child)
             child.resizing = True
             child.direction = SOUTHEAST
-            child.x = self.grid.nearest(event.x)
-            child.y = self.grid.nearest(event.y)
-            child.pivot.x = child.x
-            child.pivot.y = child.y
+            child.x = child.pivot.x = self.grid.nearest(event.x)
+            child.y = child.pivot.y = self.grid.nearest(event.y)
+            child.handler.pivot.x = child.x + self.origin.x
+            child.handler.pivot.y = child.y + self.origin.y
+            child.handler.pivot.active = True
             child.width = 0
             child.height = 0
             self.add(child)
@@ -250,12 +250,12 @@ class Canvas(BaseCanvas):
                 if child.handler.at_position(event.x + self.origin.x, event.y + self.origin.y):
                     child.resizing = True
                     child.direction = child.handler.get_direction(event.x + self.origin.x, event.y + self.origin.y)
-                    for control in child.handler.control:
-                        control.pivot = False
                     control = child.handler.control[opossite(child.direction)]
-                    control.pivot = True
                     child.pivot.x = self.grid.nearest(control.x - self.origin.x)
-                    child.pivot.y = self.grid.nearest(control.y - self.origin.x)
+                    child.pivot.y = self.grid.nearest(control.y - self.origin.y)
+                    child.handler.pivot.x = control.x
+                    child.handler.pivot.y = control.y
+                    child.handler.pivot.active = True
                     resizing = True
                     self.stop_cursor_change = True
                 break

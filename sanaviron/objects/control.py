@@ -12,12 +12,15 @@ class Control(Rectangle):
 
     def __init__(self):
         Rectangle.__init__(self)
-        #self.offset = Point()
         self.size = 5.0
+        self.active = True
         self.limbus = False
         self.pivot = False
 
     def draw(self, context):
+        if not self.active:
+            return
+
         ###context.save()
         context.set_antialias(cairo.ANTIALIAS_NONE)
         self.width = self.size / context.get_matrix()[0]
