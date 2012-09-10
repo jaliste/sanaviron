@@ -10,6 +10,7 @@ class Separator(Rectangle):
 
     def __init__(self):
         Rectangle.__init__(self)
+        self.hidden = False
         self.position = 0
         self.direction = NONE
 
@@ -17,14 +18,16 @@ class Separator(Rectangle):
         self.control.limbus = True
 
     def draw(self, context):
-        if self.direction == VERTICAL:
-            context.move_to(self.x + self.position, self.y)
-            context.line_to(self.x + self.position, self.y + self.height)
-            self.control.x = self.x + self.position
-            self.control.y = self.y + self.height / 2
-        elif self.direction == HORIZONTAL:
-            context.move_to(self.x, self.y + self.position)
-            context.line_to(self.x + self.width, self.y + self.position)
-            self.control.x = self.x + self.width / 2
-            self.control.y = self.y + self.position
-        context.stroke()
+        self.control.active = not self.hidden
+        if not self.hidden:
+            if self.direction == VERTICAL:
+                context.move_to(self.x + self.position, self.y)
+                context.line_to(self.x + self.position, self.y + self.height)
+                self.control.x = self.x + self.position
+                self.control.y = self.y + self.height / 2
+            elif self.direction == HORIZONTAL:
+                context.move_to(self.x, self.y + self.position)
+                context.line_to(self.x + self.width, self.y + self.position)
+                self.control.x = self.x + self.width / 2
+                self.control.y = self.y + self.position
+            context.stroke()

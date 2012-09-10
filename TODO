@@ -14,6 +14,8 @@
 7. (Middle) Add support for py2exe and Windows installer like Inno Setup Compiler or Bitrock.
 8. (Middle) Add support for documentation like (doxygen, ...). Requires additional research.
 
+9. (Easy) Box split based on relative positions.
+
 Use servant design pattern: Putting the things in their places.
 
 1. (Very Easy) Create a new branch with the name "Servant design pattern".

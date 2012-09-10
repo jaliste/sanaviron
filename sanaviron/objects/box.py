@@ -4,6 +4,7 @@
 from control import Control
 from object import Object
 from separator import Separator
+from size import Size
 from objects import *
 
 class Box(Object):
@@ -55,10 +56,11 @@ class Box(Object):
         Object.draw(self, context)
         ###context.restore()
 
-    def transform(self, direction, x, y):
+    def transform(self, x, y):
+        direction = self.direction
         if len(self.separators) > 0:
             if direction >= ANONIMOUS:
-                separator = self.separators[direction-ANONIMOUS]
+                separator = self.separators[direction - ANONIMOUS]
                 if separator.direction == VERTICAL and x >= self.x and x - self.x <= self.width:
                     separator.position = x - self.x
                 elif separator.direction == HORIZONTAL and y >= self.y and y - self.y <= self.height:
@@ -68,7 +70,6 @@ class Box(Object):
         separator = Separator()
         separator.position = position
         separator.direction = VERTICAL
-        #separator.synchronize(self)
         self.separators.append(separator)
         self.handler.control.append(separator.control)
 
@@ -76,10 +77,29 @@ class Box(Object):
         separator = Separator()
         separator.position = position
         separator.direction = HORIZONTAL
-        #separator.synchronize(self)
         self.separators.append(separator)
         self.handler.control.append(separator.control)
 
     def remove_separator(self):
         if self.separators.pop():
             self.handler.control.pop()
+
+    def resize(self, x, y):
+        source = Size()
+        source.width = self.width
+        source.height = self.height
+        Object.resize(self, x, y)
+        target = Size()
+        target.width = self.width
+        target.height = self.height
+
+        if len(self.separators) > 0:
+            for separator in self.separators:
+                if separator.direction == HORIZONTAL and source.height and target.height:
+                    separator.position = separator.position / source.height * target.height
+                    separator.hidden = False
+                elif separator.direction == VERTICAL and source.width and target.width:
+                    separator.position = separator.position / source.width * target.width
+                    separator.hidden = False
+                else:
+                    separator.hidden = True

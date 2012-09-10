@@ -416,6 +416,9 @@ class Application(gtk.Window):
             self.window.unfullscreen()
 
     def quit(self, widget, event):
+        print "Motion events:", self.editor.canvas.statics.motion
+        print "Expose events:", self.editor.canvas.statics.expose
+        print "Consumed events:", self.editor.canvas.statics.consumed
         gtk.main_quit()
         print("Bye ;-)")
         return True

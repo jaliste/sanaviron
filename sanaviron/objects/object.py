@@ -185,9 +185,6 @@ class Object(Rectangle):
     def resize(self, x, y):
         direction = self.direction
 
-        if direction == NONE:
-            return False
-
         position = Point()
         position.x = self.x
         position.y = self.y
@@ -214,8 +211,6 @@ class Object(Rectangle):
 
         self.set_position(position)
         self.set_size(size)
-
-        return True
 
     def move(self, x, y):
         self.x = x

@@ -73,7 +73,22 @@ class BaseCanvas(Holder, gtk.Layout, Signalized):
         self.connect("button-press-event", self.press)
         self.connect("button-release-event", self.release)
         #self.connect("key-press-event", self.key_press)
-        
+
+        class Statics:
+            pass
+
+        self.statics = Statics()
+        self.statics.motion = 0
+        self.statics.expose = 0
+        self.statics.consumed = 0
+
+    def consume(self, type):
+        next = gtk.gdk.event_get()
+        while next and next.type == type:
+            next.free()
+            next = gtk.gdk.event_get()
+            self.statics.consumed += 1
+
     #def key_press(self, widget, event):
     #    raise NotImplementedError
         
@@ -116,15 +131,13 @@ class Canvas(BaseCanvas):
         self.child = None
         self.stop_cursor_change = False
 
-
         self.horizontal_ruler = None
         self.vertical_ruler = None
         self.clipboard = None
 
         self.hints = False
 
-    def debug(self, message):
-        self.code_editor.editor.buffer.set_text(message)
+        self.motions = 0
       
     def release(self, widget, event):
         """
@@ -161,6 +174,8 @@ class Canvas(BaseCanvas):
         """
         This code is executed when move the mouse pointer
         """
+        self.statics.motion += 1
+        self.consume(gtk.gdk.MOTION_NOTIFY)
         self.disconnect(self.motion_id)
         self.horizontal_ruler.motion(self.horizontal_ruler, event, True)
         self.vertical_ruler.motion(self.vertical_ruler, event, True)
@@ -173,7 +188,6 @@ class Canvas(BaseCanvas):
                     if child.selected and child.at_position(x, y) and child.handler.at_position(x + origin.x, y + origin.y):
                             direction = child.handler.get_direction(x + origin.x, y + origin.y)
                             widget.bin_window.set_cursor(child.get_cursor(direction))
-                            #child.direction = direction
                             return direction
                 return NONE
 
@@ -196,7 +210,9 @@ class Canvas(BaseCanvas):
                     if child.resizing:
                         x = self.grid.nearest(x)
                         y = self.grid.nearest(y)
-                        if not child.resize(x, y):
+                        if child.direction < ANONIMOUS:
+                            child.resize(x, y)
+                        else:
                             child.transform(x, y)
                     else:
                         widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.FLEUR))
@@ -250,12 +266,13 @@ class Canvas(BaseCanvas):
                 if child.handler.at_position(event.x + self.origin.x, event.y + self.origin.y):
                     child.resizing = True
                     child.direction = child.handler.get_direction(event.x + self.origin.x, event.y + self.origin.y)
-                    control = child.handler.control[opossite(child.direction)]
-                    child.pivot.x = self.grid.nearest(control.x - self.origin.x)
-                    child.pivot.y = self.grid.nearest(control.y - self.origin.y)
-                    child.handler.pivot.x = control.x
-                    child.handler.pivot.y = control.y
-                    child.handler.pivot.active = True
+                    if child.direction < ANONIMOUS:
+                        control = child.handler.control[opossite(child.direction)]
+                        child.pivot.x = self.grid.nearest(control.x - self.origin.x)
+                        child.pivot.y = self.grid.nearest(control.y - self.origin.y)
+                        child.handler.pivot.x = control.x
+                        child.handler.pivot.y = control.y
+                        child.handler.pivot.active = True
                     resizing = True
                     self.stop_cursor_change = True
                 break
@@ -289,6 +306,8 @@ class Canvas(BaseCanvas):
         return True
 
     def expose(self, widget, event):
+        self.statics.expose += 1
+        self.consume(gtk.gdk.EXPOSE)
         self.disconnect(self.expose_id)
         context = widget.bin_window.cairo_create()
         context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
