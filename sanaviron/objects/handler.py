@@ -47,12 +47,6 @@ class Handler(Rectangle):
         self.draw_pivot(context)
 
     def at_position(self, x, y):
-        #return x >= (self.x - self.width / 2) and x <= (self.x + self.width) and \
-        #       y >= (self.y - self.height / 2) and y <= (self.y + self.height)
-#        for control in self.control:
-#            if control.at_position(x, y):
-#                return True
-#        return False
         return self.get_direction(x, y) is not NONE
 
 
@@ -60,10 +54,4 @@ class Handler(Rectangle):
         for direction, control in enumerate(self.control):
             if control.at_position(x, y):
                 return direction
-#        direction = 0
-#        while direction < len(self.control):
-#            control = self.control[direction]
-#            if control.at_position(x, y):
-#                return direction
-#            direction += 1
         return NONE

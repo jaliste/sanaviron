@@ -418,7 +418,8 @@ class Application(gtk.Window):
     def quit(self, widget, event):
         print "Motion events:", self.editor.canvas.statics.motion
         print "Expose events:", self.editor.canvas.statics.expose
-        print "Consumed events:", self.editor.canvas.statics.consumed
+        print "Consumed motion events:", self.editor.canvas.statics.consumed.motion
+        print "Consumed expose events:", self.editor.canvas.statics.consumed.expose
         gtk.main_quit()
         print("Bye ;-)")
         return True

@@ -129,7 +129,7 @@ class Object(Rectangle):
         ###context.restore()
 
     def at_position(self, x, y):
-        if len(self.handler.control) < 1:
+        if not len(self.handler.control):
             return False
         return (x >= (self.x - self.handler.control[0].size / 2.0)) and\
                (x <= (self.x + self.width + self.handler.control[0].size / 2.0)) and\
@@ -139,10 +139,10 @@ class Object(Rectangle):
     def in_region(self, x, y, width, height):
         if width < 0:
             x += width
-            width = -width
+            width *= -1
         if height < 0:
             y += height
-            height = -height
+            height *= -1
         return (x + width) > self.x and (y + height) > self.y and\
                x < (self.x + self.width) and y < (self.y + self.height)
 

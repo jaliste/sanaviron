@@ -80,14 +80,19 @@ class BaseCanvas(Holder, gtk.Layout, Signalized):
         self.statics = Statics()
         self.statics.motion = 0
         self.statics.expose = 0
-        self.statics.consumed = 0
+        self.statics.consumed = Statics()
+        self.statics.consumed.motion = 0
+        self.statics.consumed.expose = 0
 
     def consume(self, type):
         next = gtk.gdk.event_get()
         while next and next.type == type:
             next.free()
             next = gtk.gdk.event_get()
-            self.statics.consumed += 1
+            if type == gtk.gdk.MOTION_NOTIFY:
+                self.statics.consumed.motion += 1
+            else:
+                self.statics.consumed.expose += 1
 
     #def key_press(self, widget, event):
     #    raise NotImplementedError
@@ -179,19 +184,19 @@ class Canvas(BaseCanvas):
         self.disconnect(self.motion_id)
         self.horizontal_ruler.motion(self.horizontal_ruler, event, True)
         self.vertical_ruler.motion(self.vertical_ruler, event, True)
-        x = event.x / self.zoom - self.origin.x
-        y = event.y / self.zoom - self.origin.y
+        x = event.x / self.zoom
+        y = event.y / self.zoom
 
         if not self.stop_cursor_change:
-            def get_direction_for_child_at_position(x, y, origin, children):
+            def get_direction_for_child_at_position(x, y, children):
                 for child in children:
-                    if child.selected and child.at_position(x, y) and child.handler.at_position(x + origin.x, y + origin.y):
-                            direction = child.handler.get_direction(x + origin.x, y + origin.y)
+                    if child.selected and child.handler.at_position(x, y):
+                            direction = child.handler.get_direction(x, y)
                             widget.bin_window.set_cursor(child.get_cursor(direction))
                             return direction
                 return NONE
 
-            direction = get_direction_for_child_at_position(x, y, self.origin, self.children)
+            direction = get_direction_for_child_at_position(x, y, self.children)
 
             if direction == NONE:
                 if self.pick:
@@ -229,79 +234,74 @@ class Canvas(BaseCanvas):
         This code is executed when you press the mouse button
         """
         self.emit("focus", gtk.DIR_TAB_FORWARD)
-        event.x = event.x / self.zoom - self.origin.x
-        event.y = event.y / self.zoom - self.origin.y
+
+        x = event.x / self.zoom
+        y = event.y / self.zoom
+
+        def start_resize(child):
+            child.resizing = True
+            if child.direction < ANONIMOUS:
+                control = child.handler.control[opossite(child.direction)]
+                child.pivot.x = self.grid.nearest(control.x)
+                child.pivot.y = self.grid.nearest(control.y)
+                child.handler.pivot.x = control.x
+                child.handler.pivot.y = control.y
+                child.handler.pivot.active = True
 
         if self.pick:
             self.unselect_all()
-
             #x, y = self.get_pointer()
             child = self.child
+            self.add(child)
             child.selected = True
-            self.emit("select", child)
-            child.resizing = True
-            child.direction = SOUTHEAST
-            child.x = child.pivot.x = self.grid.nearest(event.x)
-            child.y = child.pivot.y = self.grid.nearest(event.y)
-            child.handler.pivot.x = child.x + self.origin.x
-            child.handler.pivot.y = child.y + self.origin.y
-            child.handler.pivot.active = True
+            child.x = self.grid.nearest(x)
+            child.y = self.grid.nearest(y)
             child.width = 0
             child.height = 0
-            self.add(child)
+            child.direction = SOUTHEAST
+            child.handler.control[opossite(child.direction)].x = child.x
+            child.handler.control[opossite(child.direction)].y = child.y
+            start_resize(child)
             widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_RIGHT_CORNER))
-            self.stop_cursor_change = True
+            self.emit("select", child)
             return True
 
-        selected = False
-        move = False
-        resizing = False
-        self.unselect_all()
+        selection = True
+
+        def start_move_or_select(child):
+            self.unselect_all()
+            child.offset.x = x - child.x
+            child.offset.y = y - child.y
+            child.selected = True
+
         for child in sorted(self.children, key=lambda child: child.z, reverse=True):
-            if child.at_position(event.x, event.y):
-                if child.selected:
-                    move = True
-                selected = True
-                child.selected = True
-                if child.handler.at_position(event.x + self.origin.x, event.y + self.origin.y):
-                    child.resizing = True
-                    child.direction = child.handler.get_direction(event.x + self.origin.x, event.y + self.origin.y)
-                    if child.direction < ANONIMOUS:
-                        control = child.handler.control[opossite(child.direction)]
-                        child.pivot.x = self.grid.nearest(control.x - self.origin.x)
-                        child.pivot.y = self.grid.nearest(control.y - self.origin.y)
-                        child.handler.pivot.x = control.x
-                        child.handler.pivot.y = control.y
-                        child.handler.pivot.active = True
-                    resizing = True
-                    self.stop_cursor_change = True
-                break
-
-        if not resizing:
-            for child in self.children:
-                child.resizing = False
-                if child.selected:
-                    child.offset.x = event.x - child.x
-                    child.offset.y = event.y - child.y
-                    if (not child.at_position(event.x,
-                        event.y) and not move and not event.state & gtk.gdk.CONTROL_MASK) or\
-                       (child.at_position(event.x, event.y) and move and event.state & gtk.gdk.CONTROL_MASK):
-                        child.selected = False
-                    else:
-                        child.selected = True
-                        self.emit("select", child)
-
-            if not selected and not move:
-                self.selection.x = event.x
-                self.selection.y = event.y
-                self.selection.width = 0
-                self.selection.height = 0
-                self.selection.active = True
-                widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.CROSSHAIR))
+            if child.selected:
+                if child.handler.at_position(x, y):
+                    child.direction = child.handler.get_direction(x, y)
+                    selection = False
+                    start_resize(child)
+                elif child.at_position(x, y):
+                    start_move_or_select(child)
+                    selection = False
+                else:
+                    continue
+            elif child.at_position(x, y):
+                selection = False
+                start_move_or_select(child)
             else:
-                self.updated = False
-            self.update() # XXX
+                continue
+
+        if selection:
+            self.selection.x = x
+            self.selection.y = y
+            self.selection.width = 0
+            self.selection.height = 0
+            self.selection.active = True
+            widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.CROSSHAIR))
+        else:
             self.stop_cursor_change = True
+            #self.updated = False
+        self.update() # XXX
 
         return True
 
@@ -344,19 +344,11 @@ class Canvas(BaseCanvas):
                 self.guides.draw(context)
 
         for child in sorted(self.children, key=lambda child: child.z):
-            child.x += self.origin.x
-            child.y += self.origin.y
             child.hints = self.hints # TODO Not here
             child.draw(context)
-            child.x -= self.origin.x
-            child.y -= self.origin.y
 
         if self.selection.active:
-            self.selection.x += self.origin.x
-            self.selection.y += self.origin.y
             self.selection.draw(context)
-            self.selection.x -= self.origin.x
-            self.selection.y -= self.origin.y
         self.updated = True
         self.expose_id = self.connect("expose-event", self.expose)
         return True

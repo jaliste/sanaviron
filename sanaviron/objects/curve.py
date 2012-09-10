@@ -48,6 +48,6 @@ class Curve(Object):
         Object.draw(self, context)
         ###context.restore()
 
-    def transform(self, direction, x, y):
+    def transform(self, x, y):
         self.handler.control[8].x = x
         self.handler.control[8].y = y
