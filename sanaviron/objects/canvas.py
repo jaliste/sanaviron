@@ -21,6 +21,7 @@ from selection import Selection
 from paper import Paper
 from size import Size
 from signalized import Signalized
+from point import Point
 
 from barcode import BarCode
 from image import Image
@@ -47,6 +48,7 @@ class BaseCanvas(Holder, gtk.Layout, Signalized):
     def __init__(self):
         Holder.__init__(self)
         gtk.Layout.__init__(self)
+        Signalized.__init__(self)
 
         self.configure_handlers()
         
@@ -221,9 +223,10 @@ class Canvas(BaseCanvas):
                             child.transform(x, y)
                     else:
                         widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.FLEUR))
-                        x = self.grid.nearest(x - child.offset.x)
-                        y = self.grid.nearest(y - child.offset.y)
-                        child.move(x, y)
+                        target = Point()
+                        target.x = self.grid.nearest(x - child.offset.x)
+                        target.y = self.grid.nearest(y - child.offset.y)
+                        child.move(target.x, target.y)
                     self.emit("edit-child", child)
                     self.update()
         self.motion_id = self.connect("motion-notify-event", self.motion)
@@ -239,6 +242,8 @@ class Canvas(BaseCanvas):
         y = event.y / self.zoom
 
         def start_resize(child):
+            self.unselect_all()
+            child.selected = True
             child.resizing = True
             if child.direction < ANONIMOUS:
                 control = child.handler.control[opossite(child.direction)]
@@ -268,10 +273,15 @@ class Canvas(BaseCanvas):
 
         selection = True
 
-        def start_move_or_select(child):
-            self.unselect_all()
-            child.offset.x = x - child.x
-            child.offset.y = y - child.y
+        def start_move(x, y):
+            for child in self.children:
+                if child.selected:
+                    child.offset.x = x - child.x
+                    child.offset.y = y - child.y
+
+        def select(child):
+            if not event.state & gtk.gdk.CONTROL_MASK:
+                self.unselect_all()
             child.selected = True
 
         for child in sorted(self.children, key=lambda child: child.z, reverse=True):
@@ -281,13 +291,15 @@ class Canvas(BaseCanvas):
                     selection = False
                     start_resize(child)
                 elif child.at_position(x, y):
-                    start_move_or_select(child)
+                    #start_move(child, x, y)
+                    start_move(x, y)
                     selection = False
                 else:
                     continue
             elif child.at_position(x, y):
                 selection = False
-                start_move_or_select(child)
+                select(child)
+                start_move(x, y)
             else:
                 continue
 
@@ -407,9 +419,9 @@ class ExtendedCanvas(Canvas):
         self.clipboard += '</clipboard>'
 
     def paste(self, *args):
-        self.unserialize(self.clipboard)
         self.unselect_all(False)
-        self.select_last()
+        self.unserialize(self.clipboard, True)
+        #self.select_last()
         # Select last
 
     def delete(self, *args):
@@ -434,9 +446,9 @@ class ExtendedCanvas(Canvas):
         if update:
             self.update()
 
-    def select_last(self, *args):
-        self.children[len(self.children) - 1].selected = True
-        self.update()
+    #def select_last(self, *args):
+    #    self.children[len(self.children) - 1].selected = True
+    #    self.update()
 
     def bring_to_back(self, *args):
         for child in self.children:
@@ -553,7 +565,7 @@ class ExtendedCanvas(Canvas):
         handle.close()
         self.unserialize(document)
 
-    def unserialize(self, document):
+    def unserialize(self, document, from_clipboard=False):
         def element_start(name, attributes):
             global object
 
@@ -574,6 +586,10 @@ class ExtendedCanvas(Canvas):
         def element_end(name):
             if name == "object":
                 self.add(object)
+                if from_clipboard:
+                    object.x += 10
+                    object.y += 10
+                    object.selected = True
 
         #def element_body(data):
         #  print "data:", repr(data)

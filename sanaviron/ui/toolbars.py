@@ -12,6 +12,7 @@ class Toolbar(gtk.Toolbar, Signalized):
 
     def __init__(self, orientation=VERTICAL):
         gtk.Toolbar.__init__(self)
+        Signalized.__init__(self)
         #self.connect("realize", self.realize)
 
         if orientation == HORIZONTAL:

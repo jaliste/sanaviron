@@ -4,6 +4,7 @@ import platform
 import gtk
 
 from objects.signalized import Signalized
+from objects.tag import Tag
 from objects import HORIZONTAL, VERTICAL
 
 if platform.system() != 'Windows':
@@ -18,6 +19,7 @@ class Ruler(gtk.Viewport, Signalized):
 
     def __init__(self, orientation=VERTICAL):
         gtk.Viewport.__init__(self)
+        Signalized.__init__(self)
 
         self.orientation = orientation
         self.x = 0
@@ -25,6 +27,7 @@ class Ruler(gtk.Viewport, Signalized):
         self.offset = 0
         self.tags = list()
         self.zoom = 1.0
+        self.show_position = True
         self.layout = gtk.Layout()
         self.add(self.layout)
 
@@ -40,25 +43,68 @@ class Ruler(gtk.Viewport, Signalized):
 
         self.connect("motion-notify-event", self.motion, False)
         self.connect("button-release-event", self.release)
+        self.connect("button-press-event", self.press)
         self.layout.connect("expose-event", self.expose)
 
-        self.install_signal("append-mark")
+        self.install_signal("append-tag")
+        self.install_signal("move-tag")
 
     def motion(self, widget, event, external):
         if self.orientation == HORIZONTAL:
             self.x = event.x - self.offset * external
+            for tag in self.tags:
+                if tag.selected and event.state & gtk.gdk.BUTTON1_MASK:
+                    tag.move(self.x)
+                    self.emit("move-tag", tag)
+                elif tag.at_position(self.x):
+                    widget.window.set_cursor(gtk.gdk.Cursor(tag.get_cursor()))
+                    self.show_position = False
+                    break
+                else:
+                    widget.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
+                    self.show_position = True
         elif self.orientation == VERTICAL:
             self.y = event.y - self.offset * external
+            for tag in self.tags:
+                if tag.selected and event.state & gtk.gdk.BUTTON1_MASK:
+                    tag.move(self.y)
+                    self.emit("move-tag", tag)
+                elif tag.at_position(self.y):
+                    widget.window.set_cursor(gtk.gdk.Cursor(tag.get_cursor()))
+                    self.show_position = False
+                    break
+                else:
+                    widget.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
+                    self.show_position = True
         self.queue_draw()
         return True
 
-    def release(self, widget, event):
+    def press(self, widget, event):
+        position = 0
         if self.orientation == HORIZONTAL:
             position = event.x
-        elif self.orientation == VERTICAL:
+        if self.orientation == VERTICAL:
             position = event.y
-        self.tags.append(position)
-        self.emit("append-mark", position)
+        for tag in self.tags:
+            if tag.at_position(position):
+                tag.selected = True
+                break
+
+    def release(self, widget, event):
+        select = False
+        for tag in self.tags:
+            if tag.selected:
+                select = True
+                tag.selected = False
+        if not select:
+            tag = Tag()
+            tag.orientation = self.orientation
+            if self.orientation == HORIZONTAL:
+                tag.position = event.x
+            elif self.orientation == VERTICAL:
+                tag.position = event.y
+            self.tags.append(tag)
+            self.emit("append-tag", tag)
         return True
 
     def expose(self, widget, event):
@@ -88,48 +134,42 @@ class Ruler(gtk.Viewport, Signalized):
         context.stroke()
 
         context.set_line_width(3)
-        for position in self.tags:
+        for tag in self.tags:
+            tag.draw_tag(context)
+        context.stroke()
+
+        if self.show_position:
+            context.set_line_width(1)
+            context.set_source_rgb(0.0, 0.0, 0.75)
+            border = 2
+            if self.orientation == HORIZONTAL and self.x:
+                context.move_to(self.x, border)
+                context.line_to(self.x, size)
+            elif self.orientation == VERTICAL and self.y:
+                context.move_to(border, self.y)
+                context.line_to(size - border, self.y)
+            context.stroke()
+
+
+            context = pangocairo.CairoContext(context)
+            layout = pangocairo.CairoContext.create_layout(context)
+            fontname = 'Sans' if platform.system() == 'Windows' else 'Ubuntu'
+            size = 8
+            description = '%s %d' % (fontname, size)
+            font = pango.FontDescription(description)
+            layout.set_justify(True)
+            layout.set_font_description(font)
+            text = None
             if self.orientation == HORIZONTAL:
-                border = 5
-                context.move_to(position, border)
-                context.line_to(position, size - border)
+                context.move_to(self.x + 2, 0)
+                text = str(int(self.x))
             elif self.orientation == VERTICAL:
-                border = 4
-                context.move_to(border, position)
-                context.line_to(size - border, position)
-        context.set_source_rgb(0.75, 0.0, 0.0)
-        context.stroke()
-
-        context.set_line_width(1)
-        context.set_source_rgb(0.0, 0.0, 0.75)
-        border = 2
-        if self.orientation == HORIZONTAL and self.x:
-            context.move_to(self.x, border)
-            context.line_to(self.x, size)
-        elif self.orientation == VERTICAL and self.y:
-            context.move_to(border, self.y)
-            context.line_to(size - border, self.y)
-        context.stroke()
-
-        context = pangocairo.CairoContext(context)
-        layout = pangocairo.CairoContext.create_layout(context)
-        fontname = 'Sans' if platform.system() == 'Windows' else 'Ubuntu'
-        size = 8
-        description = '%s %d' % (fontname, size)
-        font = pango.FontDescription(description)
-        layout.set_justify(True)
-        layout.set_font_description(font)
-        text = None
-        if self.orientation == HORIZONTAL:
-            context.move_to(self.x + 2, 0)
-            text = str(int(self.x))
-        elif self.orientation == VERTICAL:
-            context.move_to(2, self.y)
-            text = str(int(self.y))
-        layout.set_text(text)
-        context.set_antialias(cairo.ANTIALIAS_DEFAULT)
-        context.set_source_rgb(0.0, 0.0, 0.0)
-        context.show_layout(layout)
+                context.move_to(2, self.y)
+                text = str(int(self.y))
+            layout.set_text(text)
+            context.set_antialias(cairo.ANTIALIAS_DEFAULT)
+            context.set_source_rgb(0.0, 0.0, 0.0)
+            context.show_layout(layout)
         return True
 
 

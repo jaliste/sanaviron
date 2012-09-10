@@ -9,6 +9,7 @@ class MenuBar(gtk.MenuBar, Signalized):
 
     def __init__(self):
         gtk.MenuBar.__init__(self)
+        Signalized.__init__(self)
         self.connect("realize", self.realize)
 
         self.bindings = gtk.AccelGroup()
