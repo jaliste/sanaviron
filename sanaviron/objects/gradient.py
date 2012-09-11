@@ -45,8 +45,9 @@ class Gradient:
 
 
     def delete_color(self, position):
-        self.colors[position] = []
-        self.update()
+        if len(self.colors) > 1:
+            self.colors[position] = []
+            self.update()
 
 
     def insert_color(self, gradient_color, position):
@@ -59,6 +60,9 @@ class Gradient:
 
     def update(self):
         #del(self.gradient)
-        self.gradient = cairo.LinearGradient(self.x, self.y, self.width, self.height)###ToDo two type!!!
+        if self.type == LINEAR:###ToDo two type!!!
+            self.gradient = cairo.LinearGradient(self.x, self.y, self.width, self.height)
+        else:
+            self.gradient = cairo.RadialGradient(self.x, self.y, self.width, self.height)
         for color in self.colors:
             self.gradient.add_color_stop_rgba(color.position, color.red, color.green, color.blue, color.alpha)

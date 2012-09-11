@@ -121,8 +121,8 @@ class Canvas(BaseCanvas):
         self.grid = Grid()
         self.guides = Guides()
         self.selection = Selection()
-        self.gradients = list()
-        self.gradients.append(Gradient()) ###ToDo
+        self.gradients = []
+        #self.gradients.append(Gradient()) ###ToDo
         self.children = list()
         self.pages = list()
 

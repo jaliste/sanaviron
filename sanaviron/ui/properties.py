@@ -12,7 +12,7 @@ from objects.color import Color
 
 from ui.text_pad import TextPad
 from ui.columns_editor import ColumnsEditor
-from ui.gradienteditor import GradientEditor
+from ui.gradienteditor import LinearGradientEditor
 import sys
 
 class Form(gtk.VBox):
@@ -130,7 +130,7 @@ class ColorizedObjectForm(SizedObjectForm):
         if "--debug" in sys.argv:
             entry = gtk.Label(" ")
             self.add_entry(_("Gradient"), entry, "gradient")
-            entry = GradientEditor(self.canvas)
+            entry = LinearGradientEditor(self.canvas)
             self.add(entry)
 
     def set_stroke_color(self, widget):

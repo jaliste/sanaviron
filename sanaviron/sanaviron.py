@@ -6,6 +6,8 @@ sys.path.append(os.path.dirname(__file__))
 import platform
 import gtk
 import cairo
+#default_settings = gtk.settings_get_default()
+#default_screen_settings = gtk.settings_get_for_screen(gtk.gdk.screen_get_default())
 
 if platform.system() != 'Windows':
     gtk.threads_init()
@@ -437,7 +439,7 @@ class Application(gtk.Window):
         self.editor.canvas.create(Connector())
 
     def box(self, widget, data):
-        self.editor.canvas.create(Box())
+        self.editor.canvas.create(Box(self.editor.canvas))
 
     def rounded_box(self, widget, data):
         self.editor.canvas.create(Rounded())
