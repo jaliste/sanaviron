@@ -8,6 +8,7 @@ from objects.gradientcolor import GradientColor
 from objects import LINEAR
 
 grad = Gradient(type=LINEAR, name="", x=0, y=0, x1=0, y1=0)
+grad.clear()
 for index in range(11):
     grad.add_new_color(GradientColor(index * 0.1, index * 0.1, index * 0.1, 1.0, index * 0.1))
     grad.update()
