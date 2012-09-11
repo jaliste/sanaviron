@@ -14,10 +14,11 @@ class Box(Object):
 
     __name__ = "Box"
 
-    def __init__(self):
+    def __init__(self, canvas):
         Object.__init__(self)
 
         self.separators = list()
+        self.canvas = canvas
 
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
@@ -38,22 +39,28 @@ class Box(Object):
         self.handler.control[EAST].y = self.y + self.height / 2
 
     def draw(self, context):
-        ###context.save()
         dash = list()
         context.set_dash(dash)
         context.set_line_width(self.thickness)
-        context.rectangle(self.x, self.y, self.width, self.height)
+
+        context.save()
+        context.new_path()
+        context.translate(self.x, self.y)
+        if (self.width > 0) and (self.height > 0):
+            context.scale(self.width,self.height)
+        context.rectangle(0, 0, 1, 1)
 
         if '--debug' in sys.argv:  #Debug mode
             self.fill_style = GRADIENT
         if self.fill_style == GRADIENT:
-            self.set_gradient(Gradient(0, "1", self.x, self.y, self.x + self.width, self.y))
-            context.set_source(self.gradient.gradient)
+            self.set_gradient(self.canvas.gradients[0])
+            context.set_source(self.canvas.gradients[0].gradient)
         elif self.fill_style == COLOR:
             context.set_source_rgba(self.fill_color.red, self.fill_color.green,
                 self.fill_color.blue, self.fill_color.alpha)
-
         context.fill_preserve()
+        context.restore()
+
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
             self.stroke_color.blue, self.stroke_color.alpha)
         context.stroke()

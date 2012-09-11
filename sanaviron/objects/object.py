@@ -69,7 +69,7 @@ class Object(Rectangle):
             color.set_color_as_string(temp)
             self.fill_color = color
         elif self.fill_style == GRADIENT:
-            self.gradient = self.get_property("gradient")
+            pass#self.gradient = self.get_property("gradient")
         elif self.fill_style == PATTERN:
             self.gradient = self.get_property("pattern")
 
