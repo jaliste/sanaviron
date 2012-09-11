@@ -50,7 +50,7 @@ class Object(Rectangle):
         elif fill_style == GRADIENT:
             self.set_gradient()
 
-    def set_gradient(self, gradient=Gradient()): #ToDo: by name!
+    def set_gradient(self, gradient=Gradient()): #ToDo: by name and from Canvas!
         self.gradient = gradient
         self.set_property("gradient", gradient)
 

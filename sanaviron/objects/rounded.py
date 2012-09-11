@@ -5,6 +5,8 @@ from control import Control
 from object import Object
 from objects import *
 from math import pi
+import sys
+from gradient import Gradient
 
 class Rounded(Object):
     """This class represents a rounded box"""
@@ -65,9 +67,17 @@ class Rounded(Object):
         context.arc(self.x + radius, self.y + self.height - radius, radius, pi / 2, pi)
         context.close_path()
 
-        context.set_source_rgba(self.fill_color.red, self.fill_color.green,
-            self.fill_color.blue, self.fill_color.alpha)
+        if '--debug' in sys.argv:  #Debug mode
+            self.fill_style = GRADIENT
+
+        if self.fill_style == GRADIENT:
+            self.set_gradient(Gradient(0, "1", self.x, self.y, self.x + self.width, self.y))
+            context.set_source(self.gradient.gradient)
+        elif self.fill_style == COLOR:
+            context.set_source_rgba(self.fill_color.red, self.fill_color.green,
+                self.fill_color.blue, self.fill_color.alpha)
         context.fill_preserve()
+
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
             self.stroke_color.blue, self.stroke_color.alpha)
         context.stroke()

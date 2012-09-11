@@ -47,9 +47,8 @@ class Box(Object):
         if '--debug' in sys.argv:  #Debug mode
             self.fill_style = GRADIENT
         if self.fill_style == GRADIENT:
-            self.gradient = Gradient(0, "1", self.x, self.y, self.x + self.width, self.y)
+            self.set_gradient(Gradient(0, "1", self.x, self.y, self.x + self.width, self.y))
             context.set_source(self.gradient.gradient)
-            self.set_gradient(self.gradient)
         elif self.fill_style == COLOR:
             context.set_source_rgba(self.fill_color.red, self.fill_color.green,
                 self.fill_color.blue, self.fill_color.alpha)
