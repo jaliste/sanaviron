@@ -3,7 +3,7 @@
 
 import cairo
 from objects import *
-#from gradientcolor import GradientColor
+from gradientcolor import GradientColor
 
 
 class Gradient:
@@ -13,26 +13,22 @@ class Gradient:
         #Holder.__init__(self)
         self.__name__ = name
         self.type = type
-        self.colors = list()
-        self.x = x
-        self.y = y
-        self.width = x1
-        self.height = y1
+        self.colors = [GradientColor(1,1,1,1,0),GradientColor(0,0,0,1,1)]
+        self.x, self.y = x, y
+        self.width, self.height = x1, y1
         if type == LINEAR:
             self.gradient = cairo.LinearGradient(x, y, x1, y1)
         elif type == RADIAL:
             self.gradient = cairo.RadialGradient(x, y, x1, y1, 10, 100)
+        self.update()
 
-            #   for index in range(11):
-
-    #    self.add_new_color(GradientColor( index*0.1 + 0.1, index*0.1, index*0.1,1.0, index*0.1))
-    #   self.update()
+    def __repr__(self):
+        return " ".join([str(self.type), self.__name__, str(self.x), str(self.y), str(self.width), str(self.height),
+                         str(self.colors)])
 
     def change_size( self, x, y, x1, y1):
-        self.x = x
-        self.y = y
-        self.width = x1
-        self.height = y1
+        self.x, self.y = x, y
+        self.width, self.height = x1, y1
         self.update()
 
 

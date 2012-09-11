@@ -14,14 +14,11 @@ class Color(Holder):
         self.alpha = a
 
     def __str__(self):
-        temp = str(self.red) + " " + str(self.green) + " " +\
-               str(self.blue) + " " + str(self.alpha)
-        return temp
+        return  " ".join([str(self.red), str(self.green), str(self.blue), str(self.alpha)])
 
     def __hex__(self):
-        temp = self.to_hex(self.red) + self.to_hex(self.green) +\
-               self.to_hex(self.blue) + self.to_hex(self.alpha)
-        return temp
+        return "".join(
+            [self.to_hex(self.red), self.to_hex(self.green), self.to_hex(self.blue), self.to_hex(self.alpha)])
 
     def to_hex(self, number):   #number 0..1
         temp = hex(int(number * 255))[2:]

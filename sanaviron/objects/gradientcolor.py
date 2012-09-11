@@ -10,3 +10,6 @@ class GradientColor:
         self.blue = b
         self.alpha = a
         self.position = pos
+
+    def __repr__(self):
+        return " ".join([str(self.red),str(self.green),str(self.blue),str(self.alpha),str(self.position)])

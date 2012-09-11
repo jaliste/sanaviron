@@ -58,14 +58,6 @@ class Arc(Object):
         self.handler.control[SOUTHWEST].y = self.y + self.height
         self.handler.control[SOUTHEAST].x = self.x + self.width
         self.handler.control[SOUTHEAST].y = self.y + self.height
-        #self.handler.control[NORTH].x = self.x + self.width / 2
-        #self.handler.control[NORTH].y = self.y
-        #self.handler.control[EAST].x = self.x + self.width
-        #self.handler.control[EAST].y = self.y + self.height / 2
-        #self.handler.control[SOUTH].x = self.x + self.width / 2
-        #self.handler.control[SOUTH].y = self.y + self.height
-        #self.handler.control[WEST].x = self.x
-        #self.handler.control[WEST].y = self.y + self.height / 2
 
         self.handler.control[8].x = self.centre_x + self.radius_horizontal * cos(grad2rad(self.angle_start))
         self.handler.control[8].y = self.centre_y + self.radius_vertical * sin(grad2rad(self.angle_start))
@@ -111,10 +103,6 @@ class Arc(Object):
 
         if self.fill_style == GRADIENT:
             self.gradient = Gradient(0, "1", self.x, self.y, self.x + self.width, self.y)
-            for index in range(11):
-                self.gradient.add_new_color(
-                    GradientColor(index * 0.1 + 0.1, index * 0.1, index * 0.1, 1.0, index * 0.1))
-            self.gradient.update()
             context.set_source(self.gradient.gradient)
             self.set_gradient(self.gradient)
         elif self.fill_style == COLOR:

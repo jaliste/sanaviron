@@ -22,6 +22,7 @@ from paper import Paper
 from size import Size
 from signalized import Signalized
 from point import Point
+from gradient import Gradient
 
 from barcode import BarCode
 from image import Image
@@ -121,6 +122,7 @@ class Canvas(BaseCanvas):
         self.guides = Guides()
         self.selection = Selection()
         self.gradients = list()
+        self.gradients.append(Gradient()) ###ToDo
         self.children = list()
         self.pages = list()
 
@@ -284,7 +286,7 @@ class Canvas(BaseCanvas):
                 self.unselect_all()
             child.selected = True
 
-        for child in sorted(self.children, key=lambda child: child.z, reverse=True):
+        for child in sorted(self.children, key=lambda child: child.z):
             if child.selected:
                 if child.handler.at_position(x, y):
                     child.direction = child.handler.get_direction(x, y)

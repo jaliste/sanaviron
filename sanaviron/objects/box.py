@@ -6,6 +6,8 @@ from object import Object
 from separator import Separator
 from size import Size
 from objects import *
+import sys
+from gradient import Gradient
 
 class Box(Object):
     """This class represents a box"""
@@ -41,8 +43,17 @@ class Box(Object):
         context.set_dash(dash)
         context.set_line_width(self.thickness)
         context.rectangle(self.x, self.y, self.width, self.height)
-        context.set_source_rgba(self.fill_color.red, self.fill_color.green,
-            self.fill_color.blue, self.fill_color.alpha)
+
+        if '--debug' in sys.argv:  #Debug mode
+            self.fill_style = GRADIENT
+        if self.fill_style == GRADIENT:
+            self.gradient = Gradient(0, "1", self.x, self.y, self.x + self.width, self.y)
+            context.set_source(self.gradient.gradient)
+            self.set_gradient(self.gradient)
+        elif self.fill_style == COLOR:
+            context.set_source_rgba(self.fill_color.red, self.fill_color.green,
+                self.fill_color.blue, self.fill_color.alpha)
+
         context.fill_preserve()
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
             self.stroke_color.blue, self.stroke_color.alpha)

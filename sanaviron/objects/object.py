@@ -4,6 +4,7 @@
 from handler import Handler
 from rectangle import Rectangle
 from color import Color
+from gradient import Gradient
 from point import Point
 from size import Size
 from objects import opossite, get_side
@@ -33,12 +34,9 @@ class Object(Rectangle):
 
         self.dash = []
         self.hints = False
-        self.fill_style = COLOR
-        self.fill_color = Color(0.25, 0.25, 0.25, 0.25)
-        self.stroke_color = Color(0.25, 0.25, 0.25, 1)
-        self.set_property("fill_color", str(self.fill_color))
-        self.set_property("stroke_color", str(self.stroke_color))
-        #self.set_gradient(Gradient())
+        self.set_fill_style(COLOR)
+        self.set_fill_color(Color(0.25, 0.25, 0.25, 0.25))
+        self.set_stroke_color(Color(0.25, 0.25, 0.25, 1))
         self.thickness = 1.0
 
     def post(self):
@@ -47,8 +45,12 @@ class Object(Rectangle):
     def set_fill_style(self, fill_style):
         self.fill_style = fill_style
         self.set_property("fill_style", fill_style)
+        if fill_style == COLOR:
+            self.set_fill_color()
+        elif fill_style == GRADIENT:
+            self.set_gradient()
 
-    def set_gradient(self, gradient):
+    def set_gradient(self, gradient=Gradient()): #ToDo: by name!
         self.gradient = gradient
         self.set_property("gradient", gradient)
 
