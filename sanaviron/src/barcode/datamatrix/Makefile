@@ -1,8 +1,7 @@
 CC = gcc
 #CC = i586-mingw32msvc-gcc
 CFLAGS = -g -O2 -Wall -DHAVE_UNISTD_H=1 -DHAVE_STRCASECMP=1 -DNO_LIBPAPER -fPIC
-#LIBS = -ldl
-TARGET = barcode
+TARGET = datamatrix
 SHARED = $(TARGET).so
 #SHARED = $(TARGET).dll
 HEADER = $(TARGET).h
@@ -11,10 +10,12 @@ INSTALL = /usr/bin/install -c
 
 LDFLAGS = -L. -l$(TARGET) 
 
-DSTDIR = ../../objects/barcode
+DSTDIR = ../../../objects/barcode
 
 LIBOBJECTS = \
-   barcode.o
+	interface.o \
+	iec16022ecc200.o \
+	reedsol.o
 
 ALLSOURCES = $(LIBOBJECTS:.o=.c)
 
@@ -23,7 +24,7 @@ RM = rm
 all: $(SHARED)
 
 $(SHARED): $(LIBOBJECTS)
-	$(CC) -shared -o $(SHARED) $(LIBOBJECTS) $(LIBS)
+	$(CC) -shared -o $(SHARED) $(LIBOBJECTS)
 
 install:
 	$(INSTALL) -c -m 0644 $(SHARED) $(DSTDIR) 
@@ -40,4 +41,4 @@ purge: clean
 	-$(RM) -f */*.o *~ */*~ core $(SHARED)
 
 test: test.c $(SHARED)
-	gcc $^ -o $@
+	gcc $^ -o $@ -DLIB
