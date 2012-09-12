@@ -27,10 +27,10 @@ class Table(Object):
         self.set_property("size", 16)
 
     def post(self):
-        n_controls = len(self.handler.control)
-        while n_controls > ANONIMOUS:
-            n_controls -= 1
-            del self.handler.control[n_controls]
+        controls = len(self.handler.control)
+        while controls > ANONIMOUS:
+            controls -= 1
+            del self.handler.control[controls]
 
         columns = self.get_property("columns").split(':')
 

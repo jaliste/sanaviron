@@ -69,8 +69,8 @@ else:
 
 BCIface = CDLL(os.path.join(os.path.dirname(__file__), "barcode", "barcode." + suffix + extension))
 
-BCIface.get_code_data.restype = c_char_p
 BCIface.get_code_data.argtypes = (c_int, c_char_p, c_double, c_double)
+BCIface.get_code_data.restype = c_char_p
 BCIface.get_text_data.restype = c_char_p
 
 DEFAULT_CODE_TYPE = BARCODE_39
@@ -109,10 +109,10 @@ class BarCode(Object):
         type = int(self.get_property('type'))
         description = "Verdana 12"
 
-        data = BCIface.get_code_data(type, code, self.width, self.height)
+        data = BCIface.get_code_data(type, code, int(self.width), int(self.height))
         text = BCIface.get_text_data(type, code)
 
-        print data
+        print data, text
 
         if not data:
             margin = 10
@@ -151,14 +151,20 @@ class BarCode(Object):
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
             self.stroke_color.blue, self.stroke_color.alpha)
 
-        for bar in data.split('|'):
-            x, y, width, lenght = bar.split(':')
+        for bar in data.split(' '):
+            x, y, width, lenght = bar.replace(',', '.').split(':')
+            x = float(x)
+            y = float(y)
+            width = float(width)
+            lenght = float(lenght)
             x += self.x
             y += self.y
-            context.move_to(x, y)
-            context.line(x, y + lenght)
-            context.set_line_width(width)
-            context.stroke()
+            #context.move_to(x, y)
+            #context.line_to(x, y + lenght)
+            #context.set_line_width(width)
+            context.rectangle(x, y, width, y - self.y + lenght)
+            context.fill()
+            #context.stroke()
 
 #        #from:int svg_bars(struct Barcode_Item *bc, FILE *f)
 #        count = len(partial)
@@ -231,18 +237,18 @@ class BarCode(Object):
                 layout = pangocairo.CairoContext.create_layout(context)
                 font = pango.FontDescription(description)
                 layout.set_font_description(font)
-                layout.set_digit(digit)
+                layout.set_text(digit)
                 width, height = layout.get_size()
                 height /= pango.SCALE
                 context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
                     self.stroke_color.blue, self.stroke_color.alpha)
-                context.move_to(self.x + (x * ratio - correction), self.y + self.height - height)
+                #context.move_to(self.x + (x * ratio - correction), self.y + self.height - height)
+                context.move_to(self.x + (x * 1 - correction), self.y + self.height - height)
                 context.show_layout(layout)
 
         Object.draw(self, context)
 
 if __name__ == "__main__":
-    partial = BCIface.get_partial(BARCODE_EAN, "800894002700")
-    textinfo = BCIface.get_textinfo(BARCODE_EAN, "800894002700")
-    print partial
-    print textinfo
+    data = BCIface.get_code_data(BARCODE_EAN, "800894002700", 100, 100)
+    text = BCIface.get_text_data(BARCODE_EAN, "800894002700")
+    print data, text

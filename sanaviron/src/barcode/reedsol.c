@@ -148,25 +148,3 @@ void rs_encode(int len, unsigned char *data, unsigned char *res)
 			res[0] = 0;
 	}
 }
-
-#ifndef LIB
-// The following tests the routines with the ISO/IEC 16022 Annexe R data
-int main(void)
-{
-	register int i;
-
-	unsigned char data[9] = { 142, 164, 186 };
-	unsigned char out[5];
-
-	rs_init_gf(0x12d);
-	rs_init_code(5, 1);
-
-	rs_encode(3, data, out);
-
-	printf("Result of Annexe R encoding:\n");
-	for (i = 4; i >= 0; i--)
-		printf("  %d\n", out[i]);
-
-	return 0;
-}
-#endif
