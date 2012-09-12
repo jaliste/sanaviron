@@ -94,7 +94,7 @@ class Arc(Object):
 
         if closed:
             if self.closed_at_centre:
-                context.line_to(self.centre_x, self.centre_y)
+                context.line_to(0.5, 0.5)
             context.close_path()
 
         if '--debug' in sys.argv:  #Debug mode

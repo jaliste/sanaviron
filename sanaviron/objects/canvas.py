@@ -123,9 +123,13 @@ class Canvas(BaseCanvas):
         self.gradients = []
         grad = Gradient(type=LINEAR, name="1", x=0, y=0, x1=0, y1=0)
         grad.clear()
-        for index in range(11):
-            grad.add_new_color(GradientColor(index * 0.1, index * 0.1, index * 0.1, 1.0, index * 0.1))
-            grad.update()
+        grad.add_new_color(GradientColor(1.0, 0.0, 0.0, 1.0, 0.142))
+        grad.add_new_color(GradientColor(1.0, 1.0, 0.0, 1.0, 0.285))
+        grad.add_new_color(GradientColor(0.0, 1.0, 0.0, 1.0, 0.428))
+        grad.add_new_color(GradientColor(0.0, 1.0, 1.0, 1.0, 0.571))
+        grad.add_new_color(GradientColor(0.0, 0.0, 1.0, 1.0, 0.714))
+        grad.add_new_color(GradientColor(1.0, 0.0, 1.0, 1.0, 0.857))
+        grad.update()
         self.gradients.append(grad)
 
         self.children = list()
