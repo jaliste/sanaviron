@@ -13,6 +13,8 @@ class Handler(Rectangle):
     def __init__(self):
         Rectangle.__init__(self)
         self.control = list()
+        self.can_pivot = True
+        self.center_pivot = False
         self.pivot = Control()
         self.pivot.pivot = True
 
@@ -44,7 +46,8 @@ class Handler(Rectangle):
     def draw(self, context):
         self.draw_handler(context)
         self.draw_controls(context)
-        self.draw_pivot(context)
+        if self.can_pivot:
+            self.draw_pivot(context)
 
     def at_position(self, x, y):
         return self.get_direction(x, y) is not NONE

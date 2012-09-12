@@ -104,6 +104,19 @@ class BarCode(Object):
         self.handler.control[EAST].x = self.x + self.width
         self.handler.control[EAST].y = self.y + self.height / 2
 
+        if int(self.get_property('type')) == DATAMATRIX:
+            self.handler.control[NORTH].active = False
+            self.handler.control[SOUTH].active = False
+            self.handler.control[WEST].active = False
+            self.handler.control[EAST].active = False
+            self.handler.can_pivot = False
+        else:
+            self.handler.control[NORTH].active = True
+            self.handler.control[SOUTH].active = True
+            self.handler.control[WEST].active = True
+            self.handler.control[EAST].active = True
+            self.handler.can_pivot = True
+
     def draw(self, context):
         code = str(self.get_property('code'))
         type = int(self.get_property('type'))
@@ -146,73 +159,25 @@ class BarCode(Object):
             Object.draw(self, context)
             return
 
+        context.set_dash([])
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
             self.stroke_color.blue, self.stroke_color.alpha)
 
-        for bar in data.split(' '):
-            print bar
-            x, y, width, lenght = bar.replace(',', '.').split(':')
-            x = float(x)
-            y = float(y)
-            width = float(width)
-            lenght = float(lenght)
-            x += self.x
-            y += self.y
-            #context.move_to(x, y)
-            #context.line_to(x, y + lenght)
-            #context.set_line_width(width)
-            context.rectangle(x, y, width, y - self.y + lenght)
-            context.fill()
-            #context.stroke()
+        data = data.split(' ')
+        ratio = float(data.pop().replace(',', '.'))
 
-#        #from:int svg_bars(struct Barcode_Item *bc, FILE *f)
-#        count = len(partial)
-#        i = 0     # /* Loop counter */
-#        x = 0     # /* Where the current box is drawn */
-#
-#        while i < count:
-#            current = ord(partial[i]) - 48
-#            if current > 9:
-#                if i + 1 >= count:
-#                    break
-#                current = ord(partial[i + 1]) - 48
-#                i += 2      # /* Skip the following 'a' */
-#            #else:
-#            #    height = self.height - 20
-#            x += current
-#            i += 1
-#
-#        ratio = self.width / x
-#        i = 0     # /* Loop counter */
-#        x = 0     # /* Where the current box is drawn */
-#        is_bar = False
-#
-#        while i < count:
-#            current = ord(partial[i]) - 48
-#
-#            if current > 9:
-#                height = self.height # /* Guide bar */
-#                if i + 1 >= count:
-#                    break
-#                current = ord(partial[i + 1]) - 48
-#                i += 2      # /* Skip the following 'a' */
-#            else:
-#                height = self.height - 20
-#
-#            if is_bar:
-#                context.rectangle(self.x + x, self.y, current * ratio, height)
-#                is_bar = False
-#            else:
-#                is_bar = True
-#
-#            x += current * ratio
-#            i += 1
-#
-#        context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
-#            self.stroke_color.blue, self.stroke_color.alpha)
-        #context.fill()
-        #context.fill_preserve()
-        #context.stroke()
+        def get_bar_data(bar):
+            x, y, thickness, lenght = bar.replace(',', '.').split(':')
+            return float(x) + self.x, float(y) + self.y, float(thickness), float(lenght)
+
+        for bar in data:
+            x, y, thickness, lenght = get_bar_data(bar)
+            context.move_to(x, y)
+            context.line_to(x, y + lenght)
+            context.set_line_width(thickness)
+            context.stroke()
+            #context.rectangle(x, y, thickness, lenght)
+            #context.fill()
 
         if text:
             #from:int svg_text(struct Barcode_Item *bc, FILE *f)
@@ -221,7 +186,9 @@ class BarCode(Object):
             correction = 0 # /* This correction seems to be needed to align text properly */
             px = 0
 
-            for digit in text.split(' '):
+            text = text.split(' ')
+
+            for digit in text:
                 if not len(digit):
                     continue
 
@@ -241,11 +208,19 @@ class BarCode(Object):
                 height /= pango.SCALE
                 context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
                     self.stroke_color.blue, self.stroke_color.alpha)
-                #context.move_to(self.x + (x * ratio - correction), self.y + self.height - height)
-                context.move_to(self.x + (x * 1 - correction), self.y + self.height - height)
+                context.move_to(self.x + (x * ratio - correction), self.y + self.height - height)
                 context.show_layout(layout)
 
         Object.draw(self, context)
+
+    def resize(self, x, y):
+        Object.resize(self, x, y)
+
+        if int(self.get_property('type')) == DATAMATRIX:
+            if self.height > self.width:
+                self.height = self.width
+            else:
+                self.width = self.height
 
 if __name__ == "__main__":
     data = BCIface.get_code_data(BARCODE_EAN, "800894002700", 100, 100)

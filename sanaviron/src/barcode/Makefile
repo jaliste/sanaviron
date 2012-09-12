@@ -1,8 +1,8 @@
-CC = gcc
-#CC = i586-mingw32msvc-gcc
 CFLAGS = -g -O2 -Wall -DHAVE_UNISTD_H=1 -DHAVE_STRCASECMP=1 -DNO_LIBPAPER -fPIC
 TARGET = barcode
+CC = gcc
 SHARED = $(TARGET).so
+#CC = i586-mingw32msvc-gcc
 #SHARED = $(TARGET).dll
 HEADER = $(TARGET).h
 

@@ -22,213 +22,290 @@
 
 #include "interface.h"
 
-#define MIN_PIXEL_SIZE 1.0
+#define MIN_PIXEL_SIZE  1.0
+#define POSTNET_MARGINS 0
 
 char *
 barcode_get_code_data (int type, char *code, double width, double height)
 {
-  int oflags = type | BARCODE_OUT_PS | BARCODE_OUT_NOHEADERS;
-  struct Barcode_Item *Bar = Barcode_Create (code);
+   struct Barcode_Item *barcode;
+   char *output;
+   char *partial;
+   double ratio;
+   double lenght;
+   double x;
+   double y;
+   int flags;
+   int count;
+   int size;
+   int bar;
+   int i;
 
-  Barcode_Encode (Bar, oflags);
+   if (strlen (code) == 0)
+   {
+      return NULL;
+   }
 
-  if (Bar->error) return NULL;
+   flags = type | BARCODE_OUT_PS | BARCODE_OUT_NOHEADERS;
+   barcode = Barcode_Create (code);
 
-  /* from:int svg_bars(struct Barcode_Item *bc, FILE *f) */
-  char *partial = strdup (Bar->partial);
-  int count = strlen (partial);
-  int i = 0; /* Loop counter */
-  int x = 0; /* Where the current box is drawn on x */
-  int y = 0; /* Where the current box is drawn on y */
-  int bar = 0;
-  int size = 0;
-  double ratio;
-  double lenght;
-  char *data;
-  char *output;
+   Barcode_Encode (barcode, flags);
 
-  output = (char *) malloc (2048);
+   if (barcode->error)
+   {
+      return NULL;
+   }
+
+   /* from:int svg_bars(struct Barcode_Item *bc, FILE *f) */
+   partial = strdup (barcode->partial);
+   count = strlen (partial);
+   x = 0;    /* Where the current box is drawn on x */
+   y = 0;    /* Where the current box is drawn on y */
+   i = 0;    /* Loop counter */
+   bar = 0;
+   size = 0;
+
+   output = (char *) malloc (12 + 12 * count);
   
-  while (i < count)
-  {
-    char current = *(partial + i) - 48;
-
-    if (current > 9)
-    {
-      if (i + 1 >= count) break;
-       
-      current = *(partial + i + 1) - 48;
-      i += 2;
-    }
+   while (i < count)
+   {
+      char current = *(partial + i) - 48;
+  
+      if (current > 9)
+      {
+         if (i + 1 >= count)
+         {
+            break;
+         }
+         
+         current = *(partial + i + 1) - 48;
+         i += 2;
+      }
+      
+      x += current;
+      i++;
+   }
+  
+   ratio = width / x;
+   i = 0;
+   x = 0;
+  
+   while (i < count)
+   {
+      char current = *(partial + i) - 48;
     
-    x += current;
-    i++;
-  }
+      lenght = height; /* Guide bar */
   
-  ratio = width / (double) x;
-  i = 0;
-  x = 0;
-  
-  while (i < count)
-  {
-    char current = *(partial + i) - 48;
-  
-    lenght = height; /* Guide bar */
+      if (current > 9)
+      {
+         if (i + 1 >= count)
+         {
+            break;
+         }
+          
+         current = *(partial + i + 1) - 48;
+         i += 2;
+      }
+      else
+      {
+         lenght -= 20;
+      }
+      
+      if (bar)
+      {
+         sprintf (output + size, "%.02f:%.02f:%.02f:%.02f ", x, y, current * ratio, lenght);
+         size = strlen (output);
+         bar = 0;
+      }
+      else
+      {
+         bar = 1;
+      }
+      
+      x += current * ratio;
+      i++;
+   }
+   /* from:int svg_bars(struct Barcode_Item *bc, FILE *f) */
 
-    if (current > 9)
-    {
-      if (i + 1 >= count) break;
-       
-      current = *(partial + i + 1) - 48;
-      i += 2;
-    }
-    else
-      lenght -= 20;
-    
-    if (bar)
-    {
-      sprintf (output + size, "%d.0:%d.0:%.02f:%.02f ", x, y, current * ratio, lenght);
-      size = strlen (output);
-      bar = 0;
-    }
-    else
-      bar = 1;
-    
-    x += current * ratio;
-    i++;
-  }
-  /* from:int svg_bars(struct Barcode_Item *bc, FILE *f) */
+   sprintf (output + size, "%.02f", ratio);
 
-  *(output + size - 1) = '\0';
-  data = strdup (output);
-  free (output);
-  output = NULL;
-
-  return data;
+   return output;
 }
 
 char *
 barcode_get_text_data (int type, char *code)
 {
-  int oflags = type | BARCODE_OUT_PS | BARCODE_OUT_NOHEADERS;
-  struct Barcode_Item *Bar;
-  Bar = Barcode_Create(code);
-  if (Bar->error) return NULL;
-  Barcode_Encode(Bar, oflags);
-  return Bar->textinfo;
-}
-
-char *
-render_iec16022 (char *grid, int i_width, int i_height, double w, double h)
-{
-   double ratio;
-   double pixel;
-   int i, j;
-   int size;
-   char *output;
-   char *data;
-
-   output = (char *) malloc (4096);
-   size = 0;
-
-   /* Treat requested size as a bounding box, scale to maintain aspect
-    * ratio while fitting it in this bounding box. */
-   ratio = (double) i_height / (double) i_width;
-   if (h > w * ratio)
-      h = w * ratio;
-   else
-      w = h / ratio;
-
-   /* Now determine pixel size. */
-   pixel = w / i_width;
-   if (pixel < MIN_PIXEL_SIZE)
-      pixel = MIN_PIXEL_SIZE;
-
-   /* Now traverse the code string and create a list of boxes */
-   for (i = i_height - 1; i >= 0; i--)
-      for (j = 0; j < i_width; j++)
-         if (*grid++)
-         {
-            double x = j * pixel + pixel / 2.0;
-            double y = i * pixel;
-            double length = pixel;
-            double width  = pixel;
-
-            sprintf (output + size, "%.02f:%.02f:%.02f:%.02f ", x, y, width, length);
-            size = strlen (output);
-         }
-
-   *(output + size - 1) = '\0';
-   data = strdup (output);
-   free (output);
-   output = NULL;
-
-   return data;
+   int flags;
+   struct Barcode_Item *barcode;
+ 
+   if (strlen (code) == 0)
+   {
+      return NULL;
+   }
+  
+   flags = type | BARCODE_OUT_PS | BARCODE_OUT_NOHEADERS;
+ 
+   barcode = Barcode_Create (code);
+ 
+   if (barcode->error)
+   {
+      return NULL;
+   }
+ 
+   Barcode_Encode (barcode, flags);
+ 
+   *(barcode->textinfo + strlen (barcode->textinfo) - 1) = '\0';
+ 
+   return barcode->textinfo;
 }
 
 char *
 datamatrix_get_code_data (int type, char *code, double width, double height)
 {
    char *grid;
-   int i_width;
-   int i_height;
+   char *output;
+   double ratio;
+   double pixel;
+   int size;
+   int w;
+   int h;
+   int i;
+   int j;
 
-   if (strlen (code) == 0) return NULL;
+   if (strlen (code) == 0)
+   {
+      return NULL;
+   }
 
-   i_width  = 0;
-   i_height = 0;
+   w = 0;
+   h = 0;
 
-   grid = (char *) iec16022ecc200 (&i_width, &i_height, NULL, strlen (code), (unsigned char *) code,
-                                   NULL, NULL, NULL);
+   grid = (char *) iec16022ecc200 (&w, &h, NULL, strlen (code), (unsigned char *) code, NULL, NULL, NULL);
 
-   return render_iec16022 (grid, i_width, i_height, width, height);
+   output = (char *) malloc (12 + 12 * strlen (grid));
+   size = 0;
+
+   /* Treat requested size as a bounding box, scale to maintain aspect ratio while fitting it in this box */
+   ratio = (double) h / (double) w;
+
+   if (height > width * ratio)
+   {
+      height = width * ratio;
+   }
+   else
+   {
+      width = height / ratio;
+   }
+
+   /* Now determine pixel size */
+   pixel = width / w;
+
+   if (pixel < MIN_PIXEL_SIZE)
+   {
+      pixel = MIN_PIXEL_SIZE;
+   }
+
+   /* Now traverse the code string and create a list of boxes */
+   for (i = h - 1; i >= 0; i--)
+   {
+      for (j = 0; j < w; j++)
+      {
+         if (*grid++)
+         {
+            double x = j * pixel + pixel / 2.0;
+            double y = i * pixel;
+            double length = pixel;
+            double thickness  = pixel;
+
+            sprintf (output + size, "%.02f:%.02f:%.02f:%.02f ", x, y, thickness, length);
+            size = strlen (output);
+         }
+      }
+   }
+
+   sprintf (output + size, "%.02f", 0.0);
+
+   return output;
 }
 
 char *
-postnet_get_code_data (int type, const char *code, double width, double height)
+postnet_get_code_data (int type, char *code, double width, double height)
 {
    char *buffer;
    char *digit;
    char *output;
-   char *data;
+   double horiz_margin;
+   double vert_margin;
+   double bar_width;
+   double full_height;
+   double half_height;
+   double bar_pitch;
    double a;
+   double w;
+   double h;
    int size;
 
-   output = (char *) malloc (2048);
-   size = 0;
+   if (strlen (code) == 0)
+   {
+      return NULL;
+   }
 
-   /* Validate code length for all subtypes. */
-   if (!check_valid_type (type, code)) return NULL;
+   /* Validate code length for all subtypes */
+   if (!check_valid_type (type, code))
+   {
+      return NULL;
+   }
 
    /* First get code string */
    buffer = postnet_code (code);
-   if (buffer == NULL) return NULL;
+
+   if (buffer == NULL)
+   {
+      return NULL;
+   }
+
+   w = 2 * POSTNET_HORIZ_MARGIN * POSTNET_MARGINS + strlen (buffer) * POSTNET_BAR_PITCH;
+   h = 2 * POSTNET_VERT_MARGIN * POSTNET_MARGINS + POSTNET_FULLBAR_HEIGHT;
+
+   horiz_margin = POSTNET_HORIZ_MARGIN * width / w;
+   vert_margin = POSTNET_VERT_MARGIN * height / h;
+   bar_width = POSTNET_BAR_WIDTH * width / w;
+   full_height = POSTNET_FULLBAR_HEIGHT * height / h;
+   half_height = POSTNET_HALFBAR_HEIGHT * height / h;
+   bar_pitch = POSTNET_BAR_PITCH * width / w;
+
+   horiz_margin *= POSTNET_MARGINS;
+   vert_margin *= POSTNET_MARGINS;
+
+   output = (char *) malloc (12 + 12 * strlen (buffer));
+   size = 0;
 
    /* Now traverse the code string and create a list of lines */
-   a = POSTNET_HORIZ_MARGIN;
+   a = horiz_margin;
+
    for (digit = buffer; *digit != 0; digit++)
    {
       double x = a;
-      double y = POSTNET_VERT_MARGIN;
-      double width = POSTNET_BAR_WIDTH;
+      double y = vert_margin;
+      double thickness = bar_width;
       double length;
 
       if (*digit == '0')
       {
-         y += POSTNET_FULLBAR_HEIGHT - POSTNET_HALFBAR_HEIGHT;
-         length = POSTNET_HALFBAR_HEIGHT;
-      } else
-         length = POSTNET_FULLBAR_HEIGHT;
+         y += full_height - half_height;
+         length = half_height;
+      }
+      else
+      {
+         length = full_height;
+      }
 
-      sprintf (output + size, "%.02f:%.02f:%.02f:%.02f ", x, y, width, length);
+      sprintf (output + size, "%.02f:%.02f:%.02f:%.02f ", x, y, thickness, length);
       size = strlen (output);
-      a += POSTNET_BAR_PITCH;
+      a += bar_pitch;
    }
 
-   *(output + size - 1) = '\0';
-   data = strdup (output);
-   free (output);
-   output = NULL;
+   sprintf (output + size, "%.02f", 0.0);
 
-   return data;
+   return output;
 }

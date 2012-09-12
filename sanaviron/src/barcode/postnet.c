@@ -36,6 +36,7 @@ postnet_code (const char *code)
 	char *buffer;
 
 	buffer = (char *) malloc (8 + 5 * get_code_lenght (code));
+	*buffer = 0;
    sum = 0;
 
 	/* Left frame bar */
@@ -57,6 +58,8 @@ postnet_code (const char *code)
 
 	/* Right frame bar */
 	strcat (buffer, frame);
+
+   fprintf (stderr, "output: %s\n", buffer);
 
 	return buffer;
 }
@@ -125,5 +128,5 @@ get_code_lenght (const char *code)
 static int
 is_length_valid (const char *code, int length)
 {
-	return get_code_lenght (code) == length;
+	return (get_code_lenght (code) == length);
 }

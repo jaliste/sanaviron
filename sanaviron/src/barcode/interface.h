@@ -7,4 +7,4 @@
 char *barcode_get_code_data (int type, char *code, double width, double height);
 char *barcode_get_text_data (int type, char *code);
 char *datamatrix_get_code_data (int type, char *code, double width, double height);
-char *postnet_get_code_data (int type, const char *code, double width, double height);
+char *postnet_get_code_data (int type, char *code, double width, double height);

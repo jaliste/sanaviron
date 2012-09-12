@@ -24,11 +24,17 @@ char *
 get_code_data (int type, char *code, double width, double height)
 {
    if (type < POSTNET)
-      return barcode_get_code_data (type, code, width,height);
+   {
+      return barcode_get_code_data (type, code, width, height);
+   }
    else if (type < DATAMATRIX)
-      return postnet_get_code_data (type, code, width,height);
+   {
+      return postnet_get_code_data (type, code, width, height);
+   }
    else if (type == DATAMATRIX)
-      return datamatrix_get_code_data (type, code, width,height);
+   {
+      return datamatrix_get_code_data (type, code, width, height);
+   }
 
    return NULL;
 }
@@ -36,6 +42,10 @@ get_code_data (int type, char *code, double width, double height)
 char *
 get_text_data (int type, char *code)
 {
-   if (type > BARCODE_93) return NULL;
+   if (type > BARCODE_93)
+   {
+      return NULL;
+   }
+
    return barcode_get_text_data (type, code);
 }
