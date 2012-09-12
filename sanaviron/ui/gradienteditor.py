@@ -2,16 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import gtk
-import cairo
 
-from objects.gradient import Gradient
 from objects.gradientcolor import GradientColor
-from objects import LINEAR
 
 
 class GradientLine(gtk.Viewport):
-    def __init__(self, moving_callback=None, gradient=None):
-
+    def __init__(self, moving_callback=None, color_callback=None, gradient=None):
         """
         moving_callback - callback function to be called when changing position of the selected color(for spin widget)
         gradient - editable gradient
@@ -26,8 +22,9 @@ class GradientLine(gtk.Viewport):
         self.x = 0
         self.move = False
         self.gradient = gradient
+        self.gradient.change_size(0, 0, 1, 0)
         self.moving_callback = moving_callback
-
+        self.color_callback = color_callback
         self.layout = gtk.Layout()
         self.add(self.layout)
 
@@ -41,20 +38,16 @@ class GradientLine(gtk.Viewport):
         self.layout.connect("motion-notify-event", self.motion)
         self.layout.add_events(gtk.gdk.LEAVE_NOTIFY_MASK)
         self.layout.connect("leave-notify-event", self.leave)
-        self.layout.add_events(gtk.gdk.WINDOW_STATE)
-        self.layout.connect("window_state_event", self.update_resize)
-
-    def update_resize(self, widget, event):
-        self.gradient.change_size(0, 0, self.width, 0)
-        self.gradient.update()
-        self.queue_draw()
-        return True
 
     def update(self):
         self.queue_draw()
 
-    def set_position_for_selected(self,x):
+    def set_position_for_selected(self, x):
         self.gradient.set_position(self.selected, x)
+
+    def set_color_for_selected(self, color):
+        color.position = self.gradient.colors[self.selected].position
+        self.gradient.set_color(self.selected, color)
 
     def motion(self, widget, event):
         self._motion = True
@@ -83,25 +76,23 @@ class GradientLine(gtk.Viewport):
                     self.gradient.colors[col].position < (event.x / self.width + 0.01)):
                     self.selected = col
                     self.moving_callback(self.gradient.colors[col].position)
+                    self.color_callback(self.gradient.colors[col])
                     break
                 else:
                     self.selected = -1
-        else:
-            self.gradient.add_new_color(GradientColor(1, 0.1, 0.1, 1.0, event.x / self.width))
-            self.gradient.update()
 
-        if self.selected == -1:
-            col = GradientColor(1, 1, 0.1, 1.0, event.x / self.width)
-            self.gradient.add_new_color(col)
+        if self.selected == -1 or not cnt:
+            self.gradient.add_new_color(GradientColor(1, 1, 0.1, 1.0, event.x / self.width))
+            self.selected = len(self.gradient.colors)-1
+            self.moving_callback(self.gradient.colors[self.selected].position)
+            self.color_callback(self.gradient.colors[self.selected])
             self.gradient.update()
 
         self.queue_draw()
-        return True
 
     def release(self, widget, event):
         self.move = False
         self.queue_draw()
-        return True
 
     def expose(self, widget, event):
         context = widget.bin_window.cairo_create()
@@ -109,11 +100,9 @@ class GradientLine(gtk.Viewport):
 
         context.save()
         context.new_path()
-        context.translate(0, 0)
+        #context.translate(0, 0)
         if (self.width > 0) and (self.height > 0):
-            context.scale(self.width,self.height)
-
-        self.gradient.change_size(0, 0, 1, 0)
+            context.scale(self.width, self.height)
 
         context.rectangle(0, 0, 1, 1)
         context.set_source(self.gradient.gradient)
@@ -167,7 +156,8 @@ class GradientLine(gtk.Viewport):
             context.line_to(pos + 5, 0)
             context.line_to(pos, 20)
             context.line_to(pos - 5, 0)
-            context.set_source_rgb(self.gradient.colors[color].alpha, self.gradient.colors[color].alpha, self.gradient.colors[color].alpha)
+            context.set_source_rgb(self.gradient.colors[color].alpha, self.gradient.colors[color].alpha,
+                self.gradient.colors[color].alpha)
             context.fill_preserve()
             if delta:
                 context.move_to(pos, 20)
@@ -175,43 +165,21 @@ class GradientLine(gtk.Viewport):
             context.set_source_rgb(0.44, 0.62, 0.81)
             context.stroke()
 
-            """context.new_path()
-            if delta:
-                context.move_to(pos, self.height - 20 - delta)
-                context.line_to(pos, self.height - 20)
-            context.move_to(pos, self.height - 20)
-            context.line_to(pos + 5, self.height)
-            context.line_to(pos - 5, self.height)
-            context.line_to(pos, self.height - 20)
-            context.set_source_rgb(self.gradient.colors[color].red, self.gradient.colors[color].green, self.gradient.colors[color].blue)
-            context.fill_preserve()
-            context.set_source_rgb(0.44, 0.62, 0.81)
-            context.stroke()"""
-
-        return False
-
 
 class LinearGradientEditor(gtk.VBox):
     def __init__(self, canvas=None):
         gtk.VBox.__init__(self)
 
-
         self.canvas = canvas
-
-        grad = Gradient(type=LINEAR, name="1", x=0, y=0, x1=0, y1=0)
-        grad.clear()
-        for index in range(11):
-            grad.add_new_color(GradientColor(index * 0.1, index * 0.1, index * 0.1, 1.0, index * 0.1))
-            grad.update()
-        self.canvas.gradients.append(grad)
 
         table = gtk.Table(4, 4, False)
         self.pack_start(table)
         self.combobox = gtk.combo_box_new_text()
         table.attach(self.combobox, 1, 2, 0, 1, gtk.FILL, 0)
-        print self.canvas.gradients[0]
-        self.gl = GradientLine(self.moving_callback, self.canvas.gradients[0])
-        table.attach(self.gl, 1, 2, 1, 2, gtk.FILL|gtk.EXPAND, 0)
+
+        self.gl = GradientLine(self.moving_callback, self.color_callback, self.canvas.gradients[0])
+
+        table.attach(self.gl, 1, 2, 1, 2, gtk.FILL | gtk.EXPAND, 0)
         new_color = gtk.Button()
         image = gtk.Image()
         image.set_from_stock(gtk.STOCK_NEW, gtk.ICON_SIZE_MENU)
@@ -233,15 +201,26 @@ class LinearGradientEditor(gtk.VBox):
         table.attach(button, 0, 1, 1, 2, 0, gtk.FILL, 0)
 
         hbox = gtk.HBox()
+
+        label = gtk.Label(_("Color:"))
+        hbox.pack_start(label)
+
+        self.color_button = gtk.ColorButton()
+        self.color_button.set_use_alpha(True)
+        self.color_button.connect("color-set", self.set_gradient_color)
+        hbox.pack_start(self.color_button)
+
         label = gtk.Label(_("Position:"))
+        hbox.pack_start(label)
+
         self.sel_position = gtk.SpinButton(climb_rate=0.00001, digits=5)
         self.sel_position.set_range(0.0, 1.0)
         self.sel_position.set_wrap(True)
-        self.sel_position.set_increments(0.00001,0.1)
+        self.sel_position.set_increments(0.00001, 0.1)
         self.sel_position.connect("value-changed", self.move_color)
-        hbox.pack_start(label)
         hbox.pack_start(self.sel_position)
-        table.attach(hbox, 1, 2, 2, 3, gtk.FILL,0, 0)
+
+        table.attach(hbox, 1, 2, 2, 3, gtk.FILL, 0, 0)
 
         self.show_all()
 
@@ -263,14 +242,28 @@ class LinearGradientEditor(gtk.VBox):
             self.moving_callback(self.gl.gradient.colors[self.gl.selected].position)
             self.gl.update()
 
-    def moving_callback(self,x):
+    def moving_callback(self, x):
         self.sel_position.set_value(x)
         self.canvas.update()
 
-    def move_color(self,widget):
+    def color_callback(self, color):
+        self.color_button.set_color(gtk.gdk.Color(float(color.red), float(color.green), float(color.blue)))
+        self.color_button.set_alpha(int(color.alpha * 65535))
+        self.canvas.update()
+
+    def move_color(self, widget):
         if self.gl:
             self.gl.set_position_for_selected(widget.get_value())
             self.gl.update()
+            self.canvas.update()
+
+    def set_gradient_color(self, widget):
+        if self.gl:
+            col = GradientColor(widget.get_color().red_float, widget.get_color().green_float,
+                widget.get_color().blue_float, widget.get_alpha() / 65535.0,0)
+            self.gl.set_color_for_selected(col)
+            self.gl.update()
+            self.canvas.update()
 
 if __name__ == '__main__':
     horizontal_window = gtk.Window()

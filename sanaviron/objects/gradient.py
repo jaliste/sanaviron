@@ -13,7 +13,7 @@ class Gradient:
         #Holder.__init__(self)
         self.__name__ = name
         self.type = type
-        self.colors = [GradientColor(1,1,1,1,0),GradientColor(0,0,0,1,1)]
+        self.colors = [GradientColor(1, 1, 1, 1, 0), GradientColor(0, 0, 0, 1, 1)]
         self.x, self.y = x, y
         self.width, self.height = x1, y1
         if type == LINEAR:
@@ -23,8 +23,19 @@ class Gradient:
         self.update()
 
     def __repr__(self):
-        return " ".join([str(self.type), self.__name__, str(self.x), str(self.y), str(self.width), str(self.height),
-                         str(self.colors)])
+        return str(
+            self.get_object())#" ".join([str(self.type), self.__name__, str(self.x), str(self.y), str(self.width), str(self.height),
+        #str(self.colors)])
+
+    def get_object(self):
+        return {
+            "type": self.type,
+            "x": self.x,
+            "y": self.y,
+            "width": self.width,
+            "height": self.height,
+            "colors": self.colors
+        }
 
     def change_size( self, x, y, x1, y1):
         self.x, self.y = x, y
@@ -38,6 +49,9 @@ class Gradient:
         self.colors[index].position = position
         self.update()
 
+    def set_color(self, index, color):
+        self.colors[index] = color
+        self.update()
 
     def add_new_color(self, gradient_color):
         self.colors.append(gradient_color)

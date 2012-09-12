@@ -15,9 +15,9 @@ class Arc(Object):
 
     __name__ = "Arc"
 
-    def __init__(self):
+    def __init__(self, canvas):
         Object.__init__(self)
-
+        self.canvas = canvas
         self.angle_start = 0.0
         self.angle_stop = 360.0
         self.set_property("angle_start", self.angle_start)
@@ -81,11 +81,10 @@ class Arc(Object):
 
         context.save()
         context.new_path()
-        context.translate(self.centre_x, self.centre_y)
-        if (self.radius_horizontal > 0) and (self.radius_vertical > 0):
-            context.scale(self.radius_horizontal, self.radius_vertical)
-        context.arc(0.0, 0.0, 1.0, grad2rad(self.angle_start), grad2rad(self.angle_stop))
-        context.restore()
+        context.translate(self.x, self.y)
+        if (self.width) and (self.height > 0):
+            context.scale(self.width, self.height)
+        context.arc(0.5, 0.5, 0.5, grad2rad(self.angle_start), grad2rad(self.angle_stop))
 
         if (self.angle_start == self.angle_stop) or (self.angle_start == 0.0 and self.angle_stop == 360.0) or\
            (self.angle_start == 360.0 and self.angle_stop == 0.0):
@@ -102,12 +101,13 @@ class Arc(Object):
             self.fill_style = GRADIENT
 
         if self.fill_style == GRADIENT:
-            self.set_gradient(Gradient(0, "1", self.x, self.y, self.x + self.width, self.y))
-            context.set_source(self.gradient.gradient)
+            self.set_gradient(self.canvas.gradients[0])
+            context.set_source(self.canvas.gradients[0].gradient)
         elif self.fill_style == COLOR:
             context.set_source_rgba(self.fill_color.red, self.fill_color.green,
                 self.fill_color.blue, self.fill_color.alpha)
         context.fill_preserve()
+        context.restore()
 
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
             self.stroke_color.blue, self.stroke_color.alpha)

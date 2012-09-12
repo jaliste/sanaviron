@@ -430,7 +430,7 @@ class Application(gtk.Window):
         self.editor.canvas.create(Line())
 
     def arc(self, widget, data):
-        self.editor.canvas.create(Arc())
+        self.editor.canvas.create(Arc(self.editor.canvas))
 
     def curve(self, widget, data):
         self.editor.canvas.create(Curve())

@@ -20,6 +20,21 @@ class Box(Object):
         self.separators = list()
         self.canvas = canvas
 
+    def get_object(self):
+        return {
+            "type":self.__name__,
+            "x":self.x,
+            "y":self.y,
+            "width":self.width,
+            "height":self.height,
+            "fill_style":self.fill_style,
+            "fill_color":str(self.fill_color),
+            "gradient":self.gradient,
+            "stroke_color":str(self.stroke_color),
+            "dash":self.dash,
+            "thickness":self.thickness,
+            }
+
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
         self.handler.control[NORTHWEST].y = self.y

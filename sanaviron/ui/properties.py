@@ -24,9 +24,6 @@ class Form(gtk.VBox):
         self.group = properties.group
         self.observer = properties.observer
         self.__name = name
-        #self.set_border_width(1)
-        #self.set_spacing(1)
-
         self.table = None
         self.entries = 0
 

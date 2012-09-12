@@ -10,8 +10,6 @@ if platform.system() != 'Windows':
     gtk.threads_init()
 
 import cairo
-#import threads
-import gobject
 
 from holder import Holder, Property
 from origin import Origin
@@ -22,7 +20,6 @@ from paper import Paper
 from size import Size
 from signalized import Signalized
 from point import Point
-from gradient import Gradient
 
 from barcode import BarCode
 from image import Image
@@ -38,6 +35,7 @@ from chart import Chart
 
 from objects import *
 from objects import opossite
+from objects.gradient import Gradient,GradientColor
 
 import xml.parsers.expat
 
@@ -121,8 +119,15 @@ class Canvas(BaseCanvas):
         self.grid = Grid()
         self.guides = Guides()
         self.selection = Selection()
+
         self.gradients = []
-        #self.gradients.append(Gradient()) ###ToDo
+        grad = Gradient(type=LINEAR, name="1", x=0, y=0, x1=0, y1=0)
+        grad.clear()
+        for index in range(11):
+            grad.add_new_color(GradientColor(index * 0.1, index * 0.1, index * 0.1, 1.0, index * 0.1))
+            grad.update()
+        self.gradients.append(grad)
+
         self.children = list()
         self.pages = list()
 
