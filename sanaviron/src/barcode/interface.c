@@ -1,7 +1,7 @@
 /*
  * barcode.c -- GNU barcode/ECC200 ISO/IEC16022/POSTNET interface for Python
  *
- * Copyright (c) 2009 Juan Manuel Mouriz (jmouriz@gmail.com)
+ * Copyright (c) 2012 Juan Manuel Mouriz (jmouriz@gmail.com)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ barcode_get_code_data (int type, char *code, double width, double height)
     i++;
   }
   
-  ratio = width / x;
+  ratio = width / (double) x;
   i = 0;
   x = 0;
   
@@ -89,12 +89,6 @@ barcode_get_code_data (int type, char *code, double width, double height)
     {
       sprintf (output + size, "%d.0:%d.0:%.02f:%.02f ", x, y, current * ratio, lenght);
       size = strlen (output);
-      /*
-      fprintf (stdout, "cairo_move_to(context, %d, %d);\n", x, y);
-      fprintf (stdout, "cairo_line_to(context, %d, %d + %.02f);\n", x, y, lenght);
-      fprintf (stdout, "cairo_set_line_width(context, %.02f);\n", current * ratio);
-      fprintf (stdout, "cairo_stroke(context);\n");
-      */
       bar = 0;
     }
     else
@@ -139,7 +133,7 @@ render_iec16022 (char *grid, int i_width, int i_height, double w, double h)
 
    /* Treat requested size as a bounding box, scale to maintain aspect
     * ratio while fitting it in this bounding box. */
- 	ratio = (double) i_height / (double) i_width;
+   ratio = (double) i_height / (double) i_width;
    if (h > w * ratio)
       h = w * ratio;
    else
@@ -147,10 +141,11 @@ render_iec16022 (char *grid, int i_width, int i_height, double w, double h)
 
    /* Now determine pixel size. */
    pixel = w / i_width;
-   if (pixel < MIN_PIXEL_SIZE) pixel = MIN_PIXEL_SIZE;
+   if (pixel < MIN_PIXEL_SIZE)
+      pixel = MIN_PIXEL_SIZE;
 
    /* Now traverse the code string and create a list of boxes */
-   for (i = i_height-1; i >= 0; i--)
+   for (i = i_height - 1; i >= 0; i--)
       for (j = 0; j < i_width; j++)
          if (*grid++)
          {
@@ -161,18 +156,8 @@ render_iec16022 (char *grid, int i_width, int i_height, double w, double h)
 
             sprintf (output + size, "%.02f:%.02f:%.02f:%.02f ", x, y, width, length);
             size = strlen (output);
-            /*
-            fprintf (stdout, "cairo_move_to (cr, %.02f, %.02f);\n", x, y);
-            fprintf (stdout, "cairo_line_to (cr, %.02f, %.02f + %.02f);\n", x, y, length);
-            fprintf (stdout, "cairo_set_line_width (cr, %.02f);\n", width);
-            fprintf (stdout, "cairo_stroke (cr);\n");
-            */
          }
 
-   /* fill in other info */
-   //double height = i_height * pixel;
-   //double width  = i_width  * pixel;
-  
    *(output + size - 1) = '\0';
    data = strdup (output);
    free (output);
@@ -237,18 +222,8 @@ postnet_get_code_data (int type, const char *code, double width, double height)
 
       sprintf (output + size, "%.02f:%.02f:%.02f:%.02f ", x, y, width, length);
       size = strlen (output);
-      /*
-      fprintf (stdout, "cairo_move_to (context, %.02f, %.02f);\n", x, y);
-      fprintf (stdout, "cairo_line_to (context, %.02f, %.02f + %.02f);\n", x, y, length);
-      fprintf (stdout, "cairo_set_line_width (context, %.02f);\n", width);
-      fprintf (stdout, "cairo_stroke (context);\n");
-      */
-
       a += POSTNET_BAR_PITCH;
    }
-
-   //double width = a + POSTNET_HORIZ_MARGIN;
-   //double height = POSTNET_FULLBAR_HEIGHT + 2 * POSTNET_VERT_MARGIN;
 
    *(output + size - 1) = '\0';
    data = strdup (output);

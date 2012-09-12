@@ -109,10 +109,8 @@ class BarCode(Object):
         type = int(self.get_property('type'))
         description = "Verdana 12"
 
-        data = BCIface.get_code_data(type, code, int(self.width), int(self.height))
+        data = BCIface.get_code_data(type, code, self.width, self.height)
         text = BCIface.get_text_data(type, code)
-
-        print data, text
 
         if not data:
             margin = 10
@@ -152,6 +150,7 @@ class BarCode(Object):
             self.stroke_color.blue, self.stroke_color.alpha)
 
         for bar in data.split(' '):
+            print bar
             x, y, width, lenght = bar.replace(',', '.').split(':')
             x = float(x)
             y = float(y)
