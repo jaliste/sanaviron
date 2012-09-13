@@ -44,6 +44,8 @@ object = None
 class BaseCanvas(Holder, gtk.Layout, Signalized):
     """This class represents a low level canvas"""
 
+    __name__ = "Document" # TODO This is an error. Must be in a Document class.
+
     def __init__(self):
         Holder.__init__(self)
         gtk.Layout.__init__(self)
