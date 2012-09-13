@@ -50,7 +50,7 @@ class BaseCanvas(Holder, gtk.Layout, Signalized):
         Signalized.__init__(self)
 
         self.configure_handlers()
-        
+
         self.set_can_default(True)
         self.set_can_focus(True)
 
@@ -83,21 +83,17 @@ class BaseCanvas(Holder, gtk.Layout, Signalized):
         self.statics.expose = 0
         self.statics.consumed = Statics()
         self.statics.consumed.motion = 0
-        self.statics.consumed.expose = 0
 
-    def consume(self, type):
+    def consume(self, type, state):
         next = gtk.gdk.event_get()
-        while next and next.type == type:
+        while next and next.type == type and next.state == state:
             next.free()
             next = gtk.gdk.event_get()
-            if type == gtk.gdk.MOTION_NOTIFY:
-                self.statics.consumed.motion += 1
-            else:
-                self.statics.consumed.expose += 1
+            self.statics.consumed.motion += 1
 
     #def key_press(self, widget, event):
     #    raise NotImplementedError
-        
+
     def release(self, widget, event):
         raise NotImplementedError
 
@@ -109,9 +105,11 @@ class BaseCanvas(Holder, gtk.Layout, Signalized):
 
     def expose(self, widget, event):
         raise NotImplementedError
-        
+
 class Canvas(BaseCanvas):
     """This class represents a middle level canvas"""
+
+    __name__ = "Document" # TODO This is an error. Must be a class Document
 
     def __init__(self):
         BaseCanvas.__init__(self)
@@ -137,13 +135,13 @@ class Canvas(BaseCanvas):
 
         paper = Paper()
         self.total = Size()
-        
+
         self.pages.append(paper)
         self.zoom = 1.0
         self.origin.x = 0 # XXX
         self.origin.y = 0 # XXX
         self.border = 25
-        
+
         self.pick = False
         self.updated = False
         self.child = None
@@ -156,7 +154,7 @@ class Canvas(BaseCanvas):
         self.hints = False
 
         self.motions = 0
-      
+
     def release(self, widget, event):
         """
         This code is executed when you release the mouse button
@@ -193,7 +191,7 @@ class Canvas(BaseCanvas):
         This code is executed when move the mouse pointer
         """
         self.statics.motion += 1
-        self.consume(gtk.gdk.MOTION_NOTIFY)
+        #self.consume(gtk.gdk.MOTION_NOTIFY, event.state)
         self.disconnect(self.motion_id)
         self.horizontal_ruler.motion(self.horizontal_ruler, event, True)
         self.vertical_ruler.motion(self.vertical_ruler, event, True)
@@ -330,7 +328,6 @@ class Canvas(BaseCanvas):
 
     def expose(self, widget, event):
         self.statics.expose += 1
-        self.consume(gtk.gdk.EXPOSE)
         self.disconnect(self.expose_id)
         context = widget.bin_window.cairo_create()
         context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
@@ -621,7 +618,7 @@ class ExtendedCanvas(Canvas):
             text += child.serialize()
         text += "</document>\n"
         return text
-        
+
 class TestingCanvas(ExtendedCanvas):
     """This class represents a testing canvas"""
 

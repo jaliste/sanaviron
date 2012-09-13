@@ -6,12 +6,17 @@ from holder import Holder
 class Color(Holder):
     """This class represents a color"""
 
+    __name__ = "Color"
+
     def __init__(self, r=0.0, g=0.0, b=0.0, a=0.0):
         Holder.__init__(self)
         self.red = r
         self.green = g
         self.blue = b
         self.alpha = a
+
+    def get_xxx(self):
+        return ['red', 'green', 'blue', 'alpha']
 
     def __str__(self):
         return  " ".join([str(self.red), str(self.green), str(self.blue), str(self.alpha)])

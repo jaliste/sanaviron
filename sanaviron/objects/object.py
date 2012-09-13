@@ -39,6 +39,9 @@ class Object(Rectangle):
         self.set_stroke_color(Color(0.25, 0.25, 0.25, 1))
         self.thickness = 1.0
 
+    def get_xxx(self):
+        return ["x", "y", "z", "width", "height"]
+
     def post(self):
         pass
 

@@ -4,14 +4,17 @@
 import cairo
 from objects import *
 from gradientcolor import GradientColor
+from holder import Holder
 
 
-class Gradient:
+class Gradient(Holder):
     """This class represents a gradient"""
 
+    __name__ = "Gradient"
+
     def __init__(self, type=LINEAR, name="", x=0, y=0, x1=1, y1=1):
-        #Holder.__init__(self)
-        self.__name__ = name
+        Holder.__init__(self)
+        #self.__name__ = name
         self.type = type
         self.colors = [GradientColor(1, 1, 1, 1, 0), GradientColor(0, 0, 0, 1, 1)]
         self.x, self.y = x, y
@@ -21,6 +24,9 @@ class Gradient:
         elif type == RADIAL:
             self.gradient = cairo.RadialGradient(x, y, x1, y1, 10, 100)
         self.update()
+
+    def get_xxx(self):
+        return ['type', 'colors']
 
     def __repr__(self):
         return str(

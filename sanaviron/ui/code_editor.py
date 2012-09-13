@@ -1,6 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import sys
 import gtk
+import pango
+import traceback
+from StringIO import StringIO
 import gtksourceview2 as gtksourceview
 
 class SourcePad(gtk.ScrolledWindow):
@@ -24,6 +28,8 @@ class SourcePad(gtk.ScrolledWindow):
         entry.set_wrap_mode(gtk.WRAP_WORD_CHAR)
         entry.set_wrap_mode(gtk.WRAP_CHAR)
 
+        font = pango.FontDescription('monospace')
+        entry.modify_font(font)
         entry.set_show_line_numbers(True)
         entry.set_show_line_marks(True)
         entry.set_tab_width(8)
@@ -77,14 +83,68 @@ class CodeEditor(gtk.VBox):
 
         position = 0
         button = gtk.ToolButton(gtk.STOCK_MEDIA_PLAY)
+        button.connect("clicked", self.run)
         toolbar.insert(button, position)
 
         position += 1
         button = gtk.ToolButton(gtk.STOCK_MEDIA_STOP)
         toolbar.insert(button, position)
 
+        panel = gtk.HPaned()
+        panel.set_position(75) # TODO calculate
+        self.add(panel)
+
         self.editor = SourcePad()
-        self.add(self.editor)
+        panel.pack1(self.editor, True, False)
+
+        view = gtk.ScrolledWindow()
+        view.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        panel.pack2(view, False, True)
+
+        output = gtk.TextView()
+        font = pango.FontDescription('monospace')
+        output.modify_font(font)
+        self.buffer = gtk.TextBuffer()
+        self.buffer.connect_after('insert-text', self.text_inserted, view)
+        output.set_buffer(self.buffer)
+        view.add(output)
+
+        self.tags = []
+        self.buffer.create_tag("normal", editable=False, wrap_mode=gtk.WRAP_WORD_CHAR)
+        self.buffer.create_tag("error", foreground="#f00", weight=pango.WEIGHT_BOLD, style=pango.STYLE_ITALIC)
+        self.tags.append('normal')
+
+    def set_error(self):
+        self.tags.append('error')
+
+    def unset_error(self):
+        if 'error' in self.tags:
+            del self.tags[self.tags.index('error')]
+
+    def text_inserted(self, buffer, iter, text, length, view):
+        position = buffer.get_iter_at_mark(buffer.get_insert())
+        iter.backward_chars(length)
+
+        for tag in self.tags:
+            buffer.apply_tag_by_name(tag, position, iter)
+
+    def run(self, widget):
+        buffer = self.editor.buffer
+        start = buffer.get_start_iter()
+        end = buffer.get_end_iter()
+        code = buffer.get_text(start, end)
+        stdio = (sys.stdin, sys.stdout, sys.stderr)
+        io = StringIO()
+        sys.stdout = sys.stderr = io
+        self.unset_error()
+        try:
+            exec(code, locals(), globals())
+            output = io.getvalue()
+        except Exception, exception:
+            self.set_error()
+            output = str(exception) + "\n" + traceback.format_exc()
+        sys.stdin, sys.stdout, sys.stderr = stdio
+        self.buffer.set_text(output)
 
 if __name__ == '__main__':
     window = gtk.Window()
