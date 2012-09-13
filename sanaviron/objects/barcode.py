@@ -192,9 +192,9 @@ class BarCode(Object):
                 if not len(digit):
                     continue
 
-                i, j, digit = digit.split(':')
+                i, j, digit = digit.replace(',', '.').split(':')
 
-                x = int(i)
+                x = float(i)
 
                 if (x - px) >= 10:
                     correction += 2

@@ -1,7 +1,7 @@
+#include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include <strings.h>
 #include "postnet.h"
 
 static char *symbols[] =
@@ -22,46 +22,44 @@ static char *frame = "1";
 
 static int is_length_valid (const char *code, int length);
 
-static int get_code_lenght (const char *code);
-
 static int check_valid (const char *type, const char *code);
 
 char *
 postnet_code (const char *code)
 {
-	int lenght;
-	int offset;
-	int sum;
-	char *digit;
-	char *buffer;
+   int lenght;
+   int offset;
+   int sum;
+   char *digit;
+   char *buffer;
 
-	buffer = (char *) malloc (8 + 5 * get_code_lenght (code));
-	*buffer = 0;
+   buffer = (char *) malloc (8 + 5 * 11);
+   *buffer = 0;
    sum = 0;
 
-	/* Left frame bar */
-	strcat (buffer, frame);
+   /* Left frame bar */
+   strcat (buffer, frame);
 
-	for (digit = (char *) code, lenght = 0; (*digit != 0) && (lenght < 11); digit++)
-		if (isdigit (*digit))
+   for (digit = (char *) code, lenght = 0; (*digit != 0) && (lenght < 11); digit++)
+   {
+      if (isdigit (*digit))
       {
-			/* Only translate valid characters (0-9) */
-			offset = (*digit) - '0';
-			sum += offset;
-      	strcat (buffer, symbols[offset]);
-			lenght++;
-		}
+         /* Only translate valid characters (0-9) */
+         offset = (*digit) - '0';
+         sum += offset;
+         strcat (buffer, symbols[offset]);
+         lenght++;
+      }
+   }
 
-	/* Create correction character */
-	offset = (10 - (sum % 10)) % 10;
+   /* Create correction character */
+   offset = (10 - (sum % 10)) % 10;
    strcat (buffer, symbols[offset]);
 
-	/* Right frame bar */
-	strcat (buffer, frame);
+   /* Right frame bar */
+   strcat (buffer, frame);
 
-   fprintf (stderr, "output: %s\n", buffer);
-
-	return buffer;
+   return buffer;
 }
 
 int
@@ -105,7 +103,7 @@ check_valid (const char *type, const char *code)
 		if (!is_length_valid (code, 8))
 			return 0;
 
-   return 1;
+	return 1;
 }
 
 
@@ -115,14 +113,21 @@ get_code_lenght (const char *code)
 	char *digit;
 	int count;
 
-	if (!code) return 0;
+	if (!code)
+	{
+		return 0;
+	}
 
 	for (digit = (char *) code, count = 0; *digit != 0; digit++)
+	{
 		/* Only count valid characters (0-9) */
 		if (isdigit (*digit))
+		{
 			count++;
+		}
+	}
 
-   return count;
+	return count;
 }
 
 static int
