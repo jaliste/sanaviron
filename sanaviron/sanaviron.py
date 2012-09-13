@@ -157,7 +157,7 @@ class Application(gtk.Window):
         self.menu.connect("bring-to-back", self.editor.canvas.bring_to_back)
 
         self.menu.connect("align-paper-center-horizontal", self.editor.canvas.paper_center_horizontal)
-        
+
         self.menu.connect("line", self.line)
         self.menu.connect("curve", self.curve)
         self.menu.connect("connector", self.connector)
@@ -210,7 +210,7 @@ class Application(gtk.Window):
         notebook.connect("switch-page", self.switch)
 
         self.connect("key-press-event", self.key_press)
-        
+
     def run(self):
        self.show_all()
        gtk.main()
@@ -247,7 +247,7 @@ class Application(gtk.Window):
             keyname = "<Shift>%s" % keyname
         if event.state & gtk.gdk.CONTROL_MASK:
             keyname = "<Control>%s" % keyname
-        print "%s has pressed" % keyname
+        #print "%s has pressed" % keyname
         self.key_handler(keyname)
         return False
 
@@ -421,7 +421,6 @@ class Application(gtk.Window):
         print "Motion events:", self.editor.canvas.statics.motion
         print "Expose events:", self.editor.canvas.statics.expose
         print "Consumed motion events:", self.editor.canvas.statics.consumed.motion
-        print "Consumed expose events:", self.editor.canvas.statics.consumed.expose
         gtk.main_quit()
         print("Bye ;-)")
         return True
@@ -500,7 +499,8 @@ def startapp():
     if '--debug' in sys.argv:
         import gc
         gc.enable()
-        gc.set_debug(gc.DEBUG_LEAK)
+        #gc.set_debug(gc.DEBUG_LEAK)
+        gc.set_debug(gc.DEBUG_OBJECTS)
         global DEBUG
         DEBUG = True
 
@@ -511,10 +511,10 @@ def startapp():
     print "Cairo version:", cairo.cairo_version_string()
 
     application = Application()
-    
+
     if '--sample' in sys.argv:
         application.editor.canvas.load_from_xml(os.path.join("..", "examples", "invoice.xml"))
-    
+
     application.run()
 
 if __name__ == '__main__':
