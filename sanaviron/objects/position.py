@@ -9,3 +9,7 @@ class Position(Point):
 
     def __init__(self):
         Point.__init__(self)
+
+    def move(self, x, y):
+        self.x = x
+        self.y = y

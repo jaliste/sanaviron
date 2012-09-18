@@ -1,9 +1,8 @@
 CFLAGS = -g -O2 -Wall -DHAVE_UNISTD_H=1 -DHAVE_STRCASECMP=1 -DNO_LIBPAPER -fPIC
 TARGET = barcode
-CC = gcc
-SHARED = $(TARGET).so
-#CC = i586-mingw32msvc-gcc
-#SHARED = $(TARGET).dll
+#CC = gcc
+#SHARED = $(TARGET).so
+SHARED = $(TARGET).dll
 HEADER = $(TARGET).h
 
 INSTALL = /usr/bin/install -c
@@ -26,7 +25,16 @@ LIBOBJECTS = \
    plessey.o \
    codabar.o \
    ps.o \
-   pcl.o
+   pcl.o \
+   bitstream.o \
+   mask.o \
+   mmask.o \
+   mqrspec.o \
+   qrencode.o \
+   qrinput.o \
+   qrspec.o \
+   rscode.o \
+   split.o
 
 ALLSOURCES = $(LIBOBJECTS:.o=.c)
 

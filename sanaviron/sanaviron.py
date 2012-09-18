@@ -499,8 +499,8 @@ def startapp():
     if '--debug' in sys.argv:
         import gc
         gc.enable()
-        #gc.set_debug(gc.DEBUG_LEAK)
-        gc.set_debug(gc.DEBUG_OBJECTS)
+        gc.set_debug(gc.DEBUG_LEAK)
+        #gc.set_debug(gc.DEBUG_OBJECTS)
         global DEBUG
         DEBUG = True
 

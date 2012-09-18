@@ -31,7 +31,8 @@ POSTNET_6 = 16 # /* 5 digits POSTNET */
 POSTNET_9 = 17 # /* 9 digits POSTNET */
 POSTNET_11 = 18 # /* 11 digits POSTNET */
 CEPNET = 19 # /* 11 digits POSTNET */
-DATAMATRIX = 20 # /* 2D dama matrix ECC200 ISO/IEC16022 */
+DATAMATRIX = 20 # /* 2D data matrix ECC200 ISO/IEC16022 */
+QR = 21 # /* 2D QR */
 
 barcodes = {
     _("Choose best-fit"): BARCODE_ANY,
@@ -54,7 +55,8 @@ barcodes = {
     _("POSTNET 9"): POSTNET_9,
     _("POSTNET 11"): POSTNET_11,
     _("CEPNET"): CEPNET,
-    _("Data matrix"): DATAMATRIX
+    _("Data matrix"): DATAMATRIX,
+    _("QR"): QR
 }
 
 if platform.system() == "Windows":
@@ -216,7 +218,7 @@ class BarCode(Object):
     def resize(self, x, y):
         Object.resize(self, x, y)
 
-        if int(self.get_property('type')) == DATAMATRIX:
+        if int(self.get_property('type')) in [DATAMATRIX, QR]:
             if self.height > self.width:
                 self.height = self.width
             else:

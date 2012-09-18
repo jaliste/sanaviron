@@ -35,7 +35,11 @@ get_code_data (int type, char *code, double width, double height)
    {
       return datamatrix_get_code_data (type, code, width, height);
    }
-
+   else if (type == QR)
+   {
+      return qr_get_code_data (type, code, width, height);
+   }
+   
    return NULL;
 }
 

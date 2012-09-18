@@ -5,6 +5,7 @@ from handler import Handler
 from rectangle import Rectangle
 from color import Color
 from gradient import Gradient
+from position import Position
 from point import Point
 from size import Size
 from objects import opossite, get_side
@@ -24,7 +25,7 @@ class Object(Rectangle):
         #self.id = random.uniform(0, 999999999)
         Rectangle.__init__(self)
         self.handler = Handler()
-        self.offset = Rectangle()
+        self.offset = Point()
         self.pivot = Point()
         self.selected = False
         self.resizing = False
@@ -181,16 +182,10 @@ class Object(Rectangle):
 
         return gtk.gdk.Cursor(cursor)
 
-    def set_position(self, position):
-        (self.x, self.y) = (position.x, position.y)
-
-    def set_size(self, size):
-        (self.width, self.height) = (abs(size.width), abs(size.height))
-
     def resize(self, x, y):
         direction = self.direction
 
-        position = Point()
+        position = Position()
         position.x = self.x
         position.y = self.y
 
@@ -216,7 +211,3 @@ class Object(Rectangle):
 
         self.set_position(position)
         self.set_size(size)
-
-    def move(self, x, y):
-        self.x = x
-        self.y = y

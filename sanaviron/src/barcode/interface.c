@@ -135,7 +135,6 @@ barcode_get_text_data (int type, char *code)
 {
    struct Barcode_Item *barcode;
    int flags;
-   int lenght;
 
    if (strlen (code) == 0)
    {
@@ -206,7 +205,7 @@ datamatrix_get_code_data (int type, char *code, double width, double height)
             double x = j * pixel + pixel / 2.0;
             double y = i * pixel;
             double length = pixel;
-            double thickness  = pixel;
+            double thickness = pixel;
 
             sprintf (output + size, "%.02f:%.02f:%.02f:%.02f ", x, y, thickness, length);
             size = strlen (output);
@@ -299,4 +298,106 @@ postnet_get_code_data (int type, char *code, double width, double height)
    sprintf (output + size, "%.02f", 0.0);
 
    return output;
+}
+
+char *
+qr_get_code_data (int type, char *code, double width, double height)
+{
+	QRecLevel level;
+	QRencodeMode hint;
+	QRcode *encoded;
+	unsigned char *row;
+	char *output;
+	double pixel;
+	int sensitive;
+	int eightbit;
+	int version;
+	int structured;
+	int micro;
+	int size;
+	int i;
+	int j;
+
+	if (strlen (code) == 0)
+	{
+		return NULL;
+	}
+   
+   /* Hardcoded parameters */
+	sensitive = 1;			/* Encode lower-case alphabet characters in 8-bit mode. 		*/
+	eightbit = 0;			/* Encode entire data in 8-bit mode. 							*/
+	version = 0;			/* Specify the version of the symbol. => 0: AUTOMATIC  			*/
+							/* 			QRSPEC_VERSION_MIN, QRSPEC_VERSION_MAX,   			*/
+							/*			MQRSPEC_VERSION_MIN, MQRSPEC_VERSION_MAX  			*/
+	structured = 0;			/* Make structured symbols. Version must be specified. 			*/
+	micro = 0;				/* Encode in a Micro QR Code. (experimental). 					*/
+	level = QR_ECLEVEL_L; 	/* Error correction level from L (lowest) to H (highest). =>	*/
+							/*			QR_ECLEVEL_L, QR_ECLEVEL_M, QR_ECLEVEL_Q,			*/
+							/*			QR_ECLEVEL_H 										*/
+	hint = QR_MODE_8; 		/* Encoder hints. => QR_MODE_8, QR_MODE_KANJI 					*/
+	size = strlen (code);
+	
+	if (micro)
+	{
+		if (eightbit)
+		{
+			encoded = QRcode_encodeDataMQR (size, (unsigned char *) code, version, level);
+		}
+		else
+		{
+			encoded = QRcode_encodeStringMQR ((char *) code, version, level, hint, sensitive);
+		}
+	}
+	else
+	{
+		if (eightbit)
+		{
+			encoded = QRcode_encodeData (size, (unsigned char *)code, version, level);
+		}
+		else
+		{
+			encoded = QRcode_encodeString ((char *) code, version, level, hint, sensitive);
+		}
+	}
+	
+	if (!encoded)
+	{
+		return NULL;
+	}
+
+	output = (char *) malloc (8 + 36 * encoded->width * encoded->width);
+	size = 0;
+	
+	if (output == NULL)
+	{
+		fprintf (stderr, "Failed to allocate memory.\n");
+		return NULL;
+	}
+
+	pixel = width / encoded->width;
+	
+	for (i = 0; i < encoded->width; i++)
+	{
+		row = encoded->data + i * encoded->width;
+
+		for (j = 0; j < encoded->width; j++)
+		{
+			if (row[j] & 0x1)
+			{
+				double x = j * pixel + pixel / 2.0;
+				double y = i * pixel;
+				double thickness = pixel;
+				double length = pixel;
+			
+				sprintf (output + size, "%.02f:%.02f:%.02f:%.02f ", x, y, thickness, length);
+				size = strlen (output);
+			}
+		}
+	}
+
+	sprintf (output + size, "%.02f", 0.0);
+	
+	QRcode_free (encoded);
+	
+	return output;
 }
