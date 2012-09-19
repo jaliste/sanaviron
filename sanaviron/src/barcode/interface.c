@@ -1,5 +1,5 @@
 /*
- * barcode.c -- GNU barcode/ECC200 ISO/IEC16022/POSTNET interface for Python
+ * barcode.c -- GNU barcode/ECC200 ISO/IEC16022/POSTNET/QR interface for Python
  *
  * Copyright (c) 2012 Juan Manuel Mouriz (jmouriz@gmail.com)
  *

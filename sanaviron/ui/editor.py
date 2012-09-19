@@ -183,7 +183,7 @@ class Editor(gtk.HPaned):
             self.disconnect_handler = buffer.connect("changed", self.changed)
 
     def set_paper(self):
-        for page in self.canvas.pages:
+        for page in self.canvas.document.pages:
             page.x = 25
             page.y = 25
 

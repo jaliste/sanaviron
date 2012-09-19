@@ -1,8 +1,8 @@
 CFLAGS = -g -O2 -Wall -DHAVE_UNISTD_H=1 -DHAVE_STRCASECMP=1 -DNO_LIBPAPER -fPIC
 TARGET = barcode
-#CC = gcc
-#SHARED = $(TARGET).so
-SHARED = $(TARGET).dll
+CC = gcc
+SHARED = $(TARGET).so
+#SHARED = $(TARGET).dll
 HEADER = $(TARGET).h
 
 INSTALL = /usr/bin/install -c

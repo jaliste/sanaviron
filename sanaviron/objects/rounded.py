@@ -23,6 +23,7 @@ class Rounded(Object):
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
         self.handler.control[NORTHWEST].y = self.y
+        #self.handler.control[NORTHWEST].active = False
         self.handler.control[NORTHEAST].x = self.x + self.width
         self.handler.control[NORTHEAST].y = self.y
         self.handler.control[SOUTHWEST].x = self.x

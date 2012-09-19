@@ -74,7 +74,7 @@ class Pager(gtk.HBox):
         button.add(image)
 
     def update(self):
-        pages = len(self.canvas.pages)
+        pages = len(self.canvas.document.pages)
         caption = _("Page %(page)s of %(pages)s") % {"page": 1, "pages": pages}
         self.button.set_label(caption)
 

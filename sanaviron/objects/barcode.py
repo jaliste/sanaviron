@@ -106,12 +106,15 @@ class BarCode(Object):
         self.handler.control[EAST].x = self.x + self.width
         self.handler.control[EAST].y = self.y + self.height / 2
 
-        if int(self.get_property('type')) == DATAMATRIX:
+        if int(self.get_property('type')) in [DATAMATRIX, QR]:
             self.handler.control[NORTH].active = False
             self.handler.control[SOUTH].active = False
             self.handler.control[WEST].active = False
             self.handler.control[EAST].active = False
             self.handler.can_pivot = False
+            if self.width != self.height:
+                size = max(self.width, self.height)
+                self.width = self.height = size
         else:
             self.handler.control[NORTH].active = True
             self.handler.control[SOUTH].active = True
@@ -128,6 +131,14 @@ class BarCode(Object):
         text = BCIface.get_text_data(type, code)
 
         if not data:
+            if not code:
+                code = _("empty")
+                message = _("Please enter a valid code")
+            else:
+                message = _("Please select another one")
+            text = _("Code <b>%(code)s</b> can't\n"
+                     "be displayed in this codification.\n"
+                     "%(message)s.") % {"code": code, "message": message}
             margin = 10
             context.rectangle(self.x, self.y, self.width, self.height)
             context.set_source_rgba(0.75, 0, 0, 0.25)
@@ -142,9 +153,7 @@ class BarCode(Object):
             font = pango.FontDescription(description)
             layout.set_font_description(font)
             layout.set_alignment(pango.ALIGN_CENTER)
-            layout.set_markup(_("Code <b>%(code)s</b> can't\n"
-                                "be displayed in this codification.\n"
-                                "Please select another one.") % {"code": code})
+            layout.set_markup(text)
             width, height = layout.get_size()
             width /= pango.SCALE
             height /= pango.SCALE
@@ -219,10 +228,12 @@ class BarCode(Object):
         Object.resize(self, x, y)
 
         if int(self.get_property('type')) in [DATAMATRIX, QR]:
-            if self.height > self.width:
-                self.height = self.width
-            else:
-                self.width = self.height
+            size = max(self.width, self.height)
+            self.width = self.height = size
+#            if self.height > self.width:
+#                self.height = self.width
+#            else:
+#                self.width = self.height
 
 if __name__ == "__main__":
     data = BCIface.get_code_data(BARCODE_EAN, "800894002700", 100, 100)

@@ -12,11 +12,13 @@ if platform.system() != 'Windows':
 import cairo
 
 from holder import Holder, Property
+from document import Document
+from page import Page
 from origin import Origin
 from grid import Grid
 from guides import Guides
 from selection import Selection
-from paper import Paper
+#from paper import Paper
 from size import Size
 from signalized import Signalized
 from point import Point
@@ -41,13 +43,13 @@ import xml.parsers.expat
 
 object = None
 
-class BaseCanvas(Holder, gtk.Layout, Signalized):
+class BaseCanvas(gtk.Layout, Signalized):
     """This class represents a low level canvas"""
 
     __name__ = "Document" # TODO This is an error. Must be in a Document class.
 
     def __init__(self):
-        Holder.__init__(self)
+        #Holder.__init__(self)
         gtk.Layout.__init__(self)
         Signalized.__init__(self)
 
@@ -132,13 +134,14 @@ class Canvas(BaseCanvas):
         grad.update()
         self.gradients.append(grad)
 
-        self.children = list()
-        self.pages = list()
+        self.document = Document()
+        #self.document.pages[0].children = list()
+        #self.document.pages = list()
 
-        paper = Paper()
+        page = Page()
         self.total = Size()
 
-        self.pages.append(paper)
+        self.document.pages.append(page)
         self.zoom = 1.0
         self.origin.x = 0 # XXX
         self.origin.y = 0 # XXX
@@ -163,7 +166,7 @@ class Canvas(BaseCanvas):
         """
         if self.selection.active:
             self.unselect_all()
-            for child in self.children:
+            for child in self.document.pages[0].children:
                 if child.in_selection(self.selection):
                     child.selected = True
                     self.emit("select", child)
@@ -171,7 +174,7 @@ class Canvas(BaseCanvas):
                 #    child.resizing ^= 1
             self.selection.active = False
         else:
-            for child in self.children:
+            for child in self.document.pages[0].children:
                 if child.selected:
                     self.emit("finalize", child)
                 if child.resizing:
@@ -209,7 +212,7 @@ class Canvas(BaseCanvas):
                             return direction
                 return NONE
 
-            direction = get_direction_for_child_at_position(x, y, self.children)
+            direction = get_direction_for_child_at_position(x, y, self.document.pages[0].children)
 
             if direction == NONE:
                 if self.pick:
@@ -223,7 +226,7 @@ class Canvas(BaseCanvas):
             self.updated = False
             self.update() # XXX
         elif event.state & gtk.gdk.BUTTON1_MASK:
-            for child in self.children: # TODO
+            for child in self.document.pages[0].children: # TODO
                 if child.selected:
                     if child.resizing:
                         x = self.grid.nearest(x)
@@ -285,7 +288,7 @@ class Canvas(BaseCanvas):
         selection = True
 
         def start_move(x, y):
-            for child in self.children:
+            for child in self.document.pages[0].children:
                 if child.selected:
                     child.offset.x = x - child.x
                     child.offset.y = y - child.y
@@ -295,7 +298,7 @@ class Canvas(BaseCanvas):
                 self.unselect_all()
             child.selected = True
 
-        for child in sorted(self.children, key=lambda child: child.z):
+        for child in sorted(self.document.pages[0].children, key=lambda child: child.z):
             if child.selected:
                 if child.handler.at_position(x, y):
                     child.direction = child.handler.get_direction(x, y)
@@ -335,39 +338,33 @@ class Canvas(BaseCanvas):
         context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
         context.clip()
         context.scale(self.zoom, self.zoom)
-        self.total.width = int(self.pages[0].width * self.zoom + 2 * self.border)
-        self.total.height = int(len(self.pages) * self.pages[0].height * self.zoom +
-                                (len(self.pages) + 1) * self.border)
+        self.total.width = int(self.document.pages[0].width * self.zoom + 2 * self.border)
+        self.total.height = int(len(self.document.pages) * self.document.pages[0].height * self.zoom +
+                                (len(self.document.pages) + 1) * self.border)
         self.set_size_request(self.total.width, self.total.height)
         context.set_source_rgb(0.55, 0.55, 0.55) #background
         context.paint()
 
-        for i, page in enumerate(self.pages):
-            page.y = i * page.height + self.border * (i + 1) / self.zoom
-            page.x = self.border / self.zoom
+        page = self.document.pages[0]
 
-            page.draw(context)
+        self.document.draw(context, self.border, self.zoom, self.hints)
 
-            self.origin.x = page.x + page.left # + self.border
-            self.origin.y = page.y + page.top # + self.border
+        self.origin.x = page.x + page.left # + self.border
+        self.origin.y = page.y + page.top # + self.border
 
-            if self.grid.active:
-                self.grid.x = self.origin.x
-                self.grid.y = self.origin.y
-                self.grid.width = page.width - page.left - page.right
-                self.grid.height = page.height - page.top - page.bottom
-                self.grid.draw(context)
+        if self.grid.active:
+            self.grid.x = self.origin.x
+            self.grid.y = self.origin.y
+            self.grid.width = page.width - page.left - page.right
+            self.grid.height = page.height - page.top - page.bottom
+            self.grid.draw(context)
 
-            if self.guides.active:
-                self.guides.x = self.origin.x
-                self.guides.y = self.origin.y
-                self.guides.width = page.width - page.left - page.right
-                self.guides.height = page.height - page.top - page.bottom
-                self.guides.draw(context)
-
-        for child in sorted(self.children, key=lambda child: child.z):
-            child.hints = self.hints # TODO Not here
-            child.draw(context)
+        if self.guides.active:
+            self.guides.x = self.origin.x
+            self.guides.y = self.origin.y
+            self.guides.width = page.width - page.left - page.right
+            self.guides.height = page.height - page.top - page.bottom
+            self.guides.draw(context)
 
         if self.selection.active:
             self.selection.draw(context)
@@ -375,7 +372,7 @@ class Canvas(BaseCanvas):
         self.expose_id = self.connect("expose-event", self.expose)
         return True
 
-    add = lambda self, child: self.children.append(child)
+    add = lambda self, child: self.document.pages[0].children.append(child)
 
     #update = lambda self: self.queue_draw()
     def update(self):
@@ -390,8 +387,8 @@ class ExtendedCanvas(Canvas):
         Canvas.__init__(self)
 
     def add_page(self):
-        page = self.pages[0]
-        self.pages.append(page)
+        page = self.document.pages[0] #Page()
+        self.document.pages.append(page)
         self.queue_draw()
 
     def set_scale_absolute(self, scale):
@@ -414,7 +411,7 @@ class ExtendedCanvas(Canvas):
         self.stop_cursor_change = False
         self.pick = True
         self.child = child
-        child.z = len(self.children)
+        child.z = len(self.document.pages[0].children)
         #child.connect("changed", self.update, child)
 
     def cut(self, *args):
@@ -423,7 +420,7 @@ class ExtendedCanvas(Canvas):
 
     def copy(self, *args):
         self.clipboard = '<clipboard>'
-        for child in self.children:
+        for child in self.document.pages[0].children:
             if child.selected:
                 self.clipboard += child.serialize()
         self.clipboard += '</clipboard>'
@@ -438,30 +435,30 @@ class ExtendedCanvas(Canvas):
         restart = True # i don't remember why use this
         while restart:
             restart = False
-            for child in self.children:
+            for child in self.document.pages[0].children:
                 if child.selected:
-                    self.children.remove(child)
+                    self.document.pages[0].children.remove(child)
                     restart = True
                     break
         self.update()
 
     def select_all(self, *args):
-        for child in self.children:
+        for child in self.document.pages[0].children:
             child.selected = True
         self.queue_draw()
 
     def unselect_all(self, update=True, *args):
-        for child in self.children:
+        for child in self.document.pages[0].children:
             child.selected = False
         if update:
             self.update()
 
     #def select_last(self, *args):
-    #    self.children[len(self.children) - 1].selected = True
+    #    self.document.pages[0].children[len(self.document.pages[0].children) - 1].selected = True
     #    self.update()
 
     def bring_to_back(self, *args):
-        for child in self.children:
+        for child in self.document.pages[0].children:
             if child.selected:
                 child.z -= 1
             else:
@@ -469,7 +466,7 @@ class ExtendedCanvas(Canvas):
         self.update()
 
     def bring_to_front(self, *args):
-        for child in self.children:
+        for child in self.document.pages[0].children:
             if child.selected:
                 child.z += 1
             else:
@@ -477,34 +474,34 @@ class ExtendedCanvas(Canvas):
         self.update()
 
     def remove_split(self, *args):
-        for child in self.children:
+        for child in self.document.pages[0].children:
             if child.selected and child.__name__ == 'Box':
                 child.remove_separator()
         self.update()
 
     def split_vertically(self, *args):
-        for child in self.children:
+        for child in self.document.pages[0].children:
             if child.selected and child.__name__ == 'Box':
                 child.add_separator_vertical(child.width / 2)
         self.update()
 
     def split_horizontally(self, *args):
-        for child in self.children:
+        for child in self.document.pages[0].children:
             if child.selected and child.__name__ == 'Box':
                 child.add_separator_horizontal(child.height / 2)
         self.update()
 
     def paper_center_horizontal(self, *args):
-        for child in self.children:
+        for child in self.document.pages[0].children:
             if child.selected:
-                child.x = int((self.pages[0].width - child.width) / 2 - self.border)
+                child.x = int((self.document.pages[0].width - child.width) / 2 - self.border)
         self.update()
 
     def get_first_page(self):
-        return self.pages[0]
+        return self.document.pages[0]
 
     def draw_children(self, page, context): # XXX
-        for child in self.children:
+        for child in page.children:
             selected = child.selected
             child.selected = False
             child.x += page.left
@@ -526,7 +523,7 @@ class ExtendedCanvas(Canvas):
         self.update()
 
     def toggle_margins(self, *args):
-        for page in self.pages:
+        for page in self.document.pages:
             page.active ^= 1
         self.update()
 
@@ -542,8 +539,8 @@ class ExtendedCanvas(Canvas):
 
     def save_to_pdf(self, filename):
         filename = self.get_filename(filename, "pdf")
-        for i, page in enumerate(self.pages):
-            surface = cairo.PDFSurface(filename, self.pages[i].width, self.pages[i].height)
+        for i, page in enumerate(self.document.pages):
+            surface = cairo.PDFSurface(filename, page.width, page.height)
             context = cairo.Context(surface)
             self.draw_children(page, context)
             #context.show_page()
@@ -590,7 +587,7 @@ class ExtendedCanvas(Canvas):
                 except:
                     type = "AUTOMATIC"
                 value = attributes["value"]
-                property = Property(attribute, value, type)
+                #property = Property(attribute, value, type)
                 object.set_property(attribute, value, type)
 
         def element_end(name):
@@ -615,9 +612,12 @@ class ExtendedCanvas(Canvas):
         self.update()
 
     def serialize(self):
-        text = "<document page=\"1\">\n"
-        for child in self.children:
-            text += child.serialize()
+        text = "<document>\n"
+        for i, page in enumerate(self.document.pages):
+            text += "<page number=\"%d\">\n" % i
+            for child in page.children:
+                text += child.serialize()
+            text += "</page>\n"
         text += "</document>\n"
         return text
 

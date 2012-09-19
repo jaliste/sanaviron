@@ -131,7 +131,7 @@ class ColorizedObjectForm(SizedObjectForm):
             self.add(entry)
 
     def set_stroke_color(self, widget):
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.selected:
                 color = Color(r=widget.get_color().red_float, g=widget.get_color().green_float,
                     b=widget.get_color().blue_float, a=widget.get_alpha() / 65535.0)
@@ -139,7 +139,7 @@ class ColorizedObjectForm(SizedObjectForm):
                 self.canvas.queue_draw()
 
     def set_fill_color(self, widget):
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.selected:
                 color = Color(r=widget.get_color().red_float, g=widget.get_color().green_float,
                     b=widget.get_color().blue_float, a=widget.get_alpha() / 65535.0)
@@ -545,7 +545,7 @@ class Properties(gtk.ScrolledWindow):
                 object.hide()
 
     def set_table_column_title(self, widget, column, title):
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Table" and child.selected:
                 titles = child.get_property('titles').split(':')
                 titles[column] = title
@@ -555,7 +555,7 @@ class Properties(gtk.ScrolledWindow):
                 break
 
     def set_table_column_width(self, widget, column, width):
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Table" and child.selected:
                 columns = child.get_property('columns').split(':')
                 columns[column] = str(width)
@@ -566,7 +566,7 @@ class Properties(gtk.ScrolledWindow):
 
     def set_table_columns(self, widget, data):
         n_columns = widget.spin.get_value_as_int()
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Table" and child.selected:
                 entry = self.observer.get_observable("table-columns-editor")
                 columns = child.get_property('columns').split(':')
@@ -592,7 +592,7 @@ class Properties(gtk.ScrolledWindow):
 
     def set_table_rows(self, widget, data):
         rows = widget.spin.get_value_as_int()
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Table" and child.selected:
                 child.set_property('rows', rows)
                 self.canvas.queue_draw()
@@ -607,7 +607,7 @@ class Properties(gtk.ScrolledWindow):
     def changed(self, buffer):
         start, end = buffer.get_bounds()
         text = buffer.get_text(start, end)
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Text" and child.selected:
                 child.set_property('text', text)
                 #self.canvas.queue_draw()
@@ -619,7 +619,7 @@ class Properties(gtk.ScrolledWindow):
 
     def set_table_font(self, widget):
         font = widget.get_font_name()
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Table" and child.selected:
                 child.set_property('font', font)
                 self.canvas.queue_draw()
@@ -627,7 +627,7 @@ class Properties(gtk.ScrolledWindow):
 
     def close_arc(self, widget):
         state = widget.get_active()
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Arc" and child.selected:
                 child.set_property('closed', int(state))
                 self.canvas.queue_draw()
@@ -638,28 +638,28 @@ class Properties(gtk.ScrolledWindow):
 
     def close_at_centre_arc(self, widget):
         state = widget.get_active()
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Arc" and child.selected:
                 child.set_property('closed_at_centre', int(state))
                 self.canvas.queue_draw()
 
     def change_angle_start(self, widget):
         val = widget.get_value()
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Arc" and child.selected:
                 child.set_property('angle_start', val)
                 self.canvas.queue_draw()
 
     def change_angle_stop(self, widget):
         val = widget.get_value()
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Arc" and child.selected:
                 child.set_property('angle_stop', val)
                 self.canvas.queue_draw()
 
     def change_font(self, widget):
         font = widget.get_font_name()
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Text" and child.selected:
                 child.set_property('font', font)
                 self.canvas.queue_draw()
@@ -667,7 +667,7 @@ class Properties(gtk.ScrolledWindow):
 
     def preserve(self, widget):
         preserve = widget.get_active()
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Text" and child.selected:
                 child.set_property('preserve', preserve)
                 self.canvas.queue_draw()
@@ -677,7 +677,7 @@ class Properties(gtk.ScrolledWindow):
         #selected = widget.get_active_text()
         #type = get_barcode_type_from_string(selected)
         type = widget.get_active()
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "BarCode" and child.selected:
                 child.set_property('type', type)
                 self.canvas.queue_draw()
@@ -685,7 +685,7 @@ class Properties(gtk.ScrolledWindow):
 
     def changed_barcode_code(self, editable):
         code = editable.get_chars(0, -1)
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "BarCode" and child.selected:
                 child.set_property('code', code)
                 self.canvas.queue_draw()
@@ -695,7 +695,7 @@ class Properties(gtk.ScrolledWindow):
         filename = widget.get_filename()
         print filename
         if filename is not None:
-            for child in self.canvas.children:
+            for child in self.canvas.document.pages[0].children:
                 if child.__name__ == "Image" and child.selected:
                     child.set_property('image', filename)
                     self.canvas.queue_draw()
@@ -705,7 +705,7 @@ class Properties(gtk.ScrolledWindow):
         #selected = widget.get_active_text()
         #type = get_barcode_type_from_string(selected)
         type = widget.get_active()
-        for child in self.canvas.children:
+        for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Chart" and child.selected:
                 child.set_property('type', type)
                 self.canvas.queue_draw()
