@@ -51,8 +51,17 @@ DEBUG = False
 
 class Application(gtk.Window):
     """This class represents an application"""
+    application = None
 
-    def __init__(self):
+    def __new__(self, *args, **kwargs):
+        if self.application:
+            return self.application
+        else:
+            self.application = super(Application, self).__new__(self)
+            self.application.initialize()
+            return self.application
+
+    def initialize(self):
         gtk.Window.__init__(self)
         self.set_size_request(640, 480)
         self.set_default_size(800, 600)
@@ -429,7 +438,7 @@ class Application(gtk.Window):
         self.editor.canvas.create(Line())
 
     def arc(self, widget, data):
-        self.editor.canvas.create(Arc(self.editor.canvas))
+        self.editor.canvas.create(Arc())
 
     def curve(self, widget, data):
         self.editor.canvas.create(Curve())
@@ -438,7 +447,7 @@ class Application(gtk.Window):
         self.editor.canvas.create(Connector())
 
     def box(self, widget, data):
-        self.editor.canvas.create(Box(self.editor.canvas))
+        self.editor.canvas.create(Box())
 
     def rounded_box(self, widget, data):
         self.editor.canvas.create(Rounded())
@@ -511,6 +520,13 @@ def startapp():
     print "Cairo version:", cairo.cairo_version_string()
 
     application = Application()
+
+    # Singleton test
+    instance = Application()
+    print application, "==", instance
+    assert 1 is 1 and 1 == 1 and application is instance and application == instance
+    print application.editor.canvas
+    print instance.editor.canvas
 
     if '--sample' in sys.argv:
         application.editor.canvas.load_from_xml(os.path.join("..", "examples", "invoice.xml"))

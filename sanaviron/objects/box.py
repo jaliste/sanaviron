@@ -9,16 +9,19 @@ from objects import *
 import sys
 from gradient import Gradient
 
+from canvas import TestingCanvas, Canvas
+
 class Box(Object):
     """This class represents a box"""
 
     __name__ = "Box"
 
-    def __init__(self, canvas):
+    def __init__(self):
         Object.__init__(self)
 
+        self.canvas = TestingCanvas()
+
         self.separators = list()
-        self.canvas = canvas
 
     def get_object(self):
         return {

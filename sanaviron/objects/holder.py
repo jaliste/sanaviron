@@ -50,7 +50,7 @@ class Properties(dict):
         for property in self.values():
             if property == "xxx":
                 continue
-            representation += "\t\t%s\n" % property.serialize()
+            representation += "\t\t\t\t%s\n" % property.serialize()
         return representation
 
 class Holder(object):
@@ -96,7 +96,7 @@ class Holder(object):
         #return self.properties[name].value
 
     def serialize(self):
-        representation = "\t<object type=\"%s\">\n" % self.__name__
+        representation = "\t\t\t<object type=\"%s\">\n" % self.__name__
         representation += self.properties.serialize()
-        representation += "\t</object>\n"
+        representation += "\t\t\t</object>\n"
         return representation

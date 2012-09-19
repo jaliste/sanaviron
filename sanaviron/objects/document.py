@@ -18,3 +18,16 @@ class Document(Holder):
             page.x = border / zoom
 
             page.draw(context, hints)
+
+    def serialize(self):
+        text = "<document>\n"
+        text += "\t<definitions>\n"
+        for color in self.colors:
+            text += color.serialize()
+        text += "\t</definitions>\n"
+        text += "\t<layout>\n"
+        for page in self.pages:
+            text += page.serialize()
+        text += "\t</layout>\n"
+        text += "</document>\n"
+        return text

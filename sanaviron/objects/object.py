@@ -78,16 +78,15 @@ class Object(Rectangle):
             self.gradient = self.get_property("pattern")
 
     def draw_hints(self, context):
-        radius = 12.5
-        offset = 6
+        extent = 25.0
 
         context.save()
         context.new_path()
-        context.arc(self.x - radius, self.y - radius, radius, 0, 2 * math.pi)
-        context.set_source_rgba(229 / 255.0, 122298 / 255.0, 0.0, 0.5)
+        context.rectangle(self.x - extent, self.y - extent, extent, extent)
+        context.set_source_rgba(130 / 255.0, 130 / 255.0, 250 / 255.0, 0.25)
         context.fill_preserve()
-        context.set_line_width(2)
-        context.set_source_rgb(122 / 255.0, 128 / 255.0, 54 / 255.0)
+        context.set_line_width(1)
+        context.set_source_rgb(130 / 255.0, 130 / 255.0, 250 / 255.0)
         context.stroke()
 
         context = pangocairo.CairoContext(context)
@@ -97,12 +96,13 @@ class Object(Rectangle):
         else:
             fontname = 'Ubuntu'
         text = str(int(self.z))
-        if len(text) > 3:
+        length = len(text)
+        if length > 3:
             size = 6
-            text = text[:3] + "..."
-        elif len(text) > 2:
+            text = "..." + text[length-3:4]
+        elif length > 2:
             size = 8
-        elif len(text) > 1:
+        elif length > 1:
             size = 10
         else:
             size = 12
@@ -115,7 +115,7 @@ class Object(Rectangle):
         width, height = layout.get_size()
         width /= pango.SCALE
         height /= pango.SCALE
-        context.move_to(self.x - radius - width / 2, self.y - radius - height / 2)
+        context.move_to(self.x - (extent + width) / 2, self.y - (extent + height) / 2)
         context.show_layout(layout)
         context.set_antialias(cairo.ANTIALIAS_DEFAULT)
         context.restore()

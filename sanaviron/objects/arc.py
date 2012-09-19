@@ -10,14 +10,15 @@ from gradient import  Gradient
 from object import Object
 from objects import *
 
+from canvas import TestingCanvas
+
 class Arc(Object):
     """This class represents an arc"""
 
     __name__ = "Arc"
 
-    def __init__(self, canvas):
+    def __init__(self):
         Object.__init__(self)
-        self.canvas = canvas
         self.angle_start = 0.0
         self.angle_stop = 360.0
         self.set_property("angle_start", self.angle_start)
@@ -31,6 +32,7 @@ class Arc(Object):
         self.handler.control.append(Control())
         self.handler.control.append(Control())
 
+        self.canvas = TestingCanvas()
         #self.block = False
 
     def set_angle_start(self, ang):
@@ -118,15 +120,15 @@ class Arc(Object):
         if self.direction == 8:
             x0 = self.x + self.radius_horizontal
             y0 = self.y + self.radius_vertical
-        
+
             if (x < self.x) or (y < self.y):
                 self.set_property("closed_at_centre", False)
             else:
                 self.set_property("closed_at_centre", True)
-        
+
             if (x > (self.width + self.x)) or (y > (self.height + self.y)):
                 self.set_property("closed_at_centre", False)
-        
+
             if (self.radius_horizontal > 0) and (self.radius_vertical > 0):
                 ang = angle_from_coordinates(x, y, x0, y0, self.radius_horizontal,
                     self.radius_vertical)
@@ -134,15 +136,15 @@ class Arc(Object):
         else:
             x0 = self.x + self.radius_horizontal
             y0 = self.y + self.radius_vertical
-    
+
             if (x < self.x) or (y < self.y):
                 self.set_property("closed_at_centre", int(False))
             else:
                 self.set_property("closed_at_centre", int(True))
-    
+
             if (x > (self.width + self.x)) or (y > (self.height + self.y)):
                 self.set_property("closed_at_centre", int(False))
-    
+
             if (self.radius_horizontal > 0) and (self.radius_vertical > 0):
                 ang = angle_from_coordinates(x, y, x0, y0, self.radius_horizontal,
                     self.radius_vertical)

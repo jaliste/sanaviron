@@ -23,21 +23,21 @@ from size import Size
 from signalized import Signalized
 from point import Point
 
-from barcode import BarCode
-from image import Image
-from text import Text
-from table import Table
-from line import Line
-from box import Box
-from rounded import Rounded
-from arc import Arc
-from curve import Curve
-from connector import Connector
-from chart import Chart
+#from barcode import BarCode
+#from image import Image
+#from text import Text
+#from table import Table
+#from line import Line
+#from box import Box
+#from rounded import Rounded
+#from arc import Arc
+#from curve import Curve
+#from connector import Connector
+#from chart import Chart
 
 from objects import *
 from objects import opossite
-from objects.gradient import Gradient,GradientColor
+from objects.gradient import Gradient, GradientColor
 
 import xml.parsers.expat
 
@@ -47,22 +47,47 @@ class BaseCanvas(gtk.Layout, Signalized):
     """This class represents a low level canvas"""
 
     __name__ = "Document" # TODO This is an error. Must be in a Document class.
+    canvas = None
+
+    def __new__(self):
+        if self.canvas:
+            return self.canvas
+        else:
+            self.canvas = super(BaseCanvas, self).__new__(self)
+            self.canvas.initialize()
+            return self.canvas
 
     def __init__(self):
-        #Holder.__init__(self)
+        print "canvas:", self
+
+    def initialize(self):
         gtk.Layout.__init__(self)
         Signalized.__init__(self)
 
+        self.configure()
+
+        self.install_statics()
+
+    def install_statics(self):
+        class Statics:
+            pass
+
+        self.statics = Statics()
+        self.statics.motion = 0
+        self.statics.expose = 0
+        self.statics.consumed = Statics()
+        self.statics.consumed.motion = 0
+
+    def configure(self):
+        self.configure_events()
         self.configure_handlers()
+
+        self.install_signals()
 
         self.set_can_default(True)
         self.set_can_focus(True)
 
-        self.install_signal("select")
-        self.install_signal("finalize")
-        self.install_signal("edit-child")
-
-    def configure_handlers(self):
+    def configure_events(self):
         self.set_events(0)
 
         self.add_events(gtk.gdk.EXPOSURE_MASK)
@@ -72,6 +97,7 @@ class BaseCanvas(gtk.Layout, Signalized):
         self.add_events(gtk.gdk.BUTTON_MOTION_MASK)
         #self.add_events(gtk.gdk.KEY_PRESS_MASK)
 
+    def configure_handlers(self):
         #self.expose_id = self.connect("expose-event", self.expose)
         self.expose_id = self.connect("expose-event", self.expose)
         self.motion_id = self.connect("motion-notify-event", self.motion)
@@ -79,14 +105,10 @@ class BaseCanvas(gtk.Layout, Signalized):
         self.connect("button-release-event", self.release)
         #self.connect("key-press-event", self.key_press)
 
-        class Statics:
-            pass
-
-        self.statics = Statics()
-        self.statics.motion = 0
-        self.statics.expose = 0
-        self.statics.consumed = Statics()
-        self.statics.consumed.motion = 0
+    def install_signals(self):
+        self.install_signal("select")
+        self.install_signal("finalize")
+        self.install_signal("edit-child")
 
     def consume(self, type, state):
         next = gtk.gdk.event_get()
@@ -113,10 +135,8 @@ class BaseCanvas(gtk.Layout, Signalized):
 class Canvas(BaseCanvas):
     """This class represents a middle level canvas"""
 
-    __name__ = "Document" # TODO This is an error. Must be a class Document
-
-    def __init__(self):
-        BaseCanvas.__init__(self)
+    def initialize(self):
+        BaseCanvas.initialize(self)
         self.origin = Origin()
         self.grid = Grid()
         self.guides = Guides()
@@ -198,8 +218,10 @@ class Canvas(BaseCanvas):
         self.statics.motion += 1
         #self.consume(gtk.gdk.MOTION_NOTIFY, event.state)
         self.disconnect(self.motion_id)
-        self.horizontal_ruler.motion(self.horizontal_ruler, event, True)
-        self.vertical_ruler.motion(self.vertical_ruler, event, True)
+        if self.horizontal_ruler:
+            self.horizontal_ruler.motion(self.horizontal_ruler, event, True)
+        if self.vertical_ruler:
+            self.vertical_ruler.motion(self.vertical_ruler, event, True)
         x = event.x / self.zoom
         y = event.y / self.zoom
 
@@ -383,8 +405,9 @@ class Canvas(BaseCanvas):
 class ExtendedCanvas(Canvas):
     """This class represents a high level canvas"""
 
-    def __init__(self):
-        Canvas.__init__(self)
+    #def __init__(self):
+    def initialize(self):
+        Canvas.initialize(self)
 
     def add_page(self):
         page = self.document.pages[0] #Page()
@@ -612,19 +635,13 @@ class ExtendedCanvas(Canvas):
         self.update()
 
     def serialize(self):
-        text = "<document>\n"
-        for i, page in enumerate(self.document.pages):
-            text += "<page number=\"%d\">\n" % i
-            for child in page.children:
-                text += child.serialize()
-            text += "</page>\n"
-        text += "</document>\n"
-        return text
+        return self.document.serialize()
 
 class TestingCanvas(ExtendedCanvas):
     """This class represents a testing canvas"""
 
-    def __init__(self):
-        ExtendedCanvas.__init__(self)
+    #def __init__(self):
+    def initialize(self):
+        ExtendedCanvas.initialize(self)
 
         print _("WARNING: You are using a testing canvas.")

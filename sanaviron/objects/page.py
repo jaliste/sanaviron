@@ -18,3 +18,10 @@ class Page(Paper):
         for child in sorted(self.children, key=lambda child: child.z):
             child.hints = hints # TODO Not here
             child.draw(context)
+
+    def serialize(self):
+        text = "\t\t<page number=\"%d\">\n" % 0
+        for child in self.children:
+            text += child.serialize()
+        text += "\t\t</page>\n"
+        return text

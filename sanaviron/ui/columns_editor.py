@@ -3,11 +3,13 @@
 import gtk
 import gobject
 
+from objects.signalized import Signalized
+
 COLUMN_TITLE = 0
 COLUMN_WIDTH = 1
 COLUMN_UNIT = 2
 
-class ColumnsEditor(gtk.ScrolledWindow):
+class ColumnsEditor(gtk.ScrolledWindow, Signalized):
     """This class represents a table columns editor"""
 
     def __init__(self):
@@ -58,18 +60,11 @@ class ColumnsEditor(gtk.ScrolledWindow):
         column.set_attributes(cell, text=COLUMN_UNIT)
         treeview.append_column(column)
 
-        gobject.signal_new("width-edited",
-            ColumnsEditor,
-            gobject.SIGNAL_RUN_LAST,
-            gobject.TYPE_NONE,
-            (gobject.TYPE_PYOBJECT, gobject.TYPE_INT,))
+        self.install_signals()
 
-        gobject.signal_new("title-edited",
-            ColumnsEditor,
-            gobject.SIGNAL_RUN_LAST,
-            gobject.TYPE_NONE,
-            (gobject.TYPE_PYOBJECT,
-             gobject.TYPE_STRING,))
+    def install_signals(self):
+        self.install_signal("width-edited")
+        self.install_signal("title-edited")
 
     def width_edited(self, cell, path, text):
         width = int(text)

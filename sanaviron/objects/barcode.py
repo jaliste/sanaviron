@@ -131,6 +131,16 @@ class BarCode(Object):
         text = BCIface.get_text_data(type, code)
 
         if not data:
+            context.rectangle(self.x, self.y, self.width, self.height)
+            context.set_source_rgba(0.75, 0, 0, 0.25)
+            context.fill_preserve()
+            context.set_source_rgb(0.75, 0, 0)
+            context.set_line_width(4.0)
+            context.set_dash([])
+            context.stroke()
+
+            margin = 10
+
             if not code:
                 code = _("empty")
                 message = _("Please enter a valid code")
@@ -139,14 +149,6 @@ class BarCode(Object):
             text = _("Code <b>%(code)s</b> can't\n"
                      "be displayed in this codification.\n"
                      "%(message)s.") % {"code": code, "message": message}
-            margin = 10
-            context.rectangle(self.x, self.y, self.width, self.height)
-            context.set_source_rgba(0.75, 0, 0, 0.25)
-            context.fill_preserve()
-            context.set_source_rgb(0.75, 0, 0)
-            context.set_line_width(4.0)
-            context.set_dash([])
-            context.stroke()
 
             context = pangocairo.CairoContext(context)
             layout = pangocairo.CairoContext.create_layout(context)
@@ -158,14 +160,14 @@ class BarCode(Object):
             width /= pango.SCALE
             height /= pango.SCALE
             width += 2 * margin
-            height += margin
+            height += 2 * margin
             horizontal = self.width / float(width)
             vertical = self.height / float(height)
-            context.move_to(self.x + margin, self.y + margin / 2)
+            context.move_to(self.x + margin, self.y + margin)
             context.save()
             if horizontal and vertical:
                 context.scale(horizontal, vertical)
-            context.show_layout(layout)
+                context.show_layout(layout)
             context.restore()
             Object.draw(self, context)
             return
