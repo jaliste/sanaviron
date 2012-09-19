@@ -16,7 +16,6 @@ import cairo
 import pango
 import pangocairo
 import platform
-import math
 
 class Object(Rectangle):
     """This class represents the parent of all draweable objects"""
@@ -99,7 +98,7 @@ class Object(Rectangle):
         length = len(text)
         if length > 3:
             size = 6
-            text = "..." + text[length-3:4]
+            text = "..." + text[length-1:4]
         elif length > 2:
             size = 8
         elif length > 1:

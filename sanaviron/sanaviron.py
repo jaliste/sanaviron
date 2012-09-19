@@ -36,6 +36,8 @@ from objects.rounded import Rounded
 from objects.table import Table
 from objects.text import Text
 
+from objects.object import Object
+
 from ui.menu import Menu
 from ui.toolbars import HorizontalToolbar, VerticalToolbar
 from ui.editor import Editor
@@ -167,15 +169,17 @@ class Application(gtk.Window):
 
         self.menu.connect("align-paper-center-horizontal", self.editor.canvas.paper_center_horizontal)
 
-        self.menu.connect("line", self.line)
-        self.menu.connect("curve", self.curve)
-        self.menu.connect("connector", self.connector)
-        self.menu.connect("box", self.box)
-        self.menu.connect("rounded-box", self.rounded_box)
-        self.menu.connect("text", self.text)
-        self.menu.connect("barcode", self.table)
-        self.menu.connect("table", self.barcode)
-        self.menu.connect("chart", self.chart)
+        self.menu.connect("line", self.create, Line())
+        self.menu.connect("curve", self.create, Curve())
+        self.menu.connect("connector", self.create, Connector())
+        self.menu.connect("box", self.create, Box())
+        self.menu.connect("rounded-box", self.create, Rounded())
+        self.menu.connect("text", self.create, Text())
+        self.menu.connect("barcode", self.create, BarCode())
+        self.menu.connect("table", self.create, Table())
+        self.menu.connect("image", self.create, Image())
+        self.menu.connect("chart", self.create, Chart())
+
         self.menu.connect("fullscreen", self.fullscreen)
         self.menu.connect("about", self.about)
         self.menu.connect("help", self.help)
@@ -200,17 +204,17 @@ class Application(gtk.Window):
         htoolbar.connect("export-to-pdf", self.export_to_pdf)
         htoolbar.connect("help", self.help)
 
-        vtoolbar.connect("line", self.line)
-        vtoolbar.connect("arc", self.arc)
-        vtoolbar.connect("curve", self.curve)
-        vtoolbar.connect("connector", self.connector)
-        vtoolbar.connect("box", self.box)
-        vtoolbar.connect("rounded-box", self.rounded_box)
-        vtoolbar.connect("text", self.text)
-        vtoolbar.connect("barcode", self.barcode)
-        vtoolbar.connect("table", self.table)
-        vtoolbar.connect("chart", self.chart)
-        vtoolbar.connect("image", self.image)
+        vtoolbar.connect("line", self.create, Line())
+        vtoolbar.connect("arc", self.create, Arc())
+        vtoolbar.connect("curve", self.create, Curve())
+        vtoolbar.connect("connector", self.create, Connector())
+        vtoolbar.connect("box", self.create, Box())
+        vtoolbar.connect("rounded-box", self.create, Rounded())
+        vtoolbar.connect("text", self.create, Text())
+        vtoolbar.connect("barcode", self.create, BarCode())
+        vtoolbar.connect("table", self.create, Table())
+        vtoolbar.connect("image", self.create, Image())
+        vtoolbar.connect("chart", self.create, Chart())
 
         vtoolbar.connect("split-horizontally", self.editor.canvas.split_horizontally)
         vtoolbar.connect("split-vertically", self.editor.canvas.split_vertically)
@@ -434,40 +438,8 @@ class Application(gtk.Window):
         print("Bye ;-)")
         return True
 
-    def line(self, widget, data):
-        self.editor.canvas.create(Line())
-
-    def arc(self, widget, data):
-        self.editor.canvas.create(Arc())
-
-    def curve(self, widget, data):
-        self.editor.canvas.create(Curve())
-
-    def connector(self, widget, data):
-        self.editor.canvas.create(Connector())
-
-    def box(self, widget, data):
-        self.editor.canvas.create(Box())
-
-    def rounded_box(self, widget, data):
-        self.editor.canvas.create(Rounded())
-
-    def text(self, widget, data):
-        child = Text(_("Insert text here"))
-        child.set_property("size", 12)
-        self.editor.canvas.create(child)
-
-    def image(self, widget, data):
-        self.editor.canvas.create(Image(os.path.join("images", "canvas-logo.png")))
-
-    def barcode(self, widget, data):
-        self.editor.canvas.create(BarCode("800894002700", BARCODE_39))
-
-    def table(self, widget, data):
-        self.editor.canvas.create(Table(5, "0", _("Column 1")))
-
-    def chart(self, widget, data):
-        self.editor.canvas.create(Chart())
+    def create(self, widget, data, shape):
+        self.editor.canvas.create(shape)
 
     def help(self, widget, data):
         cwd = os.getcwd()
