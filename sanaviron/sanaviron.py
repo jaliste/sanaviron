@@ -24,7 +24,6 @@ LOCALE_DIR = os.path.join(os.path.dirname(__file__), "localization")
 gettext.install(TRANSLATION_DOMAIN, LOCALE_DIR)
 
 from objects.arc import Arc
-from objects.barcode import BARCODE_39
 from objects.barcode import BarCode
 from objects.box import Box
 from objects.chart import Chart
@@ -169,16 +168,16 @@ class Application(gtk.Window):
 
         self.menu.connect("align-paper-center-horizontal", self.editor.canvas.paper_center_horizontal)
 
-        self.menu.connect("line", self.create, Line())
-        self.menu.connect("curve", self.create, Curve())
-        self.menu.connect("connector", self.create, Connector())
-        self.menu.connect("box", self.create, Box())
-        self.menu.connect("rounded-box", self.create, Rounded())
-        self.menu.connect("text", self.create, Text())
-        self.menu.connect("barcode", self.create, BarCode())
-        self.menu.connect("table", self.create, Table())
-        self.menu.connect("image", self.create, Image())
-        self.menu.connect("chart", self.create, Chart())
+        self.menu.connect("line", self.create, "Line")
+        self.menu.connect("curve", self.create, "Curve")
+        self.menu.connect("connector", self.create, "Connector")
+        self.menu.connect("box", self.create, "Box")
+        self.menu.connect("rounded-box", self.create, "Rounded")
+        self.menu.connect("text", self.create, "Text")
+        self.menu.connect("barcode", self.create, "BarCode")
+        self.menu.connect("table", self.create, "Table")
+        self.menu.connect("image", self.create, "Image")
+        self.menu.connect("chart", self.create, "Chart")
 
         self.menu.connect("fullscreen", self.fullscreen)
         self.menu.connect("about", self.about)
@@ -204,17 +203,17 @@ class Application(gtk.Window):
         htoolbar.connect("export-to-pdf", self.export_to_pdf)
         htoolbar.connect("help", self.help)
 
-        vtoolbar.connect("line", self.create, Line())
-        vtoolbar.connect("arc", self.create, Arc())
-        vtoolbar.connect("curve", self.create, Curve())
-        vtoolbar.connect("connector", self.create, Connector())
-        vtoolbar.connect("box", self.create, Box())
-        vtoolbar.connect("rounded-box", self.create, Rounded())
-        vtoolbar.connect("text", self.create, Text())
-        vtoolbar.connect("barcode", self.create, BarCode())
-        vtoolbar.connect("table", self.create, Table())
-        vtoolbar.connect("image", self.create, Image())
-        vtoolbar.connect("chart", self.create, Chart())
+        vtoolbar.connect("line", self.create, "Line")
+        vtoolbar.connect("arc", self.create, "Arc")
+        vtoolbar.connect("curve", self.create, "Curve")
+        vtoolbar.connect("connector", self.create, "Connector")
+        vtoolbar.connect("box", self.create, "Box")
+        vtoolbar.connect("rounded-box", self.create, "Rounded")
+        vtoolbar.connect("text", self.create, "Text")
+        vtoolbar.connect("barcode", self.create, "BarCode")
+        vtoolbar.connect("table", self.create, "Table")
+        vtoolbar.connect("image", self.create, "Image")
+        vtoolbar.connect("chart", self.create, "Chart")
 
         vtoolbar.connect("split-horizontally", self.editor.canvas.split_horizontally)
         vtoolbar.connect("split-vertically", self.editor.canvas.split_vertically)
@@ -439,7 +438,28 @@ class Application(gtk.Window):
         return True
 
     def create(self, widget, data, shape):
-        self.editor.canvas.create(shape)
+        new = None
+        if shape == "Line":
+            new = Line()
+        if shape == "Curve":
+            new = Curve()
+        if shape == "Connector":
+            new = Connector()
+        if shape == "Box":
+            new = Box()
+        if shape == "Rounded":
+            new = Rounded()
+        if shape == "Text":
+            new = Text()
+        if shape == "BarCode":
+            new = BarCode()
+        if shape == "Table":
+            new = Table()
+        if shape == "Image":
+            new = Image()
+        if shape == "Chart":
+            new = Chart()
+        self.editor.canvas.create(new)
 
     def help(self, widget, data):
         cwd = os.getcwd()
@@ -479,8 +499,8 @@ class Application(gtk.Window):
 def startapp():
     if '--debug' in sys.argv:
         import gc
-        gc.enable()
-        gc.set_debug(gc.DEBUG_LEAK)
+        #gc.enable()
+        #gc.set_debug(gc.DEBUG_LEAK)
         #gc.set_debug(gc.DEBUG_OBJECTS)
         global DEBUG
         DEBUG = True

@@ -5,12 +5,8 @@ import sys
 from math import sin, cos
 
 from control import Control
-from gradientcolor import GradientColor
-from gradient import  Gradient
 from object import Object
 from objects import *
-
-from canvas import TestingCanvas
 
 class Arc(Object):
     """This class represents an arc"""
@@ -32,7 +28,6 @@ class Arc(Object):
         self.handler.control.append(Control())
         self.handler.control.append(Control())
 
-        self.canvas = TestingCanvas()
         #self.block = False
 
     def set_angle_start(self, ang):

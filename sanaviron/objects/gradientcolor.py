@@ -19,5 +19,8 @@ class GradientColor(Color):
     def get_xxx(self):
         return Color.get_xxx(self) + ['position']
 
-    def __repr__(self):
-        return str([self.red,self.green,self.blue,self.alpha,self.position])
+#    def __repr__(self):
+#        return str([self.red,self.green,self.blue,self.alpha,self.position])
+
+    def serialize(self):
+        return Color.serialize(self) + ":%d" % self.position

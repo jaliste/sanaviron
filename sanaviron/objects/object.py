@@ -8,7 +8,7 @@ from gradient import Gradient
 from position import Position
 from point import Point
 from size import Size
-from objects import opossite, get_side
+from objects import get_side
 from objects import *
 
 import gtk
@@ -16,6 +16,8 @@ import cairo
 import pango
 import pangocairo
 import platform
+
+#from canvas import TestingCanvas
 
 class Object(Rectangle):
     """This class represents the parent of all draweable objects"""
@@ -32,22 +34,29 @@ class Object(Rectangle):
         self.control = AUTOMATIC
         self.z = 0
 
-        self.dash = []
         self.hints = False
-        self.set_fill_style(COLOR)
-        self.set_fill_color(Color(0.25, 0.25, 0.25, 0.25))
-        self.set_stroke_color(Color(0.25, 0.25, 0.25, 1))
+        from canvas import TestingCanvas
+        self.canvas = TestingCanvas()
+
+        self.dash = []
         self.thickness = 1.0
 
+#        self.set_fill_style(COLOR)
+#        self.set_fill_color(Color(0.25, 0.25, 0.25, 0.25))
+#        self.set_stroke_color(Color(0.25, 0.25, 0.25, 1))
+        self.fill_style = COLOR
+        self.fill_color = Color(0.25, 0.25, 0.25, 0.25)
+        self.stroke_color = Color(0.25, 0.25, 0.25, 1.0)
+
     def get_xxx(self):
-        return ["x", "y", "z", "width", "height"]
+        return Rectangle.get_xxx(self) + ["z", "fill_style", "fill_color", "stroke_color", "gradient"]
 
     def post(self):
         pass
 
     def set_fill_style(self, fill_style):
         self.fill_style = fill_style
-        self.set_property("fill_style", fill_style)
+        #self.set_property("fill_style", fill_style)
         if fill_style == COLOR:
             self.set_fill_color()
         elif fill_style == GRADIENT:
@@ -55,15 +64,15 @@ class Object(Rectangle):
 
     def set_gradient(self, gradient=Gradient()): #ToDo: by name and from Canvas!
         self.gradient = gradient
-        self.set_property("gradient", gradient)
+        #self.set_property("gradient", gradient)
 
     def set_fill_color(self, color=Color()):
         self.fill_color = color
-        self.set_property("fill_color", str(self.fill_color))
+        #self.set_property("fill_color", str(self.fill_color))
 
     def set_stroke_color(self, color=Color()):
         self.stroke_color = color
-        self.set_property("stroke_color", str(self.stroke_color))
+        #self.set_property("stroke_color", str(self.stroke_color))
 
     def get_properties(self):
         if self.fill_style == COLOR:
@@ -74,7 +83,7 @@ class Object(Rectangle):
         elif self.fill_style == GRADIENT:
             pass#self.gradient = self.get_property("gradient")
         elif self.fill_style == PATTERN:
-            self.gradient = self.get_property("pattern")
+            pass#self.gradient = self.get_property("pattern")
 
     def draw_hints(self, context):
         extent = 25.0

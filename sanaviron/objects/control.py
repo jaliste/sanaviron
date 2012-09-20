@@ -3,15 +3,14 @@
 
 import cairo
 
-from rectangle import Rectangle
-from point import Point
+from objects import set_as_point
 from math import pi
 
-class Control(Rectangle):
+class Control:#(Rectangle):
     """This class represents a control point"""
 
     def __init__(self):
-        Rectangle.__init__(self)
+        set_as_point(self)
         self.size = 5.0
         self.active = True
         self.limbus = False

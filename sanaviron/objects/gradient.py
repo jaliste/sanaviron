@@ -28,20 +28,20 @@ class Gradient(Holder):
     def get_xxx(self):
         return ['type', 'colors']
 
-    def __repr__(self):
-        return str(
-            self.get_object())#" ".join([str(self.type), self.__name__, str(self.x), str(self.y), str(self.width), str(self.height),
-        #str(self.colors)])
-
-    def get_object(self):
-        return {
-            "type": self.type,
-            "x": self.x,
-            "y": self.y,
-            "width": self.width,
-            "height": self.height,
-            "colors": self.colors
-        }
+#    def __repr__(self):
+#        return str(
+#            self.get_object())#" ".join([str(self.type), self.__name__, str(self.x), str(self.y), str(self.width), str(self.height),
+#        #str(self.colors)])
+#
+#    def get_object(self):
+#        return {
+#            "type": self.type,
+#            "x": self.x,
+#            "y": self.y,
+#            "width": self.width,
+#            "height": self.height,
+#            "colors": self.colors
+#        }
 
     def change_size( self, x, y, x1, y1):
         self.x, self.y = x, y
@@ -83,6 +83,15 @@ class Gradient(Holder):
         if self.type == LINEAR:###ToDo two type!!!
             self.gradient = cairo.LinearGradient(self.x, self.y, self.width, self.height)
         else:
-            self.gradient = cairo.RadialGradient(self.x, self.y, self.width, self.height)
+            self.gradient = cairo.RadialGradient(self.x, self.y, self.width, self.height, 10, 100)
         for color in self.colors:
             self.gradient.add_color_stop_rgba(color.position, color.red, color.green, color.blue, color.alpha)
+
+    def serialize(self):
+        colors = list()
+        map(lambda color: colors.append(color.serialize()), self.colors)
+        return "|".join(colors)
+#        text = ""
+#        for color in self.colors:
+#            text += color.serialize()
+#        return text

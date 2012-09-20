@@ -12,6 +12,9 @@ class Rectangle(Position, Size):
         Position.__init__(self)
         Size.__init__(self)
 
+    def get_xxx(self):
+        return Position.get_xxx(self) + Size.get_xxx(self)
+
     def synchronize(self, rectangle):
         self.x = rectangle.x
         self.y = rectangle.y

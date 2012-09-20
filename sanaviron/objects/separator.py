@@ -11,7 +11,7 @@ class Separator(Rectangle):
     def __init__(self):
         Rectangle.__init__(self)
         self.hidden = False
-        self.position = 0
+        self.position = 0.0
         self.direction = NONE
 
         self.control = Control()
@@ -31,3 +31,6 @@ class Separator(Rectangle):
                 self.control.x = self.x + self.width / 2
                 self.control.y = self.y + self.position
             context.stroke()
+
+    def serialize(self):
+        return "%.02f:%d" % (self.position, self.direction)

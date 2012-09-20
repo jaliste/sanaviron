@@ -11,7 +11,7 @@ if platform.system() != 'Windows':
 
 import cairo
 
-from holder import Holder, Property
+#from holder import Holder, Property
 from document import Document
 from page import Page
 from origin import Origin
@@ -23,30 +23,30 @@ from size import Size
 from signalized import Signalized
 from point import Point
 
-#from barcode import BarCode
-#from image import Image
-#from text import Text
-#from table import Table
-#from line import Line
-#from box import Box
-#from rounded import Rounded
-#from arc import Arc
-#from curve import Curve
-#from connector import Connector
-#from chart import Chart
+from barcode import BarCode
+from image import Image
+from text import Text
+from table import Table
+from line import Line
+from box import Box
+from rounded import Rounded
+from arc import Arc
+from curve import Curve
+from connector import Connector
+from chart import Chart
 
 from objects import *
-from objects import opossite
+from objects import opposite
 from objects.gradient import Gradient, GradientColor
 
 import xml.parsers.expat
+import xml.dom.minidom
 
 object = None
 
 class BaseCanvas(gtk.Layout, Signalized):
     """This class represents a low level canvas"""
 
-    __name__ = "Document" # TODO This is an error. Must be in a Document class.
     canvas = None
 
     def __new__(self):
@@ -282,7 +282,7 @@ class Canvas(BaseCanvas):
             child.selected = True
             child.resizing = True
             if child.direction < ANONIMOUS:
-                control = child.handler.control[opossite(child.direction)]
+                control = child.handler.control[opposite(child.direction)]
                 child.pivot.x = self.grid.nearest(control.x)
                 child.pivot.y = self.grid.nearest(control.y)
                 child.handler.pivot.x = control.x
@@ -300,8 +300,8 @@ class Canvas(BaseCanvas):
             child.width = 0
             child.height = 0
             child.direction = SOUTHEAST
-            child.handler.control[opossite(child.direction)].x = child.x
-            child.handler.control[opossite(child.direction)].y = child.y
+            child.handler.control[opposite(child.direction)].y = child.y
+            child.handler.control[opposite(child.direction)].x = child.x
             start_resize(child)
             widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.BOTTOM_RIGHT_CORNER))
             self.emit("select", child)
@@ -635,7 +635,10 @@ class ExtendedCanvas(Canvas):
         self.update()
 
     def serialize(self):
-        return self.document.serialize()
+        string = self.document.serialize()
+        #print string
+        node = xml.dom.minidom.parseString(string)
+        return node.toprettyxml(indent='    ', newl="\n", encoding="utf-8")
 
 class TestingCanvas(ExtendedCanvas):
     """This class represents a testing canvas"""

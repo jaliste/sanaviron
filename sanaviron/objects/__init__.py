@@ -4,7 +4,7 @@
 __all__ = ['NONE', 'NORTHWEST', 'NORTH', 'NORTHEAST', 'WEST', 'EAST', 'SOUTHWEST', 'SOUTH', 'SOUTHEAST', 'ANONIMOUS',
            'MANUAL', 'AUTOMATIC', 'COLOR', 'GRADIENT', 'PATTERN', 'LINEAR', 'RADIAL', 'HORIZONTAL', 'VERTICAL',
            'CENTIMETERS', 'MILLIMETERS', 'DOTS', 'INCHES', 'RADIANS', 'DEGREES', 'grad2rad', 'rad2grad',
-           'angle_from_coordinates']
+           'angle_from_coordinates', 'get_side', 'opposite', 'set_as_point']
 
 from math import pi, atan2
 
@@ -73,7 +73,7 @@ def get_side(direction):
         return NONE
 
 
-def opossite(direction):
+def opposite(direction):
     if direction == NORTHEAST:
         return SOUTHWEST
     if direction == NORTH:
@@ -92,3 +92,7 @@ def opossite(direction):
         return WEST
 
     return NONE
+
+def set_as_point(instance):
+    instance.x = 0.0
+    instance.y = 0.0

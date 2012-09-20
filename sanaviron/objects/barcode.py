@@ -2,12 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import os
-import sys
 import platform
 import pango
 import pangocairo
 from ctypes import c_char_p, c_int, c_double, CDLL
-import cairo
 from object import Object
 from objects import *
 

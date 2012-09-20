@@ -6,6 +6,8 @@ from holder import Holder
 class Point(Holder):
     """This class represents a point"""
 
+    __name__ = "Point"
+
     def __init__(self):
         Holder.__init__(self)
         self.x, self.y = 0, 0
@@ -14,6 +16,9 @@ class Point(Holder):
         result = Point()
         (result.x, result.y) = (self.x + other.x, self.y + other.y)
         return result
+
+    def get_xxx(self):
+        return ["x", "y"]
 
     def set_position(self, position):
         (self.x, self.y) = (position.x, position.y)

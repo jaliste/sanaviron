@@ -6,6 +6,8 @@ from holder import Holder
 class Document(Holder):
     """This class represent a document"""
 
+    __name__ = "Document"
+
     def __init__(self):
         Holder.__init__(self)
 
@@ -20,14 +22,12 @@ class Document(Holder):
             page.draw(context, hints)
 
     def serialize(self):
-        text = "<document>\n"
-        text += "\t<definitions>\n"
+        text = "<object type=\"%s\">" % self.__name__
+        text += "<children>"
         for color in self.colors:
             text += color.serialize()
-        text += "\t</definitions>\n"
-        text += "\t<layout>\n"
         for page in self.pages:
             text += page.serialize()
-        text += "\t</layout>\n"
-        text += "</document>\n"
+        text += "</children>"
+        text += "</object>"
         return text

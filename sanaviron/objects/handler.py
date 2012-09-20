@@ -3,15 +3,13 @@
 
 import cairo
 
-from rectangle import Rectangle
 from control import Control
 from objects import NONE, ANONIMOUS
 
-class Handler(Rectangle):
+class Handler:
     """This class represents a rectangular control points handler"""
 
     def __init__(self):
-        Rectangle.__init__(self)
         self.control = list()
         self.can_pivot = True
         self.center_pivot = False

@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 from paper import Paper
-from holder import Holder
 
 class Page(Paper):
     """This class represents a single document page"""
 
+    __name__ = "Page"
+
     def __init__(self):
-        #Holder.__init__(self)
         Paper.__init__(self)
 
         self.children = list()
@@ -20,8 +20,10 @@ class Page(Paper):
             child.draw(context)
 
     def serialize(self):
-        text = "\t\t<page number=\"%d\">\n" % 0
+        text = "<object type=\"%s\">" % self.__name__
+        text += "<children>"
         for child in self.children:
             text += child.serialize()
-        text += "\t\t</page>\n"
+        text += "</children>"
+        text += "</object>"
         return text
