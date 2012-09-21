@@ -125,24 +125,33 @@ class ColorizedObjectForm(SizedObjectForm):
         self.add_entry(_("Fill"), entry, "background")
 
         if "--debug" in sys.argv:
-            entry = gtk.Label(" ")
+            #entry = gtk.Label(" ")
+            #self.add_entry(_("Gradient"), entry, "gradient")
+            entry = LinearGradientEditor()
+            entry.connect("update", self.set_gradient)
+            #self.add(entry)
             self.add_entry(_("Gradient"), entry, "gradient")
-            entry = LinearGradientEditor(self.canvas)
-            self.add(entry)
+
+    def set_gradient(self, widget, data):
+        for child in self.canvas.document.pages[0].children:
+            if child.selected:
+                gradient = widget.gl.gradient
+                child.set_gradient(gradient)
+                self.canvas.queue_draw()
 
     def set_stroke_color(self, widget):
         for child in self.canvas.document.pages[0].children:
             if child.selected:
-                color = Color(r=widget.get_color().red_float, g=widget.get_color().green_float,
-                    b=widget.get_color().blue_float, a=widget.get_alpha() / 65535.0)
+                color = Color(red=widget.get_color().red_float, green=widget.get_color().green_float,
+                    blue=widget.get_color().blue_float, alpha=widget.get_alpha() / 65535.0)
                 child.set_stroke_color(color)
                 self.canvas.queue_draw()
 
     def set_fill_color(self, widget):
         for child in self.canvas.document.pages[0].children:
             if child.selected:
-                color = Color(r=widget.get_color().red_float, g=widget.get_color().green_float,
-                    b=widget.get_color().blue_float, a=widget.get_alpha() / 65535.0)
+                color = Color(red=widget.get_color().red_float, green=widget.get_color().green_float,
+                    blue=widget.get_color().blue_float, alpha=widget.get_alpha() / 65535.0)
                 child.set_fill_color(color)
                 self.canvas.queue_draw()
 
@@ -150,14 +159,15 @@ class ColorizedObjectForm(SizedObjectForm):
 class Properties(gtk.ScrolledWindow):
     """This class represents the properties bar"""
 
-    def __init__(self, canvas):
+    def __init__(self):
         gtk.ScrolledWindow.__init__(self)
 
         self.observer = Observer()
 
         self.objects = dict()
 
-        self.canvas = canvas # FIXME
+        from canvas import TestingCanvas
+        self.canvas = TestingCanvas()
 
         self.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
 
@@ -493,6 +503,9 @@ class Properties(gtk.ScrolledWindow):
                     set_property_from_child(name, "height", child.height)
                 except:
                     pass
+
+                # TODO: Colors
+                set_property_from_child(name, "gradient", child.gradient)
 
                 if name == "Arc":
                     value = child.get_property("angle_start")

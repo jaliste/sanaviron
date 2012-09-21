@@ -11,29 +11,27 @@ if platform.system() != 'Windows':
 
 import cairo
 
-#from holder import Holder, Property
-from document import Document
-from page import Page
-from origin import Origin
-from grid import Grid
-from guides import Guides
-from selection import Selection
-#from paper import Paper
-from size import Size
-from signalized import Signalized
-from point import Point
+from objects.document import Document
+from objects.page import Page
+from objects.origin import Origin
+from objects.grid import Grid
+from objects.guides import Guides
+from objects.selection import Selection
+from objects.size import Size
+from objects.signalized import Signalized
+from objects.point import Point
 
-from barcode import BarCode
-from image import Image
-from text import Text
-from table import Table
-from line import Line
-from box import Box
-from rounded import Rounded
-from arc import Arc
-from curve import Curve
-from connector import Connector
-from chart import Chart
+from objects.barcode import BarCode
+from objects.image import Image
+from objects.text import Text
+from objects.table import Table
+from objects.line import Line
+from objects.box import Box
+from objects.rounded import Rounded
+from objects.arc import Arc
+from objects.curve import Curve
+from objects.connector import Connector
+from objects.chart import Chart
 
 from objects import *
 from objects import opposite
@@ -42,7 +40,7 @@ from objects.gradient import Gradient, GradientColor
 import xml.parsers.expat
 import xml.dom.minidom
 
-object = None
+#object = None
 
 class BaseCanvas(gtk.Layout, Signalized):
     """This class represents a low level canvas"""
@@ -142,17 +140,17 @@ class Canvas(BaseCanvas):
         self.guides = Guides()
         self.selection = Selection()
 
-        self.gradients = []
-        grad = Gradient(type=LINEAR, name="1", x=0, y=0, x1=0, y1=0)
-        grad.clear()
-        grad.add_new_color(GradientColor(1.0, 0.0, 0.0, 1.0, 0.142))
-        grad.add_new_color(GradientColor(1.0, 1.0, 0.0, 1.0, 0.285))
-        grad.add_new_color(GradientColor(0.0, 1.0, 0.0, 1.0, 0.428))
-        grad.add_new_color(GradientColor(0.0, 1.0, 1.0, 1.0, 0.571))
-        grad.add_new_color(GradientColor(0.0, 0.0, 1.0, 1.0, 0.714))
-        grad.add_new_color(GradientColor(1.0, 0.0, 1.0, 1.0, 0.857))
-        grad.update()
-        self.gradients.append(grad)
+#        self.gradients = []
+#        grad = Gradient(type=LINEAR, name="1", x=0, y=0, x1=0, y1=0)
+#        grad.clear()
+#        grad.add_new_color(GradientColor(1.0, 0.0, 0.0, 1.0, 0.142))
+#        grad.add_new_color(GradientColor(1.0, 1.0, 0.0, 1.0, 0.285))
+#        grad.add_new_color(GradientColor(0.0, 1.0, 0.0, 1.0, 0.428))
+#        grad.add_new_color(GradientColor(0.0, 1.0, 1.0, 1.0, 0.571))
+#        grad.add_new_color(GradientColor(0.0, 0.0, 1.0, 1.0, 0.714))
+#        grad.add_new_color(GradientColor(1.0, 0.0, 1.0, 1.0, 0.857))
+#        grad.update()
+#        self.gradients.append(grad)
 
         self.document = Document()
         #self.document.pages[0].children = list()
@@ -596,30 +594,34 @@ class ExtendedCanvas(Canvas):
         self.unserialize(document)
 
     def unserialize(self, document, from_clipboard=False):
+        globals()["object"] = None
+        globals()["depth"] = 0
+
         def element_start(name, attributes):
-            global object
+            global object, depth
 
             if name == "object":
+                depth += 1
                 type = attributes["type"]
                 code = "%s()" % type
                 object = eval(code)
             elif name == "property":
                 attribute = attributes["name"]
-                try:
-                    type = attributes["type"]
-                except:
-                    type = "AUTOMATIC"
+                type = attributes["type"]
                 value = attributes["value"]
-                #property = Property(attribute, value, type)
                 object.set_property(attribute, value, type)
 
         def element_end(name):
+            global depth
+
             if name == "object":
-                self.add(object)
-                if from_clipboard:
-                    object.x += 10
-                    object.y += 10
-                    object.selected = True
+                depth -= 1
+                if  depth == 1:
+                    self.add(object)
+                    if from_clipboard:
+                        object.x += 10
+                        object.y += 10
+                        object.selected = True
 
         #def element_body(data):
         #  print "data:", repr(data)

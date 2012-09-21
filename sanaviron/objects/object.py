@@ -17,8 +17,6 @@ import pango
 import pangocairo
 import platform
 
-#from canvas import TestingCanvas
-
 class Object(Rectangle):
     """This class represents the parent of all draweable objects"""
 
@@ -35,7 +33,7 @@ class Object(Rectangle):
         self.z = 0
 
         self.hints = False
-        from canvas import TestingCanvas
+        from ui.canvas import TestingCanvas
         self.canvas = TestingCanvas()
 
         self.dash = []
@@ -44,6 +42,7 @@ class Object(Rectangle):
         self.fill_style = COLOR
         self.fill_color = Color(0.25, 0.25, 0.25, 0.25)
         self.stroke_color = Color(0.25, 0.25, 0.25, 1.0)
+        self.gradient = Gradient()
 
     def get_xxx(self):
         return Rectangle.get_xxx(self) + ["z", "fill_style", "fill_color", "stroke_color", "gradient"]
@@ -60,9 +59,11 @@ class Object(Rectangle):
             self.set_gradient()
 
     def set_gradient(self, gradient=Gradient()): #ToDo: by name and from Canvas!
+        self.fill_style = GRADIENT
         self.gradient = gradient
 
     def set_fill_color(self, color=Color()):
+        self.fill_style = COLOR
         self.fill_color = color
 
     def set_stroke_color(self, color=Color()):

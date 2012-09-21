@@ -50,11 +50,11 @@ class Box(Object):
             context.scale(self.width,self.height)
         context.rectangle(0, 0, 1, 1)
 
-        if '--debug' in sys.argv:  #Debug mode
-            self.fill_style = GRADIENT
+#        if '--debug' in sys.argv:  #Debug mode
+#            self.fill_style = GRADIENT
         if self.fill_style == GRADIENT:
-            self.set_gradient(self.canvas.gradients[0])
-            context.set_source(self.canvas.gradients[0].gradient)
+            #self.set_gradient(self.gradient)
+            context.set_source(self.gradient.gradient)
         elif self.fill_style == COLOR:
             context.set_source_rgba(self.fill_color.red, self.fill_color.green,
                 self.fill_color.blue, self.fill_color.alpha)

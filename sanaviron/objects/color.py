@@ -8,12 +8,12 @@ class Color(Holder):
 
     __name__ = "Color"
 
-    def __init__(self, r=0.0, g=0.0, b=0.0, a=1.0, string=None):
+    def __init__(self, red=0.0, green=0.0, blue=0.0, alpha=1.0, string=None):
         Holder.__init__(self)
-        self.red = r
-        self.green = g
-        self.blue = b
-        self.alpha = a
+        self.red = red
+        self.green = green
+        self.blue = blue
+        self.alpha = alpha
 
         if string:
             self.set_color_as_hex(string)
@@ -40,7 +40,7 @@ class Color(Holder):
         self.red = float(int(color[0:2], 16)) / 255
         self.green = float(int(color[2:4], 16)) / 255
         self.blue = float(int(color[4:6], 16)) / 255
-        self.alpha = float(int(color[6:], 16)) / 255
+        self.alpha = float(int(color[6:], 16)) / 255 # TODO: May be optional?
 
     def serialize(self):
         return "".join(

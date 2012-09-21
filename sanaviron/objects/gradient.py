@@ -12,29 +12,40 @@ class Gradient(Holder):
 
     __name__ = "Gradient"
 
-    def __init__(self, type=LINEAR, name="", x=0, y=0, x1=1, y1=1, string=""):
+    def __init__(self, type=LINEAR, x=0, y=0, width=1, height=1, string=None):
         Holder.__init__(self)
-        #self.__name__ = name
         self.type = type
         self.colors = [GradientColor(1, 1, 1, 1, 0), GradientColor(0, 0, 0, 1, 1)]
         self.x, self.y = x, y
-        self.width, self.height = x1, y1
+        self.width, self.height = width, height
         if type == LINEAR:
-            self.gradient = cairo.LinearGradient(x, y, x1, y1)
+            self.gradient = cairo.LinearGradient(x, y, width, height)
         elif type == RADIAL:
-            self.gradient = cairo.RadialGradient(x, y, x1, y1, 10, 100)
+            self.gradient = cairo.RadialGradient(x, y, width, height, 10, 100)
+
+        if string:
+            self.colors = []
+            data = string.split('|')
+            area = data.pop().split(':')
+            self.x = float(area[0])
+            self.y = float(area[1])
+            self.width = float(area[2])
+            self.height = float(area[3])
+            map(lambda color: self.colors.append(GradientColor(string=color)), data)
+
         self.update()
 
     def get_xxx(self):
         return ['type', 'colors']
 
-    def change_size( self, x, y, x1, y1):
+    def change_size(self, x, y, x1, y1):
         self.x, self.y = x, y
         self.width, self.height = x1, y1
         self.update()
 
     def clear(self):
         self.colors = []
+        self.update()
 
     def set_position(self, index, position):
         self.colors[index].position = position
@@ -65,14 +76,14 @@ class Gradient(Holder):
 
     def update(self):
         #del(self.gradient)
-        if self.type == LINEAR:###ToDo two type!!!
+        if self.type == LINEAR: ###ToDo two type!!!
             self.gradient = cairo.LinearGradient(self.x, self.y, self.width, self.height)
         else:
             self.gradient = cairo.RadialGradient(self.x, self.y, self.width, self.height, 10, 100)
         for color in self.colors:
-            self.gradient.add_color_stop_rgba(color.position, color.red, color.green, color.blue, color.alpha)
+            self.gradient.add_color_stop_rgba(float(color.position), color.red, color.green, color.blue, color.alpha)
 
     def serialize(self):
         colors = list()
         map(lambda color: colors.append(color.serialize()), self.colors)
-        return "|".join(colors)
+        return "|".join(colors) + "|%.02f:%.02f:%.02f:%.02f" % (self.x, self.y, self.width, self.height)

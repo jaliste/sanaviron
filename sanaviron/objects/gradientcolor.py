@@ -8,19 +8,18 @@ class GradientColor(Color):
 
     __name__ = "GradientColor"
 
-    def __init__(self, r=0.0, g=0.0, b=0.0, a=0.0, pos=0, string=""):
-        Color.__init__(self, r, g, b, a)
-        #self.red = r
-        #self.green = g
-        #self.blue = b
-        #self.alpha = a
-        self.position = pos
+    def __init__(self, red=0.0, green=0.0, blue=0.0, alpha=1.0, position=0, string=None):
+        Color.__init__(self, red, green, blue, alpha)
+        self.position = position
+
+        if string:
+            array = string.split(':')
+            #Color.set_color_as_hex(self, array[0])
+            self.set_color_as_hex(array[0])
+            self.position = array[1]
 
     def get_xxx(self):
         return Color.get_xxx(self) + ['position']
 
-#    def __repr__(self):
-#        return str([self.red,self.green,self.blue,self.alpha,self.position])
-
     def serialize(self):
-        return Color.serialize(self) + ":%d" % self.position
+        return Color.serialize(self) + ":%d" % int(self.position)

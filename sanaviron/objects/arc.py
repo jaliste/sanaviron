@@ -17,34 +17,23 @@ class Arc(Object):
         Object.__init__(self)
         self.angle_start = 0.0
         self.angle_stop = 360.0
-        self.set_property("angle_start", self.angle_start)
-        self.set_property("angle_stop", self.angle_stop)
 
         self.closed = False
         self.closed_at_centre = False
-        self.set_property("closed", int(self.closed))
-        self.set_property("closed_at_centre", int(self.closed_at_centre))
 
         self.handler.control.append(Control())
         self.handler.control.append(Control())
 
         #self.block = False
 
+    def get_xxx(self):
+        return Object.get_xxx(self) + ["angle_start", "angle_stop", "closed", "closed_at_centre"]
+
     def set_angle_start(self, ang):
-        #self.angle_start = ang
-        self.set_property("angle_start", ang)
+        self.angle_start = ang
 
     def set_angle_stop(self, ang):
-        #self.angle_stop = ang
-        self.set_property("angle_stop", ang)
-
-    def get_properties(self):
-        Object.get_properties(self)
-        self.angle_start = self.get_property("angle_start")
-        self.angle_stop = self.get_property("angle_stop")
-        self.closed = int(self.get_property("closed"))
-        if self.closed:
-            self.closed_at_centre = int(self.get_property("closed_at_centre"))
+        self.angle_stop = ang
 
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
@@ -67,7 +56,6 @@ class Arc(Object):
         #self.height = self.width
 
     def draw(self, context):
-        self.get_properties()
         context.set_dash(self.dash)
         context.set_line_width(self.thickness)
 
@@ -94,12 +82,12 @@ class Arc(Object):
                 context.line_to(0.5, 0.5)
             context.close_path()
 
-        if '--debug' in sys.argv:  #Debug mode
-            self.fill_style = GRADIENT
+#        if '--debug' in sys.argv:  #Debug mode
+#            self.fill_style = GRADIENT
 
         if self.fill_style == GRADIENT:
-            self.set_gradient(self.canvas.gradients[0])
-            context.set_source(self.canvas.gradients[0].gradient)
+            #self.set_gradient(self.gradient)
+            context.set_source(self.gradient.gradient)
         elif self.fill_style == COLOR:
             context.set_source_rgba(self.fill_color.red, self.fill_color.green,
                 self.fill_color.blue, self.fill_color.alpha)
@@ -116,13 +104,10 @@ class Arc(Object):
             x0 = self.x + self.radius_horizontal
             y0 = self.y + self.radius_vertical
 
-            if (x < self.x) or (y < self.y):
-                self.set_property("closed_at_centre", False)
-            else:
-                self.set_property("closed_at_centre", True)
+            self.closed_at_centre = not((x < self.x) or (y < self.y))
 
             if (x > (self.width + self.x)) or (y > (self.height + self.y)):
-                self.set_property("closed_at_centre", False)
+                self.closed_at_centre = False
 
             if (self.radius_horizontal > 0) and (self.radius_vertical > 0):
                 ang = angle_from_coordinates(x, y, x0, y0, self.radius_horizontal,
@@ -132,13 +117,10 @@ class Arc(Object):
             x0 = self.x + self.radius_horizontal
             y0 = self.y + self.radius_vertical
 
-            if (x < self.x) or (y < self.y):
-                self.set_property("closed_at_centre", int(False))
-            else:
-                self.set_property("closed_at_centre", int(True))
+            self.closed_at_centre = not ((x < self.x) or (y < self.y))
 
             if (x > (self.width + self.x)) or (y > (self.height + self.y)):
-                self.set_property("closed_at_centre", int(False))
+                self.closed_at_centre = False
 
             if (self.radius_horizontal > 0) and (self.radius_vertical > 0):
                 ang = angle_from_coordinates(x, y, x0, y0, self.radius_horizontal,

@@ -11,7 +11,6 @@ class Document(Holder):
     def __init__(self):
         Holder.__init__(self)
 
-        self.colors = list()
         self.pages = list()
 
     def draw(self, context, border, zoom, hints):
@@ -24,8 +23,6 @@ class Document(Holder):
     def serialize(self):
         text = "<object type=\"%s\">" % self.__name__
         text += "<children>"
-        for color in self.colors:
-            text += color.serialize()
         for page in self.pages:
             text += page.serialize()
         text += "</children>"
