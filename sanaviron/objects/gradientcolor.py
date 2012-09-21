@@ -8,7 +8,7 @@ class GradientColor(Color):
 
     __name__ = "GradientColor"
 
-    def __init__(self, r, g, b, a, pos):
+    def __init__(self, r=0.0, g=0.0, b=0.0, a=0.0, pos=0, string=""):
         Color.__init__(self, r, g, b, a)
         #self.red = r
         #self.green = g

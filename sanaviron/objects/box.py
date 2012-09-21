@@ -1,13 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-#from control import Control
 from object import Object
 from separator import Separator
 from size import Size
 from objects import *
 import sys
-#from gradient import Gradient
 
 class Box(Object):
     """This class represents a box"""
@@ -21,21 +19,6 @@ class Box(Object):
 
     def get_xxx(self):
         return Object.get_xxx(self) + ["separators"]
-
-#    def get_object(self):
-#        return {
-#            "type":self.__name__,
-#            "x":self.x,
-#            "y":self.y,
-#            "width":self.width,
-#            "height":self.height,
-#            "fill_style":self.fill_style,
-#            "fill_color":str(self.fill_color),
-#            "gradient":self.gradient,
-#            "stroke_color":str(self.stroke_color),
-#            "dash":self.dash,
-#            "thickness":self.thickness,
-#            }
 
     def post(self):
         self.handler.control[NORTHWEST].x = self.x

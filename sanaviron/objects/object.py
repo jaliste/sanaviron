@@ -41,9 +41,6 @@ class Object(Rectangle):
         self.dash = []
         self.thickness = 1.0
 
-#        self.set_fill_style(COLOR)
-#        self.set_fill_color(Color(0.25, 0.25, 0.25, 0.25))
-#        self.set_stroke_color(Color(0.25, 0.25, 0.25, 1))
         self.fill_style = COLOR
         self.fill_color = Color(0.25, 0.25, 0.25, 0.25)
         self.stroke_color = Color(0.25, 0.25, 0.25, 1.0)
@@ -64,26 +61,12 @@ class Object(Rectangle):
 
     def set_gradient(self, gradient=Gradient()): #ToDo: by name and from Canvas!
         self.gradient = gradient
-        #self.set_property("gradient", gradient)
 
     def set_fill_color(self, color=Color()):
         self.fill_color = color
-        #self.set_property("fill_color", str(self.fill_color))
 
     def set_stroke_color(self, color=Color()):
         self.stroke_color = color
-        #self.set_property("stroke_color", str(self.stroke_color))
-
-    def get_properties(self):
-        if self.fill_style == COLOR:
-            temp = self.get_property("fill_color")
-            color = Color()
-            color.set_color_as_string(temp)
-            self.fill_color = color
-        elif self.fill_style == GRADIENT:
-            pass#self.gradient = self.get_property("gradient")
-        elif self.fill_style == PATTERN:
-            pass#self.gradient = self.get_property("pattern")
 
     def draw_hints(self, context):
         extent = 25.0

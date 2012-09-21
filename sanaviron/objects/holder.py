@@ -12,17 +12,20 @@ class Property(dict):
     def __init__(self, name, value, type=AUTOMATIC):
         dict.__init__(self)
         self.name = name
+        self.type = type
         if type == AUTOMATIC:
             self.type = self.get_type_from_value(value)
             self.value = value
+        elif type == "list":
+            self.value = eval('%s(%s)' % (type, value))
+        elif type.startswith("objects."):
+            module = str(type).split('.')
+            location = '.'.join(module[0:2])
+            object = module[-1]
+            context = __import__(location, globals(), locals(), [object], -1)
+            self.value = eval('context.%s(string="%s")' % (object, value))
         else:
-            self.type = type
-            if type.startswith("objects."):
-                location = str(type).split('.')
-                objects = __import__('.'.join(location[0:2]), globals(), locals(), [location[-1]], -1)
-                self.value = eval('objects.%s("%s")' % (location[-1], value))
-            else:
-                self.value = eval('%s("%s")' % (type, value))
+            self.value = eval('%s("%s")' % (type, value))
 
     def get_type_from_value(self, value):
         return str(type(value)).split("'")[1]

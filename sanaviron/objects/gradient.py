@@ -12,7 +12,7 @@ class Gradient(Holder):
 
     __name__ = "Gradient"
 
-    def __init__(self, type=LINEAR, name="", x=0, y=0, x1=1, y1=1):
+    def __init__(self, type=LINEAR, name="", x=0, y=0, x1=1, y1=1, string=""):
         Holder.__init__(self)
         #self.__name__ = name
         self.type = type
@@ -27,21 +27,6 @@ class Gradient(Holder):
 
     def get_xxx(self):
         return ['type', 'colors']
-
-#    def __repr__(self):
-#        return str(
-#            self.get_object())#" ".join([str(self.type), self.__name__, str(self.x), str(self.y), str(self.width), str(self.height),
-#        #str(self.colors)])
-#
-#    def get_object(self):
-#        return {
-#            "type": self.type,
-#            "x": self.x,
-#            "y": self.y,
-#            "width": self.width,
-#            "height": self.height,
-#            "colors": self.colors
-#        }
 
     def change_size( self, x, y, x1, y1):
         self.x, self.y = x, y
@@ -91,7 +76,3 @@ class Gradient(Holder):
         colors = list()
         map(lambda color: colors.append(color.serialize()), self.colors)
         return "|".join(colors)
-#        text = ""
-#        for color in self.colors:
-#            text += color.serialize()
-#        return text

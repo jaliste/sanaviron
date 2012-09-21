@@ -8,22 +8,21 @@ class Color(Holder):
 
     __name__ = "Color"
 
-    def __init__(self, r=0.0, g=0.0, b=0.0, a=0.0):
+    def __init__(self, r=0.0, g=0.0, b=0.0, a=1.0, string=None):
         Holder.__init__(self)
         self.red = r
         self.green = g
         self.blue = b
         self.alpha = a
 
+        if string:
+            self.set_color_as_hex(string)
+
     def get_xxx(self):
         return ['red', 'green', 'blue', 'alpha']
 
-#    def __str__(self):
-#        return  " ".join([str(self.red), str(self.green), str(self.blue), str(self.alpha)])
-#
-#    def __hex__(self):
-#        return "".join(
-#            [self.to_hex(self.red), self.to_hex(self.green), self.to_hex(self.blue), self.to_hex(self.alpha)])
+    def __hex__(self):
+        return self.serialize()
 
     def to_hex(self, number):   #number 0..1
         temp = hex(int(number * 255))[2:]
