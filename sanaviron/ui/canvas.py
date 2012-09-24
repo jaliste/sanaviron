@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 """A canvas for drawing things on it"""
@@ -616,7 +616,7 @@ class ExtendedCanvas(Canvas):
 
             if name == "object":
                 depth -= 1
-                if  depth == 1:
+                if  depth == 2:
                     self.add(object)
                     if from_clipboard:
                         object.x += 10

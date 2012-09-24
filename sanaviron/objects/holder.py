@@ -67,13 +67,13 @@ class Holder(object):
         return self.serialize()
 
     def __setattr__(self, name, value):
-        if name in self.get_xxx():
+        if name in self.get_properties():
             self.set_property(name, value)
         else:
             super(Holder, self).__setattr__(name, value)
 
     def __getattr__(self, name):
-        if name in self.get_xxx():
+        if name in self.get_properties():
             return self.get_property(name)
         try:
             value = super(Holder, self).__getattr__(name)
@@ -81,7 +81,7 @@ class Holder(object):
             raise AttributeError
         return value
 
-    def get_xxx(self):
+    def get_properties(self):
         return []
 
     def set_property(self, name, value, type=AUTOMATIC):

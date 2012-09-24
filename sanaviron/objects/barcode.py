@@ -83,8 +83,11 @@ class BarCode(Object):
     def __init__(self, code="800894002700", type=DEFAULT_CODE_TYPE):
         Object.__init__(self)
 
-        self.set_property('code', code)
-        self.set_property('type', type)
+        self.code = code
+        self.type = type
+
+    def get_properties(self):
+        return Object.get_properties(self) + ["code", "type"]
 
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
@@ -104,7 +107,7 @@ class BarCode(Object):
         self.handler.control[EAST].x = self.x + self.width
         self.handler.control[EAST].y = self.y + self.height / 2
 
-        if int(self.get_property('type')) in [DATAMATRIX, QR]:
+        if int(self.type) in [DATAMATRIX, QR]:
             self.handler.control[NORTH].active = False
             self.handler.control[SOUTH].active = False
             self.handler.control[WEST].active = False
@@ -121,8 +124,8 @@ class BarCode(Object):
             self.handler.can_pivot = True
 
     def draw(self, context):
-        code = str(self.get_property('code'))
-        type = int(self.get_property('type'))
+        code = str(self.code)
+        type = int(self.type)
         description = "Verdana 12"
 
         data = BCIface.get_code_data(type, code, self.width, self.height)
@@ -227,13 +230,9 @@ class BarCode(Object):
     def resize(self, x, y):
         Object.resize(self, x, y)
 
-        if int(self.get_property('type')) in [DATAMATRIX, QR]:
+        if int(self.type) in [DATAMATRIX, QR]:
             size = max(self.width, self.height)
             self.width = self.height = size
-#            if self.height > self.width:
-#                self.height = self.width
-#            else:
-#                self.width = self.height
 
 if __name__ == "__main__":
     data = BCIface.get_code_data(BARCODE_EAN, "800894002700", 100, 100)

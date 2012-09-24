@@ -11,7 +11,6 @@ class Connector(Object):
 
     def __init__(self):
         Object.__init__(self)
-        #self.handler.line = True
         self.dash = list()
         self.radius = 20
 

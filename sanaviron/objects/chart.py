@@ -13,7 +13,8 @@ class Chart(Object):
     def __init__(self, type=PIE_CHART_TYPE):
         Object.__init__(self)
 
-        self.set_property('type', type)
+    def get_properties(self):
+        return Object.get_properties(self) + ["type"]
 
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
@@ -36,7 +37,6 @@ class Chart(Object):
     def draw(self, context):
         type = self.get_property('type')
 
-        #surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, self.width, self.height)
         surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, int(self.width), int(self.height))
 
         lines = (
@@ -54,8 +54,6 @@ class Chart(Object):
             )
 
         options = {
-            #'title': 'Gráfico de muestra',
-
             'axis': {
                 'x': {
                     'ticks': [dict(v=i, label=l[0]) for i, l in enumerate(lines)],
@@ -77,14 +75,6 @@ class Chart(Object):
         chart = get_chart_from_type(surface, type, options)
 
         dataSet = (
-            #    ('lines', [(i, l[1]) for i, l in enumerate(lines)]),
-            #    ('dataset 1', ((0, 10), )),
-            #    ('dataset 2', ((0, 15), )),
-            #    ('dataset 3', ((0, 20), )),
-            #    ('dataset 4', ((0, 25), )),
-            #    ('dataset 5', ((0, 30), )),
-            #    ('dataset 6', ((0, 20), )),
-            #    ('dataset 7', ((0, 40), )),
             ('AMD Athlon II X3 425', ((0, 34.5), )),
             ('Intel Celeron E3300 @ 2.50GHz', ((0, 31), )),
             ('AMD Athlon II X2 240', ((0, 30.7), )),

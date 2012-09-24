@@ -18,7 +18,7 @@ class Color(Holder):
         if string:
             self.set_color_as_hex(string)
 
-    def get_xxx(self):
+    def get_properties(self):
         return ['red', 'green', 'blue', 'alpha']
 
     def __hex__(self):
