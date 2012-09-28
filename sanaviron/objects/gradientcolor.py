@@ -18,8 +18,8 @@ class GradientColor(Color):
             self.set_color_as_hex(array[0])
             self.position = array[1]
 
-    def get_xxx(self):
-        return Color.get_xxx(self) + ['position']
+    def get_properties(self):
+        return Color.get_properties(self) + ['position']
 
     def serialize(self):
         return Color.serialize(self) + ":%d" % int(self.position)

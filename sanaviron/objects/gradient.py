@@ -35,7 +35,7 @@ class Gradient(Holder):
 
         self.update()
 
-    def get_xxx(self):
+    def get_properties(self):
         return ['type', 'colors']
 
     def change_size(self, x, y, x1, y1):

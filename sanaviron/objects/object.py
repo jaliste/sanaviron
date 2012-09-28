@@ -44,8 +44,8 @@ class Object(Rectangle):
         self.stroke_color = Color(0.25, 0.25, 0.25, 1.0)
         self.gradient = Gradient()
 
-    def get_xxx(self):
-        return Rectangle.get_xxx(self) + ["z", "fill_style", "fill_color", "stroke_color", "gradient"]
+    def get_properties(self):
+        return Rectangle.get_properties(self) + ["z", "fill_style", "fill_color", "stroke_color", "gradient"]
 
     def post(self):
         pass

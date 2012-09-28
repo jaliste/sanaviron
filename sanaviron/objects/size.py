@@ -13,7 +13,7 @@ class Size(Holder):
         self.width = 0
         self.height = 0
 
-    def get_xxx(self):
+    def get_properties(self):
         return ["width", "height"]
 
     def set_size(self, size):

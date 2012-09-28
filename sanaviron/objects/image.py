@@ -13,9 +13,11 @@ class Image(Object):
 
     def __init__(self, image=os.path.join("images", "logo.png")):
         Object.__init__(self)
-        #self.image = image
 
-        self.set_property('image', image)
+        self.image = image
+
+    def get_properties(self):
+        return Object.get_properties(self) + ["image"]
 
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
@@ -37,37 +39,13 @@ class Image(Object):
 
     def draw(self, context):
         context.save()
-        #//--pixbuf = gtk.gdk.pixbuf_new_from_file(self.image)
-        #scaled = pixbuf.scale_simple(self.width, self.height, gtk.gdk.INTERP_HYPER)
-        #//--scaled = pixbuf.scale_simple(int(self.width), int(self.height), gtk.gdk.INTERP_HYPER)
 
-        #if not scaled:
-        #  return
+        surface = cairo.ImageSurface.create_from_png(self.image)
+        width = surface.get_width()
+        height = surface.get_height()
+        x, y = self.scale(context, width, height)
+        context.set_source_surface(surface, self.x / x, self.y / y)
 
-        #try: # FIXME
-        #  context.set_source_pixbuf(scaled, self.x, self.y)
-        #except:
-        if 1:
-            #pixmap, mask = pixbuf.render_pixmap_and_mask()
-            #context.set_source_pixmap(mask, self.x, self.y)
-            #surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, self.width, self.height)
-            image = self.get_property('image')
-            surface = cairo.ImageSurface.create_from_png(image)
-            #x = surface.get_width() / self.width
-            #y = surface.get_height() / self.height
-            width = surface.get_width()
-            height = surface.get_height()
-            #//context.save()
-            #context.scale(x, y)
-            x, y = self.scale(context, width, height)
-            #context.set_source_surface(surface, 0, 0)
-            context.set_source_surface(surface, self.x / x, self.y / y)
-            #context.save()
-            #context.move_to(self.x, self.y)
-            #context.restore()
-            #//context.restore()
-
-        ##context.paint()
         context.paint()
         context.restore()
         Object.draw(self, context)

@@ -15,11 +15,14 @@ class Text(Object, gtk.Editable):
     def __init__(self, text = _("enter text here")):
         Object.__init__(self)
 
-        self.set_property('font', "Verdana")
-        self.set_property('size', 32)
-        self.set_property('preserve', False)
-        self.set_property('text', text)
-        self.set_property('foreground', "#000") # TODO
+        self.font = "Verdana"
+        self.size = 32
+        self.preserve = False
+        self.text = text
+        self.foreground = "#000" # TODO
+
+    def get_properties(self):
+        Object.get_properties(self) + ["font", "size", "preserve", "text", "foreground"]
 
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
@@ -44,17 +47,15 @@ class Text(Object, gtk.Editable):
 
         context = pangocairo.CairoContext(context) # XXX
         layout = pangocairo.CairoContext.create_layout(context)
-        #font = pango.FontDescription("%s %d" % (self.font, self.size))
-        fontname = self.get_property('font')
+        fontname = self.font
         if fontname.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")): # XXX
             description = fontname
         else:
-            size = int(self.get_property('size'))
+            size = int(self.size)
             description = "%s %d" % (fontname, size)
         font = pango.FontDescription(description)
         layout.set_justify(True)
         layout.set_font_description(font)
-        #layout.set_markup(self.text)
         text = self.get_property('text')
         layout.set_markup(text)
 
@@ -63,22 +64,16 @@ class Text(Object, gtk.Editable):
         #context.set_source_rgb(1.0, 0.0, 0.0)
         context.move_to(self.x, self.y)
 
-        preserve = self.get_property('preserve')
-
-        if preserve:
+        if bool(self.preserve):
             layout.set_width(int(self.width) * pango.SCALE)
             width, height = layout.get_size()
             height /= pango.SCALE
-            #width /= pango.SCALE
-            #self.width = width + 20
             self.height = height
         else:
             width, height = layout.get_size()
             width /= pango.SCALE
             height /= pango.SCALE
-            #//context.save()
             self.scale(context, width, height)
-            #//context.restore()
 
         context.show_layout(layout)
         context.restore()

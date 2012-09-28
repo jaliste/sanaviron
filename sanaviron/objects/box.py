@@ -17,8 +17,8 @@ class Box(Object):
 
         self.separators = list()
 
-    def get_xxx(self):
-        return Object.get_xxx(self) + ["separators"]
+    def get_properties(self):
+        return Object.get_properties(self) + ["separators"]
 
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
@@ -50,10 +50,7 @@ class Box(Object):
             context.scale(self.width,self.height)
         context.rectangle(0, 0, 1, 1)
 
-#        if '--debug' in sys.argv:  #Debug mode
-#            self.fill_style = GRADIENT
         if self.fill_style == GRADIENT:
-            #self.set_gradient(self.gradient)
             context.set_source(self.gradient.gradient)
         elif self.fill_style == COLOR:
             context.set_source_rgba(self.fill_color.red, self.fill_color.green,

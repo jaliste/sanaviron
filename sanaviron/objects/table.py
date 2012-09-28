@@ -20,11 +20,14 @@ class Table(Object):
 
         self.control = MANUAL
 
-        self.set_property("rows", rows)
-        self.set_property("columns", columns)
-        self.set_property("titles", titles)
-        self.set_property("font", "Verdana")
-        self.set_property("size", 16)
+        self.rows = rows
+        self.columns = columns
+        self.titles = titles
+        self.font = "Verdana"
+        self.size = 16
+
+    def get_properties(self):
+        Object.get_properties(self) + ["rows", "columns", "titles", "font", "size"]
 
     def post(self):
         controls = len(self.handler.control)
@@ -49,15 +52,12 @@ class Table(Object):
     def draw(self, context):
         ###context.save()
 
-        rows = self.get_property("rows")
-        rows = int(rows)
-        columns = self.get_property("columns").split(':')
+        rows = int(self.rows)
+        columns = self.columns.split(':')
         n_columns = len(columns)
 
-        titles = self.get_property("titles").split(':')
-        #n_titles = len(titles)
+        titles = self.titles.split(':')
 
-        x, y = 0, 0
         self.width = 0
         self.height = 0
 
@@ -67,12 +67,11 @@ class Table(Object):
         for column in range(n_columns):
             for row in range(rows):
                 layout = pangocairo.CairoContext.create_layout(context)
-                fontname = self.get_property('font')
+                fontname = self.font
                 if fontname.endswith(("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")): # XXX
                     description = fontname
                 else:
-                    size = self.get_property('size')
-                    size = int(size)
+                    size = int(self.size)
                     description = "%s %d" % (fontname, size)
                 font = pango.FontDescription(description)
                 layout.set_font_description(font)
@@ -104,12 +103,9 @@ class Table(Object):
 
             total_width += width
 
-        columns = ':'.join(columns)
-        self.set_property("columns", columns)
+        self.columns = ':'.join(columns)
 
-        #self.height = rows * (self.vertical_spacing + height) - self.vertical_spacing
         self.width = n_columns * self.horizontal_spacing - self.horizontal_spacing + total_width
-        ###context.restore()
         Object.draw(self, context)
 
     def get_cursor(self, direction):
@@ -117,12 +113,11 @@ class Table(Object):
 
     def transform(self, x, y):
         direction = self.direction - ANONIMOUS
-        columns = self.get_property("columns").split(':')
+        columns = self.columns.split(':')
         n_columns = len(columns)
         offset = self.x
         if direction < n_columns:
             for column in range(direction):
                 offset += int(columns[column]) + self.horizontal_spacing
             columns[direction] = str(int(x - offset))
-        columns = ':'.join(columns)
-        self.set_property("columns", columns)
+        self.columns = ':'.join(columns)

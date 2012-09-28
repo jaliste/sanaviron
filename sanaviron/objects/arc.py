@@ -26,8 +26,8 @@ class Arc(Object):
 
         #self.block = False
 
-    def get_xxx(self):
-        return Object.get_xxx(self) + ["angle_start", "angle_stop", "closed", "closed_at_centre"]
+    def get_properties(self):
+        return Object.get_properties(self) + ["angle_start", "angle_stop", "closed", "closed_at_centre"]
 
     def set_angle_start(self, ang):
         self.angle_start = ang

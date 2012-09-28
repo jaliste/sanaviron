@@ -17,7 +17,7 @@ class Point(Holder):
         (result.x, result.y) = (self.x + other.x, self.y + other.y)
         return result
 
-    def get_xxx(self):
+    def get_properties(self):
         return ["x", "y"]
 
     def set_position(self, position):
