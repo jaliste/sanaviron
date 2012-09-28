@@ -46,7 +46,7 @@ from ui import INFORMATION
 setup = gtk.PageSetup()
 settings = gtk.PrintSettings()
 
-APP_VERSION = "0.1.0"
+APP_VERSION = open(os.path.join(os.path.dirname(__file__),  "..", "VERSION")).read()
 
 DEBUG = False
 
@@ -65,7 +65,10 @@ class Application(gtk.Window):
     def initialize(self):
         gtk.Window.__init__(self)
         self.set_size_request(640, 480)
-        self.set_default_size(800, 600)
+        if '--debug' in sys.argv:
+            self.set_default_size(1366, 768)
+        else:
+            self.set_default_size(800, 600)
         self.winstate = 0
         self.maximize()
         self.connect("delete-event", self.quit)
@@ -433,12 +436,14 @@ class Application(gtk.Window):
         print "Motion events:", self.editor.canvas.statics.motion
         print "Expose events:", self.editor.canvas.statics.expose
         print "Consumed motion events:", self.editor.canvas.statics.consumed.motion
-        gtk.main_quit()
         print("Bye ;-)")
+        gtk.main_quit()
         return True
 
     def create(self, widget, data, shape):
         new = None
+        if shape == "Arc":
+            new = Arc()
         if shape == "Line":
             new = Line()
         if shape == "Curve":
@@ -466,7 +471,7 @@ class Application(gtk.Window):
         language = os.environ['LANG'].split('_')[0]
         if not language or language == 'C':
             language = "es"
-        url = "file://" + cwd + "/../doc/help/%s/index.html" % language
+        url = 'file://%s/../doc/help/%s/index.html' % (cwd, language)
         import webbrowser
 
         webbrowser.open_new(url)
