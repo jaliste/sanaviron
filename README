@@ -22,6 +22,4 @@ A list of features can be highlighted as:
 * Geometric concepts with greater understanding level.
 * Barcode support.
 * Statical charts based on PyCha (vertical and horizontal bars and stacked bars, pie, lines and points).
-* PDF and PNG export capability. 
-
-More info on http://code.google.com/p/sanaviron/
+* PDF and PNG export capability.
