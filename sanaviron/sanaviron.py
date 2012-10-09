@@ -489,10 +489,10 @@ class Application(gtk.Window):
         dialog.set_website_label(_("Official site"))
         dialog.set_license(open(os.path.join(os.path.dirname(__file__),  "..", "COPYING")).read())
         dialog.set_wrap_license(False)
-        dialog.set_authors(["Juan Manuel Mouriz <jmouriz@gmail.com>", "Ivlev Denis <ivlevdenis.ru@gmail.com>"])
+        dialog.set_authors(["Juan Manuel Mouriz <jmouriz@sanaviron.org>", "Ivlev Denis <ivlevdenis.ru@gmail.com>"])
         dialog.set_documenters([_("Undocumented yet :'(")])
-        dialog.set_artists(["Juan Manuel Mouriz <jmouriz@gmail.com>", "Ivlev Denis <ivlevdenis.ru@gmail.com>"])
-        dialog.set_translator_credits("Juan Manuel Mouriz <jmouriz@gmail.com> " + _(
+        dialog.set_artists(["Juan Manuel Mouriz <jmouriz@sanaviron.org>", "Ivlev Denis <ivlevdenis.ru@gmail.com>"])
+        dialog.set_translator_credits("Juan Manuel Mouriz <jmouriz@sanaviron.org> " + _(
             "(Spanish)") + "\n" + "Ivlev Denis <ivlevdenis.ru@gmail.com> " + _("(Russian)"))
         logo = gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__), "images", "canvas-logo.png"))
         dialog.set_logo(logo)

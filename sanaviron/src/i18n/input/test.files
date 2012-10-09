@@ -67,7 +67,6 @@
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/color.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/object.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/selection.py
-/home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/canvas.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/charts/chart.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/charts/pie.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/objects/charts/stackedbar.py
@@ -99,6 +98,7 @@
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/editor.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/text_pad.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/properties.py
+/home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/canvas.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/notification.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/menu.py
 /home/juanma/Desarrollos/sanaviron/bin/./../sanaviron/ui/columns_editor.py

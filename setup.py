@@ -43,7 +43,7 @@ setup(
     url='http://code.google.com/p/sanaviron/',
     license='Apache License 2.0',
     author='Juan Manuel Mouriz, Ivlev Denis',
-    author_email='jmouriz@gmail.com, ivlevdenis.ru@gmail.com',
+    author_email='jmouriz@sanaviron.org, ivlevdenis.ru@gmail.com',
     description='The Sanaviron Project is an 2D drawing engine fully written in Python for represent composite vector graphics. This is essentially a GTK+ Cairo based canvas.',
     long_description=open('README').read(),
 )

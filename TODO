@@ -12,7 +12,6 @@
 5. (Hard) Storage of gradients to assign property gradients in class Canvas. Until 15th September.
 6. (Middle) Include README, COPYING, help and other data files and exclude sanaviron/src. (Juan see license pychart)
 7. (Middle) Add support for py2exe and Windows installer like Inno Setup Compiler or Bitrock.
-8. (Middle) Add support for documentation like (doxygen, ...). Requires additional research.
 
 9. (Easy) Box split based on relative positions.
 
