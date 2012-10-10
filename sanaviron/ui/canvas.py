@@ -307,11 +307,10 @@ class Canvas(BaseCanvas):
 
         selection = True
 
-        def start_move(x, y):
-            for child in self.document.pages[0].children:
-                if child.selected:
-                    child.offset.x = x - child.x
-                    child.offset.y = y - child.y
+        def start_move(child, x, y):
+            child.offset.x = x - child.x
+            child.offset.y = y - child.y
+            child.press(x, y)
 
         def select(child):
             if not event.state & gtk.gdk.CONTROL_MASK:
@@ -326,14 +325,14 @@ class Canvas(BaseCanvas):
                     start_resize(child)
                 elif child.at_position(x, y):
                     #start_move(child, x, y)
-                    start_move(x, y)
+                    start_move(child, x, y)
                     selection = False
                 else:
                     continue
             elif child.at_position(x, y):
                 selection = False
                 select(child)
-                start_move(x, y)
+                start_move(child, x, y)
             else:
                 continue
 

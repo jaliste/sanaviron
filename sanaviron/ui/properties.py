@@ -307,6 +307,7 @@ class Properties(gtk.ScrolledWindow):
 
         entry = TextPad()
         self.disconnect_handler = entry.buffer.connect("changed", self.changed)
+        entry.connect("cursor-moved", self.cursor_moved)
         form.add_entry(None, entry, "text")
         #---END---------------------------------------------------------
 
@@ -617,18 +618,21 @@ class Properties(gtk.ScrolledWindow):
         print color.green
         print color.blue
 
+    def cursor_moved(self, entry, position):
+        for child in self.canvas.document.pages[0].children:
+            if child.__name__ == "Text" and child.selected:
+                child.cursor.index = (position, 0)
+                self.canvas.queue_draw()
+                break
+
     def changed(self, buffer):
         start, end = buffer.get_bounds()
         text = buffer.get_text(start, end)
         for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Text" and child.selected:
                 child.set_property('text', text)
-                #self.canvas.queue_draw()
-                #break
-        self.canvas.queue_draw()
-
-        #mark = buffer.create_mark("end", end, False)
-        #view.scroll_mark_onscreen(mark)
+                self.canvas.queue_draw()
+                break
 
     def set_table_font(self, widget):
         font = widget.get_font_name()

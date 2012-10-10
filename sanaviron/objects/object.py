@@ -203,3 +203,6 @@ class Object(Rectangle):
 
         self.set_position(position)
         self.set_size(size)
+
+    def press(self, x, y):
+        pass

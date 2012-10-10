@@ -27,7 +27,7 @@ class Table(Object):
         self.size = 16
 
     def get_properties(self):
-        Object.get_properties(self) + ["rows", "columns", "titles", "font", "size"]
+        return Object.get_properties(self) + ["rows", "columns", "titles", "font", "size"]
 
     def post(self):
         controls = len(self.handler.control)

@@ -1,12 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import gtk
+from objects.signalized import Signalized
 
-class TextPad(gtk.VBox):
+class TextPad(gtk.VBox, Signalized):
     """This class represents a minimal text editor"""
 
     def __init__(self):
         gtk.VBox.__init__(self)
+
+        self.position = 0
 
         handle = gtk.HandleBox()
         handle.set_handle_position(gtk.POS_LEFT)
@@ -74,17 +77,33 @@ class TextPad(gtk.VBox):
         adjustment.connect("changed", self.update_adjustment)
         adjustment.connect("value-changed", self.update_value)
         entry = gtk.TextView()
+        entry.connect("move-cursor", self.move)
         entry.set_size_request(-1, 100)
         self.buffer = entry.get_buffer()
         #self.disconnect_handler = buffer.connect("changed", self.changed)
         self.buffer.connect("insert-text", self.update_scroll, entry)
+        self.buffer.connect("changed", self.changed)
         #area.add_with_viewport(entry)
         area.add(entry)
         #entry.set_wrap_mode(gtk.WRAP_WORD_CHAR)
         entry.set_wrap_mode(gtk.WRAP_CHAR)
         self.add(area)
 
-    # Métodos para actualizar las barras de desplazamiento del área de texto
+        self.install_signal("cursor-moved")
+
+    def get_cursor_position(self):
+        mark = self.buffer.get_insert()
+        iter = self.buffer.get_iter_at_mark(mark)
+        return iter.get_offset()
+
+    def move(self, view, step, count, extend):
+        self.position = self.get_cursor_position()
+        self.emit("cursor-moved", self.position)
+
+    def changed(self, buffer):
+        self.position = self.get_cursor_position()
+        self.emit("cursor-moved", self.position)
+
     def update_scroll(self, buffer, iter, text, length, view):
         mark = buffer.create_mark("end", iter, False)
         view.scroll_mark_onscreen(mark)
