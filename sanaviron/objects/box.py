@@ -5,7 +5,6 @@ from object import Object
 from separator import Separator
 from size import Size
 from objects import *
-import sys
 
 class Box(Object):
     """This class represents a box"""

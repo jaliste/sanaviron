@@ -3,9 +3,7 @@
 #!/usr/bin/python
 
 import threading
-import time
 
-import threading
 
 class ResultCatcher:
     def __init__(self, f):

@@ -8,6 +8,7 @@ __all__ = ['NONE', 'NORTHWEST', 'NORTH', 'NORTHEAST', 'WEST', 'EAST', 'SOUTHWEST
 
 from math import pi, atan2
 
+
 NONE = -1
 NORTHWEST = 0
 NORTH = 1
@@ -52,7 +53,10 @@ def rad2grad(rad):
     return float(rad) * 180 / pi
 
 
-def angle_from_coordinates(x, y, x0, y0, a, b):  #calculation of the angle from coordinates
+def angle_from_coordinates(x, y, x0, y0, a, b):
+    """
+    calculation of the angle from coordinates
+    """
     x = x - x0
     y = y - y0
     x /= a
@@ -76,22 +80,22 @@ def get_side(direction):
 def opposite(direction):
     if direction == NORTHEAST:
         return SOUTHWEST
-    if direction == NORTH:
+    elif direction == NORTH:
         return SOUTH
-    if direction == NORTHWEST:
+    elif direction == NORTHWEST:
         return SOUTHEAST
-    if direction == SOUTHEAST:
+    elif direction == SOUTHEAST:
         return NORTHWEST
-    if direction == SOUTH:
+    elif direction == SOUTH:
         return NORTH
-    if direction == SOUTHWEST:
+    elif direction == SOUTHWEST:
         return NORTHEAST
-    if direction == WEST:
+    elif direction == WEST:
         return EAST
-    if direction == EAST:
+    elif direction == EAST:
         return WEST
-
     return NONE
+
 
 def set_as_point(instance):
     instance.x = 0.0

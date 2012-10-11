@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import gtk
-import gobject
 
 from objects.signalized import Signalized
 

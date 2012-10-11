@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""
+Main Sanaviron
+"""
+
 import os
 import sys
+
 sys.path.append(os.path.dirname(__file__))
 import platform
 import gtk
@@ -14,10 +19,10 @@ if platform.system() != 'Windows':
     gtk.threads_init()
 else:
     import locale
-    import os
+
     if os.getenv('LANG') is None:
-        language, encoding = locale.getdefaultlocale()
-        os.environ['LANG'] = language
+        LANGUAGE, ENCODING = locale.getdefaultlocale()
+        os.environ['LANG'] = LANGUAGE
 
 import gettext
 TRANSLATION_DOMAIN = "test"
@@ -44,12 +49,14 @@ from ui.editor import Editor
 from ui.statusbar import Statusbar
 from ui import INFORMATION
 
-setup = gtk.PageSetup()
-settings = gtk.PrintSettings()
-
-APP_VERSION = open(os.path.join(os.path.dirname(__file__),  "..", "VERSION")).read()
+global SETUP
+global SETTINGS
+SETUP = gtk.PageSetup()
+SETTINGS = gtk.PrintSettings()
+APP_VERSION = open(os.path.join(os.path.dirname(__file__),"VERSION")).read()
 
 DEBUG = False
+
 
 class Application(gtk.Window):
     """This class represents an application"""
@@ -131,7 +138,7 @@ class Application(gtk.Window):
             while True:
                 try:
                     from ui.code_editor import SourcePad
-                except:
+                except ImportError:
                     source = get_source_view()
                     break
 
@@ -183,7 +190,7 @@ class Application(gtk.Window):
         self.menu.connect("image", self.create, "Image")
         self.menu.connect("chart", self.create, "Chart")
 
-        self.menu.connect("fullscreen", self.fullscreen)
+        self.menu.connect("fullscreen", self.full_screen)
         self.menu.connect("about", self.about)
         self.menu.connect("help", self.help)
 
@@ -228,8 +235,8 @@ class Application(gtk.Window):
         self.connect("key-press-event", self.key_press)
 
     def run(self):
-       self.show_all()
-       gtk.main()
+        self.show_all()
+        gtk.main()
 
     def update_title(self):
         document = self.filename if self.filename else _("New document")
@@ -269,7 +276,8 @@ class Application(gtk.Window):
     def toggle_menubar(self, *args):
         if self.menu.get_visible():
             self.menu.hide()
-            self.editor.notification.notificate(_("Press <i><b>Control+Shift+Escape</b></i> to show again."), INFORMATION)
+            self.editor.notification.notificate(_("Press <i><b>Control+Shift+Escape</b></i> to show again."),
+                INFORMATION)
         else:
             self.menu.show()
 
@@ -284,7 +292,6 @@ class Application(gtk.Window):
         self.editor.canvas.queue_draw()
 
     def open(self, widget, data):
-        # XXX funcional
         dialog = gtk.FileChooserDialog(title=_("Open document"),
             parent=self,
             action=gtk.FILE_CHOOSER_ACTION_OPEN,
@@ -340,16 +347,16 @@ class Application(gtk.Window):
         dialog.set_transient_for(self)
         dialog.set_default_response(gtk.RESPONSE_ACCEPT)
 
-        filter = gtk.FileFilter()
-        filter.set_name(_("XML files"))
-        filter.add_mime_type("document/xml")
-        filter.add_pattern("*.xml")
-        dialog.add_filter(filter)
+        dialog_filter = gtk.FileFilter()
+        dialog_filter.set_name(_("XML files"))
+        dialog_filter.add_mime_type("document/xml")
+        dialog_filter.add_pattern("*.xml")
+        dialog.add_filter(dialog_filter)
 
-        filter = gtk.FileFilter()
-        filter.set_name(_("All files"))
-        filter.add_pattern("*")
-        dialog.add_filter(filter)
+        dialog_filter = gtk.FileFilter()
+        dialog_filter.set_name(_("All files"))
+        dialog_filter.add_pattern("*")
+        dialog.add_filter(dialog_filter)
 
         response = dialog.run()
 
@@ -362,20 +369,20 @@ class Application(gtk.Window):
 
         dialog.destroy()
 
-    def page_setup(self, widget, data):
-        global setup, settings
-        setup.settings = settings
-        setup = gtk.print_run_page_setup_dialog(self, setup, settings)
+    def page_setup(self):
+        global SETUP
+        SETUP.settings = SETTINGS
+        SETUP = gtk.print_run_page_setup_dialog(self, SETUP, SETTINGS)
 
-        size = setup.get_paper_size()
-        orientation = setup.get_orientation()
+        size = SETUP.get_paper_size()
+        orientation = SETUP.get_orientation()
 
-        # TODO canvas->margins
+        ### TODO canvas->margins
         for page in self.editor.canvas.pages:
-            page.top = setup.get_top_margin(gtk.UNIT_POINTS)
-            page.left = setup.get_left_margin(gtk.UNIT_POINTS)
-            page.bottom = setup.get_bottom_margin(gtk.UNIT_POINTS)
-            page.right = setup.get_right_margin(gtk.UNIT_POINTS)
+            page.top = SETUP.get_top_margin(gtk.UNIT_POINTS)
+            page.left = SETUP.get_left_margin(gtk.UNIT_POINTS)
+            page.bottom = SETUP.get_bottom_margin(gtk.UNIT_POINTS)
+            page.right = SETUP.get_right_margin(gtk.UNIT_POINTS)
 
         width = size.get_width(gtk.UNIT_POINTS)
         height = size.get_height(gtk.UNIT_POINTS)
@@ -412,11 +419,11 @@ class Application(gtk.Window):
         dialog.set_transient_for(self)
         dialog.set_default_response(gtk.RESPONSE_ACCEPT)
 
-        filter = gtk.FileFilter()
-        filter.set_name(_("PDF files"))
-        filter.add_mime_type("document/pdf")
-        filter.add_pattern("*.pdf")
-        dialog.add_filter(filter)
+        dialog_filter = gtk.FileFilter()
+        dialog_filter.set_name(_("PDF files"))
+        dialog_filter.add_mime_type("document/pdf")
+        dialog_filter.add_pattern("*.pdf")
+        dialog.add_filter(dialog_filter)
         response = dialog.run()
         if response == gtk.RESPONSE_ACCEPT:
             filename = dialog.get_filename()
@@ -425,12 +432,12 @@ class Application(gtk.Window):
 
         dialog.destroy()
 
-    def fullscreen(self, widget, data):
+    def full_screen(self, widget, data):
         if not self.winstate:
             self.winstate = not self.winstate
-            self.window.fullscreen()
+            self.fullscreen()
         else:
-            self.window.unfullscreen()
+            self.unfullscreen()
 
     def quit(self, widget, event):
         print "Motion events:", self.editor.canvas.statics.motion
@@ -463,9 +470,9 @@ class Application(gtk.Window):
             "A program to design reports, invoices, documents, labels and more. Based on the 2D drawing engine \"sanaviron\"."))
         dialog.set_website("http://www.sanaviron.org/")
         dialog.set_website_label(_("Official site"))
-        dialog.set_license(open(os.path.join(os.path.dirname(__file__),  "..", "COPYING")).read())
+        dialog.set_license(open(os.path.join(os.path.dirname(__file__),"COPYING")).read())
         dialog.set_wrap_license(False)
-        dialog.set_authors(["Juan Manuel Mouriz <jmouriz@sanaviron.org>", "Ivlev Denis <ivlevdenis.ru@gmail.com>"])
+        dialog.set_authors(["Juan Manuel Mouriz <jmouriz@sanaviron.com>", "Ivlev Denis <ivlevdenis.ru@gmail.com>"])
         dialog.set_documenters([_("Undocumented yet :'(")])
         dialog.set_artists(["Juan Manuel Mouriz <jmouriz@sanaviron.org>", "Ivlev Denis <ivlevdenis.ru@gmail.com>"])
         dialog.set_translator_credits("Juan Manuel Mouriz <jmouriz@sanaviron.org> " + _(

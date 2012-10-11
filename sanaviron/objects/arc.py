@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys
 from math import sin, cos
 
 from control import Control
@@ -17,7 +16,10 @@ class Arc(Object):
         Object.__init__(self)
         self.angle_start = 0.0
         self.angle_stop = 360.0
-
+        self.radius_horizontal = 0
+        self.radius_vertical = 0
+        self.centre_x = 0
+        self.centre_y = 0
         self.closed = False
         self.closed_at_centre = False
 
@@ -82,8 +84,8 @@ class Arc(Object):
                 context.line_to(0.5, 0.5)
             context.close_path()
 
-#        if '--debug' in sys.argv:  #Debug mode
-#            self.fill_style = GRADIENT
+        #        if '--debug' in sys.argv:  #Debug mode
+        #            self.fill_style = GRADIENT
 
         if self.fill_style == GRADIENT:
             #self.set_gradient(self.gradient)
