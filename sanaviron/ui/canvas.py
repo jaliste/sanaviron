@@ -62,6 +62,8 @@ class BaseCanvas(gtk.Layout, Signalized):
         Signalized.__init__(self)
 
         self.configure()
+        from ui.application import Application
+        self.application = Application()
 
         self.install_statics()
 

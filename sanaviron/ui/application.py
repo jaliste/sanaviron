@@ -1,32 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-Main Sanaviron
-"""
-
-import os
-import sys
-
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
-import platform
 import gtk
-import cairo
+import sys
+import os
 
-if platform.system() != 'Windows':
-    gtk.threads_init()
-else:
-    import locale
-    if os.getenv('LANG') is None:
-        LANGUAGE, ENCODING = locale.getdefaultlocale()
-        os.environ['LANG'] = LANGUAGE
-
-import gettext
-TRANSLATION_DOMAIN = "test"
-LOCALE_DIR = os.path.join(os.path.dirname(__file__), "localization")
-gettext.install(TRANSLATION_DOMAIN, LOCALE_DIR)
-
+from sanaviron import APP_VERSION, DEBUG
 
 from objects.arc import Arc
 from objects.barcode import BarCode
@@ -42,19 +21,11 @@ from objects.text import Text
 
 from objects.shape import Shape
 
-from ui.menu import Menu
-from ui.toolbars import HorizontalToolbar, VerticalToolbar
-from ui.editor import Editor
-from ui.statusbar import Statusbar
+from menu import Menu
+from toolbars import HorizontalToolbar, VerticalToolbar
+from editor import Editor
+from statusbar import Statusbar
 from ui import INFORMATION
-
-global SETUP
-global SETTINGS
-SETUP = gtk.PageSetup()
-SETTINGS = gtk.PrintSettings()
-
-APP_VERSION = open(os.path.join(os.path.dirname(__file__),"VERSION")).read()
-DEBUG = False
 
 class Application(gtk.Window):
     """This class represents an application"""
@@ -79,10 +50,13 @@ class Application(gtk.Window):
         self.maximize()
         self.connect("delete-event", self.quit)
 
+        self.setup = gtk.PageSetup()
+        self.settings = gtk.PrintSettings()
+
         self.filename = None
         self.update_title()
 
-        icon = gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__), "images", "canvas-logo.png"))
+        icon = gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__), "..", "images", "canvas-logo.png"))
         self.set_icon(icon)
 
         vbox = gtk.VBox()
@@ -136,7 +110,7 @@ class Application(gtk.Window):
             while True:
                 try:
                     from ui.code_editor import SourcePad
-                except ImportError:
+                except:
                     source = get_source_view()
                     break
 
@@ -188,7 +162,7 @@ class Application(gtk.Window):
         self.menu.connect("image", self.create, "Image")
         self.menu.connect("chart", self.create, "Chart")
 
-        self.menu.connect("fullscreen", self.full_screen)
+        self.menu.connect("fullscreen", self.fullscreen)
         self.menu.connect("about", self.about)
         self.menu.connect("help", self.help)
 
@@ -233,8 +207,8 @@ class Application(gtk.Window):
         self.connect("key-press-event", self.key_press)
 
     def run(self):
-        self.show_all()
-        gtk.main()
+       self.show_all()
+       gtk.main()
 
     def update_title(self):
         document = self.filename if self.filename else _("New document")
@@ -275,7 +249,7 @@ class Application(gtk.Window):
         if self.menu.get_visible():
             self.menu.hide()
             self.editor.notification.notificate(_("Press <i><b>Control+Shift+Escape</b></i> to show again."),
-                INFORMATION)
+                                                INFORMATION)
         else:
             self.menu.show()
 
@@ -290,6 +264,7 @@ class Application(gtk.Window):
         self.editor.canvas.queue_draw()
 
     def open(self, widget, data):
+        # XXX funcional
         dialog = gtk.FileChooserDialog(title=_("Open document"),
             parent=self,
             action=gtk.FILE_CHOOSER_ACTION_OPEN,
@@ -345,16 +320,16 @@ class Application(gtk.Window):
         dialog.set_transient_for(self)
         dialog.set_default_response(gtk.RESPONSE_ACCEPT)
 
-        dialog_filter = gtk.FileFilter()
-        dialog_filter.set_name(_("XML files"))
-        dialog_filter.add_mime_type("document/xml")
-        dialog_filter.add_pattern("*.xml")
-        dialog.add_filter(dialog_filter)
+        filter = gtk.FileFilter()
+        filter.set_name(_("XML files"))
+        filter.add_mime_type("document/xml")
+        filter.add_pattern("*.xml")
+        dialog.add_filter(filter)
 
-        dialog_filter = gtk.FileFilter()
-        dialog_filter.set_name(_("All files"))
-        dialog_filter.add_pattern("*")
-        dialog.add_filter(dialog_filter)
+        filter = gtk.FileFilter()
+        filter.set_name(_("All files"))
+        filter.add_pattern("*")
+        dialog.add_filter(filter)
 
         response = dialog.run()
 
@@ -367,20 +342,19 @@ class Application(gtk.Window):
 
         dialog.destroy()
 
-    def page_setup(self):
-        global SETUP
-        SETUP.settings = SETTINGS
-        SETUP = gtk.print_run_page_setup_dialog(self, SETUP, SETTINGS)
+    def page_setup(self, widget, data):
+        self.setup.settings = self.settings
+        self.setup = gtk.print_run_page_setup_dialog(self, self.setup, self.settings)
 
-        size = SETUP.get_paper_size()
-        orientation = SETUP.get_orientation()
+        size = self.setup.get_paper_size()
+        orientation = self.setup.get_orientation()
 
-        ### TODO canvas->margins
+        # TODO canvas->margins
         for page in self.editor.canvas.pages:
-            page.top = SETUP.get_top_margin(gtk.UNIT_POINTS)
-            page.left = SETUP.get_left_margin(gtk.UNIT_POINTS)
-            page.bottom = SETUP.get_bottom_margin(gtk.UNIT_POINTS)
-            page.right = SETUP.get_right_margin(gtk.UNIT_POINTS)
+            page.top = self.setup.get_top_margin(gtk.UNIT_POINTS)
+            page.left = self.setup.get_left_margin(gtk.UNIT_POINTS)
+            page.bottom = self.setup.get_bottom_margin(gtk.UNIT_POINTS)
+            page.right = self.setup.get_right_margin(gtk.UNIT_POINTS)
 
         width = size.get_width(gtk.UNIT_POINTS)
         height = size.get_height(gtk.UNIT_POINTS)
@@ -417,11 +391,11 @@ class Application(gtk.Window):
         dialog.set_transient_for(self)
         dialog.set_default_response(gtk.RESPONSE_ACCEPT)
 
-        dialog_filter = gtk.FileFilter()
-        dialog_filter.set_name(_("PDF files"))
-        dialog_filter.add_mime_type("document/pdf")
-        dialog_filter.add_pattern("*.pdf")
-        dialog.add_filter(dialog_filter)
+        filter = gtk.FileFilter()
+        filter.set_name(_("PDF files"))
+        filter.add_mime_type("document/pdf")
+        filter.add_pattern("*.pdf")
+        dialog.add_filter(filter)
         response = dialog.run()
         if response == gtk.RESPONSE_ACCEPT:
             filename = dialog.get_filename()
@@ -430,12 +404,12 @@ class Application(gtk.Window):
 
         dialog.destroy()
 
-    def full_screen(self, widget, data):
+    def fullscreen(self, widget, data):
         if not self.winstate:
             self.winstate = not self.winstate
-            self.fullscreen()
+            self.window.fullscreen()
         else:
-            self.unfullscreen()
+            self.window.unfullscreen()
 
     def quit(self, widget, event):
         print "Motion events:", self.editor.canvas.statics.motion
@@ -452,7 +426,7 @@ class Application(gtk.Window):
         language = os.environ['LANG'].split('_')[0]
         if not language or language == 'C':
             language = "es"
-        url = 'file://%s/../doc/help/%s/index.html' % (cwd, language)
+        url = 'file://%s/../../doc/help/%s/index.html' % (cwd, language)
         import webbrowser
 
         webbrowser.open_new(url)
@@ -464,54 +438,19 @@ class Application(gtk.Window):
         dialog.set_name("sanaviron")
         dialog.set_version(APP_VERSION)
         dialog.set_copyright("Copyright 2012 - Juan Manuel Mouriz, Ivlev Denis")
-        dialog.set_comments(_(
-            "A program to design reports, invoices, documents, labels and more. Based on the 2D drawing engine \"sanaviron\"."))
+        dialog.set_comments(_("A program to design reports, invoices, documents, labels and more. Based on the 2D "
+                              "drawing engine \"sanaviron\"."))
         dialog.set_website("http://www.sanaviron.org/")
         dialog.set_website_label(_("Official site"))
-        dialog.set_license(open(os.path.join(os.path.dirname(__file__),"COPYING")).read())
+        dialog.set_license(open(os.path.join(os.path.dirname(__file__),  "..", "..", "COPYING")).read())
         dialog.set_wrap_license(False)
-        dialog.set_authors(["Juan Manuel Mouriz <jmouriz@sanaviron.com>", "Ivlev Denis <ivlevdenis.ru@gmail.com>"])
+        dialog.set_authors(["Juan Manuel Mouriz <jmouriz@sanaviron.org>", "Ivlev Denis <ivlevdenis.ru@gmail.com>"])
         dialog.set_documenters([_("Undocumented yet :'(")])
         dialog.set_artists(["Juan Manuel Mouriz <jmouriz@sanaviron.org>", "Ivlev Denis <ivlevdenis.ru@gmail.com>"])
         dialog.set_translator_credits("Juan Manuel Mouriz <jmouriz@sanaviron.org> " + _(
             "(Spanish)") + "\n" + "Ivlev Denis <ivlevdenis.ru@gmail.com> " + _("(Russian)"))
-        logo = gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__), "images", "canvas-logo.png"))
+        logo = gtk.gdk.pixbuf_new_from_file(os.path.join(os.path.dirname(__file__), "..", "images", "canvas-logo.png"))
         dialog.set_logo(logo)
         #dialog.set_logo_icon_name(self.icon_name)
         dialog.run()
         dialog.destroy()
-
-
-def startapp():
-    from ui.application import Application
-
-    if '--debug' in sys.argv:
-        import gc
-        #gc.enable()
-        #gc.set_debug(gc.DEBUG_LEAK)
-        #gc.set_debug(gc.DEBUG_OBJECTS)
-        global DEBUG
-        DEBUG = True
-
-    print "Sanaviron version:", APP_VERSION
-    print "System:", platform.system(), platform.release(), platform.version()
-    print "Python version:", platform.python_version()
-    print "GTK version:", '.'.join(map(str, gtk.ver))
-    print "Cairo version:", cairo.cairo_version_string()
-
-    application = Application()
-
-    # Singleton test
-    instance = Application()
-    print application, "==", instance
-    assert 1 is 1 and 1 == 1 and application is instance and application == instance
-    print application.editor.canvas
-    print instance.editor.canvas
-
-    if '--sample' in sys.argv:
-        application.editor.canvas.load_from_xml(os.path.join("..", "examples", "invoice.xml"))
-
-    application.run()
-
-if __name__ == '__main__':
-    startapp()
