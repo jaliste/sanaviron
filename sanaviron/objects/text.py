@@ -91,7 +91,7 @@ class Text(Object, gtk.Editable):
         context.show_layout(self.layout)
         context.restore()
 
-        if self.cursor.visible:
+        if self.selected and self.cursor.visible:
             self.draw_cursor(context)
 
         Object.draw(self, context)

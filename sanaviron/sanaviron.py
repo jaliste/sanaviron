@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+
 import os
 import sys
 sys.path.append(os.path.dirname(__file__))
@@ -35,7 +36,7 @@ from objects.rounded import Rounded
 from objects.table import Table
 from objects.text import Text
 
-from objects.object import Object
+from objects.shape import Shape
 
 from ui.menu import Menu
 from ui.toolbars import HorizontalToolbar, VerticalToolbar
@@ -252,7 +253,7 @@ class Application(gtk.Window):
 
     def key_press(self, widget, event):
         keyval = event.keyval
-        keyname = gtk.gdk.keyval_name (keyval)
+        keyname = gtk.gdk.keyval_name(keyval)
         if keyname.startswith('Control') or\
            keyname.startswith('Shift') or\
            keyname.startswith('Alt'):
@@ -262,7 +263,6 @@ class Application(gtk.Window):
             keyname = "<Shift>%s" % keyname
         if event.state & gtk.gdk.CONTROL_MASK:
             keyname = "<Control>%s" % keyname
-        #print "%s has pressed" % keyname
         self.key_handler(keyname)
         return False
 
@@ -440,31 +440,7 @@ class Application(gtk.Window):
         gtk.main_quit()
         return True
 
-    def create(self, widget, data, shape):
-        new = None
-        if shape == "Arc":
-            new = Arc()
-        if shape == "Line":
-            new = Line()
-        if shape == "Curve":
-            new = Curve()
-        if shape == "Connector":
-            new = Connector()
-        if shape == "Box":
-            new = Box()
-        if shape == "Rounded":
-            new = Rounded()
-        if shape == "Text":
-            new = Text()
-        if shape == "BarCode":
-            new = BarCode()
-        if shape == "Table":
-            new = Table()
-        if shape == "Image":
-            new = Image()
-        if shape == "Chart":
-            new = Chart()
-        self.editor.canvas.create(new)
+    create = lambda self, widget, data, name: self.editor.canvas.create(Shape(name))
 
     def help(self, widget, data):
         cwd = os.getcwd()
