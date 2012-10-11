@@ -1,6 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import gtk, cairo
+import gtk
 
 from ui.button import Button
 from ui.entry import LinearEntry, AngularEntry

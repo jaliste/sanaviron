@@ -22,7 +22,6 @@ class Property(dict):
             module = str(type).split('.')
             location = '.'.join(module[0:2])
             object = module[-1]
-            context = __import__(location, globals(), locals(), [object], -1)
             self.value = eval('context.%s(string="%s")' % (object, value))
         else:
             self.value = eval('%s("%s")' % (type, value))

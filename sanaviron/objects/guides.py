@@ -3,7 +3,6 @@
 
 import cairo
 from rectangle import Rectangle
-from objects import HORIZONTAL, VERTICAL
 
 class Guides(Rectangle):
     """This class represets the auxiliary guides"""

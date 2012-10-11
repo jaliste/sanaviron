@@ -110,7 +110,7 @@ class Ruler(gtk.Viewport, Signalized):
     def expose(self, widget, event):
         context = widget.bin_window.cairo_create()
         context.set_antialias(cairo.ANTIALIAS_NONE)
-        width, height = self.window.get_size()
+        width, height = widget.window.get_size()
         size = width if self.orientation == HORIZONTAL else height
         context.set_dash([])
 

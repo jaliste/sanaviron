@@ -105,7 +105,7 @@ class GradientLine(gtk.Viewport):
 
     def expose(self, widget, event):
         context = widget.bin_window.cairo_create()
-        self.width, self.height = self.window.get_size()
+        self.width, self.height = widget.window.get_size()
 
         context.save()
         context.new_path()

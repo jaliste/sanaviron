@@ -80,11 +80,11 @@ class BarCode(Object):
 
     __name__ = "BarCode"
 
-    def __init__(self, code="800894002700", type=DEFAULT_CODE_TYPE):
+    def __init__(self, code="800894002700", barcode_type=DEFAULT_CODE_TYPE):
         Object.__init__(self)
 
         self.code = code
-        self.type = type
+        self.type = barcode_type
 
     def get_properties(self):
         return Object.get_properties(self) + ["code", "type"]

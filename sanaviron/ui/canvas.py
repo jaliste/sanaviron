@@ -35,7 +35,6 @@ from objects.chart import Chart
 
 from objects import *
 from objects import opposite
-from objects.gradient import Gradient, GradientColor
 
 import xml.parsers.expat
 import xml.dom.minidom
@@ -98,7 +97,6 @@ class BaseCanvas(gtk.Layout, Signalized):
         #self.add_events(gtk.gdk.KEY_PRESS_MASK)
 
     def configure_handlers(self):
-        #self.expose_id = self.connect("expose-event", self.expose)
         self.expose_id = self.connect("expose-event", self.expose)
         self.motion_id = self.connect("motion-notify-event", self.motion)
         self.connect("button-press-event", self.press)

@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import gtk
-import pango
 
 class Button(gtk.VBox):
     """This class represents a expandable/collapsible button"""
