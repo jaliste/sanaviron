@@ -68,8 +68,7 @@ class Rounded(Object):
         context.arc(self.x + radius, self.y + self.height - radius, radius, pi / 2, pi)
         context.close_path()
 
-        if '--debug' in sys.argv:  #Debug mode
-            self.fill_style = GRADIENT
+        self.fill_style = GRADIENT # DEBUG
 
         if self.fill_style == GRADIENT:
             self.set_gradient(Gradient(0, self.x, self.y, self.x + self.width, self.y))

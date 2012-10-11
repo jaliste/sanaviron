@@ -1,54 +1,30 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
 import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import os
 import platform
-import gtk
-import cairo
+from __init__ import *
 
-if platform.system() != 'Windows':
-    gtk.threads_init()
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+if platform.system() == 'Windows':
+    set_locale()
 else:
-    import locale
-    if os.getenv('LANG') is None:
-        language, encoding = locale.getdefaultlocale()
-        os.environ['LANG'] = language
+    gtk.threads_init()
 
-import gettext
-TRANSLATION_DOMAIN = "test"
-LOCALE_DIR = os.path.join(os.path.dirname(__file__), "localization")
-gettext.install(TRANSLATION_DOMAIN, LOCALE_DIR)
-
-APP_VERSION = open(os.path.join(os.path.dirname(__file__),  "..", "VERSION")).read()
-DEBUG = False
+install_gettext("sanaviron")
 
 def startapp():
-    from ui.application import Application
-
     if '--debug' in sys.argv:
         import gc
-        #gc.enable()
-        #gc.set_debug(gc.DEBUG_LEAK)
-        #gc.set_debug(gc.DEBUG_OBJECTS)
-        global DEBUG
-        DEBUG = True
+        gc.enable()
+        gc.set_debug(gc.DEBUG_LEAK)
 
-    print "Sanaviron version:", APP_VERSION
-    print "System:", platform.system(), platform.release(), platform.version()
-    print "Python version:", platform.python_version()
-    print "GTK version:", '.'.join(map(str, gtk.ver))
-    print "Cairo version:", cairo.cairo_version_string()
+    print_summary()
 
+    from ui.application import Application
     application = Application()
-
-    # Singleton test
-    instance = Application()
-    print application, "==", instance
-    assert 1 is 1 and 1 == 1 and application is instance and application == instance
-    print application.editor.canvas
-    print instance.editor.canvas
 
     if '--sample' in sys.argv:
         application.editor.canvas.load_from_xml(os.path.join("..", "examples", "invoice.xml"))

@@ -5,7 +5,7 @@ import gtk
 import sys
 import os
 
-from sanaviron import APP_VERSION, DEBUG
+from sanaviron import APP_VERSION
 
 from objects.arc import Arc
 from objects.barcode import BarCode
@@ -42,10 +42,8 @@ class Application(gtk.Window):
     def initialize(self):
         gtk.Window.__init__(self)
         self.set_size_request(640, 480)
-        if '--debug' in sys.argv:
-            self.set_default_size(1366, 768)
-        else:
-            self.set_default_size(800, 600)
+        self.set_default_size(1366, 768)
+        #self.set_default_size(800, 600)
         self.winstate = 0
         self.maximize()
         self.connect("delete-event", self.quit)
@@ -75,7 +73,7 @@ class Application(gtk.Window):
         hbox.pack_start(vtoolbar, False, False)
 
         notebook = gtk.Notebook()
-        notebook.set_show_tabs(DEBUG)
+        notebook.set_show_tabs(True)
         notebook.set_show_border(False)
         #notebook.set_tab_pos(gtk.POS_LEFT)
         notebook.set_tab_pos(gtk.POS_RIGHT)

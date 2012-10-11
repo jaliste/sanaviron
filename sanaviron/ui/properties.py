@@ -124,13 +124,12 @@ class ColorizedObjectForm(SizedObjectForm):
         entry.connect("color-set", self.set_fill_color)
         self.add_entry(_("Fill"), entry, "background")
 
-        if "--debug" in sys.argv:
-            #entry = gtk.Label(" ")
-            #self.add_entry(_("Gradient"), entry, "gradient")
-            entry = LinearGradientEditor()
-            entry.connect("update", self.set_gradient)
-            #self.add(entry)
-            self.add_entry(_("Gradient"), entry, "gradient")
+        #entry = gtk.Label(" ")
+        #self.add_entry(_("Gradient"), entry, "gradient")
+        entry = LinearGradientEditor()
+        entry.connect("update", self.set_gradient)
+        #self.add(entry)
+        self.add_entry(_("Gradient"), entry, "gradient")
 
     def set_gradient(self, widget, data):
         for child in self.canvas.document.pages[0].children:

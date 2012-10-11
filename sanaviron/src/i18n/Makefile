@@ -1,4 +1,4 @@
-PACKAGE=test
+PACKAGE=sanaviron
 
 all: help
 
@@ -8,17 +8,17 @@ help:
 	@echo "----------------------"
 	@echo
 	@echo "1. To generate translation file for first time, add the language in languages.all, then \"make generate\" to generate"
-	@echo "   the file input/<LANG>/test.po."
-	@echo "2. Translate the generated file input/<LANG>/test.po and run \"make compile\"."
+	@echo "   the file input/<LANG>/$(PACKAGE).po."
+	@echo "2. Translate the generated file input/<LANG>/$(PACKAGE).po and run \"make compile\"."
 	@echo "3. Run \"make install\" to install generated compiled files."
-	@echo 
+	@echo
 	@echo "UPDATE TRANSLATION"
 	@echo "------------------"
-	@echo 
+	@echo
 	@echo "1. To update translation file, run \"make update\". "
-	@echo "2. Translate the updated file input/<LANG>/test.po and run \"make compile\"."
+	@echo "2. Translate the updated file input/<LANG>/$(PACKAGE).po and run \"make compile\"."
 	@echo "3. Run \"make install\" to install generated compiled files."
-	@echo 
+	@echo
 
 clean:
 	@test -e input/$(PACKAGE).pot && rm -rf input/$(PACKAGE).pot
@@ -62,9 +62,9 @@ compile:
 	@test -e output || mkdir output
 	@cat languages.all | while read language; do \
 		test -e output/$${language}/LC_MESSAGES || mkdir -p output/$${language}/LC_MESSAGES; \
-		msgfmt --output-file=output/$${language}/LC_MESSAGES/test.mo input/$${language}/test.po; \
+		msgfmt --output-file=output/$${language}/LC_MESSAGES/$(PACKAGE).mo input/$${language}/$(PACKAGE).po; \
 	done
-	
+
 install:
 	@cat languages.all | while read language; do \
 		test -d ../../localization/$${language} || mkdir -p ../../localization/$${language}; \

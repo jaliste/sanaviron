@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 __all__ = ['UNKNOWN', 'INFORMATION', 'WARNING', 'ERROR']
 
 UNKNOWN = 0
