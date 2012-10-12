@@ -84,12 +84,8 @@ class Arc(Object):
                 context.line_to(0.5, 0.5)
             context.close_path()
 
-        #        if '--debug' in sys.argv:  #Debug mode
-        #            self.fill_style = GRADIENT
-
         if self.fill_style == GRADIENT:
-            #self.set_gradient(self.gradient)
-            context.set_source(self.gradient.gradient)
+            self.set_gradient(self.gradient)
         elif self.fill_style == COLOR:
             context.set_source_rgba(self.fill_color.red, self.fill_color.green,
                 self.fill_color.blue, self.fill_color.alpha)

@@ -75,11 +75,14 @@ class Gradient(Holder):
         self.update()
 
     def update(self):
-        #del(self.gradient)
+        if self.gradient is cairo.Gradient:
+            del(self.gradient)
         if self.type == LINEAR: ###ToDo two type!!!
             self.gradient = cairo.LinearGradient(self.x, self.y, self.width, self.height)
-        else:
+        elif self.type == RADIAL:
             self.gradient = cairo.RadialGradient(self.x, self.y, self.width, self.height, 10, 100)
+        else: raise BaseException
+
         for color in self.colors:
             self.gradient.add_color_stop_rgba(float(color.position), color.red, color.green, color.blue, color.alpha)
 

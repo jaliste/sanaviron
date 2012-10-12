@@ -79,7 +79,7 @@ class Text(Object, gtk.Editable):
 
         if bool(self.preserve):
             self.layout.set_width(int(self.width) * pango.SCALE)
-            width, height = layout.get_size()
+            width, height = self.layout.get_size()
             height /= pango.SCALE
             self.height = height
         else:
