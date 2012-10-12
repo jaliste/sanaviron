@@ -9,8 +9,6 @@ class TextPad(gtk.VBox, Signalized):
     def __init__(self):
         gtk.VBox.__init__(self)
 
-        self.position = 0
-
         handle = gtk.HandleBox()
         handle.set_handle_position(gtk.POS_LEFT)
         self.pack_start(handle, False, False)
@@ -103,17 +101,13 @@ class TextPad(gtk.VBox, Signalized):
         self.application.enable_bindings()
 
     def get_cursor_position(self):
-        mark = self.buffer.get_insert()
-        iter = self.buffer.get_iter_at_mark(mark)
-        return iter.get_offset()
+        return self.buffer.get_property("cursor-position")
 
     def move(self, view, step, count, extend):
-        self.position = self.get_cursor_position()
-        self.emit("cursor-moved", self.position)
+        self.emit("cursor-moved", self.get_cursor_position())
 
     def changed(self, buffer):
-        self.position = self.get_cursor_position()
-        self.emit("cursor-moved", self.position)
+        self.emit("cursor-moved", self.get_cursor_position())
 
     def update_scroll(self, buffer, iter, text, length, view):
         mark = buffer.create_mark("end", iter, False)
