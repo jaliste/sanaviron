@@ -20,7 +20,6 @@ class Form(gtk.VBox):
 
     def __init__(self, name, properties):
         gtk.VBox.__init__(self)
-        #self.canvas = properties.canvas
         self.group = properties.group
         self.observer = properties.observer
         self.__name = name

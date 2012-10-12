@@ -7,6 +7,7 @@ Main Sanaviron
 
 import platform
 import sys
+import gtk # because Linux run threads_init
 import os
 
 from __init__ import *
@@ -21,8 +22,6 @@ else:
 install_gettext("sanaviron")
 
 def startapp():
-    from ui.application import Application
-
     if '--debug' in sys.argv:
         import gc
         gc.enable()

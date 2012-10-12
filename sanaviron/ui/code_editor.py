@@ -39,11 +39,22 @@ class SourcePad(gtk.ScrolledWindow):
         entry.set_right_margin(30)
         #entry.set_marker_pixbuf(marker_type, pixbuf)
         entry.set_smart_home_end(True)
+        entry.connect("focus-in-event", self.focus_in)
+        entry.connect("focus-out-event", self.focus_out)
 
         self.buffer.set_highlight_syntax(True)
         self.buffer.set_max_undo_levels(10)
         self.buffer.set_highlight_matching_brackets(True)
         self.set_language("python") # default
+
+        from application import Application
+        self.application = Application()
+
+    def focus_in(self, event, data):
+        self.application.disable_bindings()
+
+    def focus_out(self, event, data):
+        self.application.enable_bindings()
 
     def set_language(self, language):
         manager = gtksourceview.LanguageManager()

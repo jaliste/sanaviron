@@ -10,9 +10,9 @@ class MenuBar(gtk.MenuBar, Signalized):
     def __init__(self):
         gtk.MenuBar.__init__(self)
         Signalized.__init__(self)
-        self.connect("realize", self.realize)
 
-        self.bindings = gtk.AccelGroup()
+        from ui.application import Application
+        self.application = Application()
         self.stack = None
         self.submenu = None
 
@@ -35,7 +35,7 @@ class MenuBar(gtk.MenuBar, Signalized):
         self.install_signal(signal)
         if accelerator:
             key, mask = gtk.accelerator_parse(accelerator)
-            menuitem.add_accelerator("activate", self.bindings, key, mask, gtk.ACCEL_VISIBLE)
+            menuitem.add_accelerator("activate", self.application.bindings, key, mask, gtk.ACCEL_VISIBLE)
 
     def append_toggle(self, stock, signal, accelerator = None, toggled = True):
         info = gtk.stock_lookup(stock)
@@ -47,7 +47,7 @@ class MenuBar(gtk.MenuBar, Signalized):
         self.install_signal(signal)
         if accelerator:
             key, mask = gtk.accelerator_parse(accelerator)
-            menuitem.add_accelerator("toggled", self.bindings, key, mask, gtk.ACCEL_VISIBLE)
+            menuitem.add_accelerator("toggled", self.application.bindings, key, mask, gtk.ACCEL_VISIBLE)
 
     def append_separator(self):
         separator = gtk.SeparatorMenuItem()
@@ -55,10 +55,6 @@ class MenuBar(gtk.MenuBar, Signalized):
 
     def ascend(self):
         self.submenu = self.stack
-
-    def realize(self, widget):
-        toplevel = self.get_toplevel()
-        toplevel.add_accel_group(self.bindings)
 
     def activate(self, widget, data):
         self.emit(data, None)

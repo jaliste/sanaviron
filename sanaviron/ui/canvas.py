@@ -39,8 +39,6 @@ from objects import opposite
 import xml.parsers.expat
 import xml.dom.minidom
 
-#object = None
-
 class BaseCanvas(gtk.Layout, Signalized):
     """This class represents a low level canvas"""
 

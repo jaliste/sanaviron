@@ -48,6 +48,9 @@ class Application(gtk.Window):
         self.maximize()
         self.connect("delete-event", self.quit)
 
+        self.bindings = gtk.AccelGroup()
+        self.add_accel_group(self.bindings)
+
         self.setup = gtk.PageSetup()
         self.settings = gtk.PrintSettings()
 
@@ -212,6 +215,12 @@ class Application(gtk.Window):
         document = self.filename if self.filename else _("New document")
         title = _("%(document)s - Sanaviron %(version)s") % {"document": document, "version": APP_VERSION}
         self.set_title(title)
+
+    def disable_bindings(self):
+        self.remove_accel_group(self.bindings)
+
+    def enable_bindings(self):
+        self.add_accel_group(self.bindings)
 
     def switch(self, widget, child, page):
         document = self.editor.canvas.serialize()
@@ -424,7 +433,7 @@ class Application(gtk.Window):
         language = os.environ['LANG'].split('_')[0]
         if not language or language == 'C':
             language = "es"
-        url = 'file://%s/../../doc/help/%s/index.html' % (cwd, language)
+        url = 'file://%s/../doc/help/%s/index.html' % (cwd, language)
         import webbrowser
 
         webbrowser.open_new(url)

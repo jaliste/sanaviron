@@ -78,6 +78,8 @@ class TextPad(gtk.VBox, Signalized):
         adjustment.connect("value-changed", self.update_value)
         entry = gtk.TextView()
         entry.connect("move-cursor", self.move)
+        entry.connect("focus-in-event", self.focus_in)
+        entry.connect("focus-out-event", self.focus_out)
         entry.set_size_request(-1, 100)
         self.buffer = entry.get_buffer()
         #self.disconnect_handler = buffer.connect("changed", self.changed)
@@ -89,7 +91,16 @@ class TextPad(gtk.VBox, Signalized):
         entry.set_wrap_mode(gtk.WRAP_CHAR)
         self.add(area)
 
+        from application import Application
+        self.application = Application()
+
         self.install_signal("cursor-moved")
+
+    def focus_in(self, event, data):
+        self.application.disable_bindings()
+
+    def focus_out(self, event, data):
+        self.application.enable_bindings()
 
     def get_cursor_position(self):
         mark = self.buffer.get_insert()
