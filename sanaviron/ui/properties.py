@@ -619,7 +619,7 @@ class Properties(gtk.ScrolledWindow):
     def cursor_moved(self, entry, position):
         for child in self.canvas.document.pages[0].children:
             if child.__name__ == "Text" and child.selected:
-                child.cursor.index = (position, 0)
+                child.set_cursor_position(position)
                 self.canvas.queue_draw()
                 break
 

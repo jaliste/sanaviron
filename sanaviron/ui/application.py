@@ -5,7 +5,7 @@ import gtk
 import sys
 import os
 
-from sanaviron import APP_VERSION
+from sanaviron import APP_VERSION, get_summary
 
 from objects.arc import Arc
 from objects.barcode import BarCode
@@ -446,7 +446,7 @@ class Application(gtk.Window):
         dialog.set_version(APP_VERSION)
         dialog.set_copyright("Copyright 2012 - Juan Manuel Mouriz, Ivlev Denis")
         dialog.set_comments(_("A program to design reports, invoices, documents, labels and more. Based on the 2D "
-                              "drawing engine \"sanaviron\"."))
+                              "drawing engine \"sanaviron\".\n\n" + get_summary()))
         dialog.set_website("http://www.sanaviron.org/")
         dialog.set_website_label(_("Official site"))
         dialog.set_license(open(os.path.join(os.path.dirname(__file__),  "..", "..", "COPYING")).read())

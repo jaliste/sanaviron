@@ -2,7 +2,7 @@
 ___init___.py
 """
 
-__all__ = [ "APP_VERSION", "set_locale", "install_gettext", "print_summary" ]
+__all__ = [ "APP_VERSION", "set_locale", "install_gettext", "get_summary" ]
 
 import platform
 import locale
@@ -23,9 +23,11 @@ def install_gettext(domain):
     LOCALE_DIR = os.path.join(os.path.dirname(__file__), "localization")
     gettext.install(TRANSLATION_DOMAIN, LOCALE_DIR)
 
-def print_summary():
-    print "Sanaviron version:", APP_VERSION
-    print "System:", platform.system(), platform.release(), platform.version()
-    print "Python version:", platform.python_version()
-    print "GTK version:", '.'.join(map(str, gtk.ver))
-    print "Cairo version:", cairo.cairo_version_string()
+def get_summary():
+    summary = "Sanaviron version: %s\n" % APP_VERSION
+    summary += "System: %s %s %s\n" % (platform.system(), platform.release(), platform.version())
+    summary += "Python version: %s\n" % platform.python_version()
+    summary += "GTK version: %s\n" % '.'.join(map(str, gtk.ver))
+    summary += "Cairo version: %s" % cairo.cairo_version_string()
+
+    return summary

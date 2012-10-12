@@ -31,7 +31,7 @@ class Text(Object, gtk.Editable):
         self.font = "Verdana"
         self.size = 32
         self.preserve = False
-        self.text = text + ' '
+        self.text = text
         self.foreground = "#000" # TODO
 
     def get_properties(self):
@@ -122,8 +122,12 @@ class Text(Object, gtk.Editable):
             self.height = height
 
         scale = Scale()
-        scale.horizontal = self.width / width
-        scale.vertical = self.height / height
+
+        if width:
+            scale.horizontal = self.width / width
+
+        if height:
+            scale.vertical = self.height / height
 
         if scale.horizontal:
             context.scale(scale.horizontal, 1.0)
@@ -133,8 +137,17 @@ class Text(Object, gtk.Editable):
 
     def get_aspect(self):
         width, height = self.layout.get_size()
-        horizontal = self.width / (width / pango.SCALE)
-        vertical = self.height / (height / pango.SCALE)
+
+        if width:
+            horizontal = self.width / (width / pango.SCALE)
+        else:
+            horizontal = 1
+
+        if height:
+            vertical = self.height / (height / pango.SCALE)
+        else:
+            vertical = 1
+
         return (horizontal, vertical)
 
     def get_index_from_x_y(self, x, y):
@@ -144,18 +157,24 @@ class Text(Object, gtk.Editable):
         position.y = int((y - self.y) * pango.SCALE / vertical)
         return self.layout.xy_to_index(position.x, position.y)
 
+    def get_cursor_position(self):
+        return self.cursor.index[0]
+
+    def set_cursor_position(self, position):
+        self.cursor.index = (position, 0)
+
     def get_cursor_bounds(self):
-        (strong, weak) = self.layout.get_cursor_pos(self.cursor.index[0])
+        (strong, weak) = self.layout.get_cursor_pos(self.get_cursor_position())
         (horizontal, vertical) = self.get_aspect()
 
         class Bounds:
             pass
 
         bounds = Bounds()
-        bounds.x = (strong[0] / pango.SCALE) * horizontal
-        bounds.y = (strong[1] / pango.SCALE) * vertical
-        bounds.width = strong[2] / pango.SCALE + 15
-        bounds.height = strong[3] / pango.SCALE * vertical
+        bounds.x = (weak[0] / pango.SCALE) * horizontal
+        bounds.y = (weak[1] / pango.SCALE) * vertical
+        bounds.width = weak[2] / pango.SCALE + 15
+        bounds.height = weak[3] / pango.SCALE * vertical
 
         return bounds
 

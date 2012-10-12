@@ -75,7 +75,7 @@ class TextPad(gtk.VBox, Signalized):
         adjustment.connect("changed", self.update_adjustment)
         adjustment.connect("value-changed", self.update_value)
         entry = gtk.TextView()
-        entry.connect("move-cursor", self.move)
+        entry.connect_after("move-cursor", self.move)
         entry.connect("focus-in-event", self.focus_in)
         entry.connect("focus-out-event", self.focus_out)
         entry.set_size_request(-1, 100)
