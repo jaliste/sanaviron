@@ -26,7 +26,6 @@ def startapp():
         import gc
         gc.enable()
         gc.set_debug(gc.DEBUG_LEAK)
-
     print get_summary()
 
     from ui.application import Application
