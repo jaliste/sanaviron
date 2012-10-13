@@ -1,5 +1,5 @@
 /*
- * barcode.c -- GNU barcode/ECC200 ISO/IEC16022/POSTNET interface for Python
+ * wide-string.c -- Very simple wide string manipulation interface for Python.
  *
  * Copyright (c) 2009 Juan Manuel Mouriz (jmouriz@sanaviron.org)
  *
@@ -17,39 +17,14 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <stdlib.h>
-#include "interface.h"
 
-char *
-get_code_data (int type, char *code, double width, double height)
+/* Gets the real cursor position for an UTF-8 string */
+int
+get_cursor_position (char *string, int index)
 {
-   if (type < POSTNET)
-   {
-      return barcode_get_code_data (type, code, width, height);
-   }
-   else if (type < DATAMATRIX)
-   {
-      return postnet_get_code_data (type, code, width, height);
-   }
-   else if (type == DATAMATRIX)
-   {
-      return datamatrix_get_code_data (type, code, width, height);
-   }
-   else if (type == QR)
-   {
-      return qr_get_code_data (type, code, width, height);
-   }
-   
-   return NULL;
-}
+   int bytes, count;
 
-char *
-get_text_data (int type, char *code)
-{
-   if (type > BARCODE_93)
-   {
-      return NULL;
-   }
+   for (bytes = -1, count = 0; string[++bytes] && bytes < index; count += (string[bytes] & 0xC0) == 0x80);
 
-   return barcode_get_text_data (type, code);
+   return bytes + count;
 }

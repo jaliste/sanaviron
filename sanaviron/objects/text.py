@@ -9,6 +9,23 @@ from position import Position
 from objects import *
 import gtk
 import gobject
+import os
+import platform
+from ctypes import c_char_p, c_int, CDLL
+
+if platform.system() == "Windows":
+    extension = "dll"
+else:
+    extension = "so"
+
+if platform.machine() == "x86_64":
+    suffix = platform.machine() + "."
+else:
+    suffix = ""
+
+WSIface = CDLL(os.path.join(os.path.dirname(__file__), "wide-string", "wide-string." + suffix + extension))
+
+WSIface.get_cursor_position.restype = c_int
 
 class Text(Object, gtk.Editable):
     """This class represents a text"""
@@ -161,7 +178,8 @@ class Text(Object, gtk.Editable):
         return self.cursor.index[0]
 
     def set_cursor_position(self, position):
-        self.cursor.index = (position, 0)
+        real = WSIface.get_cursor_position(self.text, position)
+        self.cursor.index = (real, 0)
 
     def get_cursor_bounds(self):
         (strong, weak) = self.layout.get_cursor_pos(self.get_cursor_position())
