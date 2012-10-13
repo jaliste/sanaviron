@@ -113,7 +113,11 @@ class Editor(gtk.HPaned):
         self.canvas.code_editor = code_editor
         self.canvas.horizontal_ruler = self.horizontal_ruler
         self.canvas.vertical_ruler = self.vertical_ruler
-        area.add_with_viewport(canvas_ret())
+        if self.canvas is None:
+            self.canvas = canvas_ret()
+        temp_box = gtk.VBox()
+        temp_box.add(self.canvas)
+        area.add_with_viewport(temp_box)
 
     def toggle_properties(self, *args):
         properties = self.get_children()[1]
