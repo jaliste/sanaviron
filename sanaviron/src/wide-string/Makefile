@@ -1,4 +1,5 @@
-CFLAGS = -g -m32 -O2 -Wall -DHAVE_UNISTD_H=1 -DHAVE_STRCASECMP=1 -DNO_LIBPAPER -fPIC
+#-m32 and -melf_i386 for compile the 32-bit librarieson x86_64 OS
+CFLAGS = -g -O2 -Wall -DHAVE_UNISTD_H=1 -DHAVE_STRCASECMP=1 -DNO_LIBPAPER -fPIC -m32
 LDFLAGS += -melf_i386
 TARGET = wide-string
 CC = gcc

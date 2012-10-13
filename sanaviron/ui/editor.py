@@ -20,8 +20,9 @@ class Editor(gtk.HPaned):
 
     def __init__(self):
         gtk.HPaned.__init__(self)
-
-        self.canvas = TestingCanvas()
+        def canvas_ret():
+            return TestingCanvas()
+        self.canvas = canvas_ret()
         self.properties = Properties()
 
         self.canvas.connect("select", self.select)
@@ -112,7 +113,7 @@ class Editor(gtk.HPaned):
         self.canvas.code_editor = code_editor
         self.canvas.horizontal_ruler = self.horizontal_ruler
         self.canvas.vertical_ruler = self.vertical_ruler
-        area.add_with_viewport(self.canvas)
+        area.add_with_viewport(canvas_ret())
 
     def toggle_properties(self, *args):
         properties = self.get_children()[1]
