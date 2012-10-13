@@ -1,4 +1,5 @@
-CFLAGS = -g -O2 -Wall -DHAVE_UNISTD_H=1 -DHAVE_STRCASECMP=1 -DNO_LIBPAPER -fPIC
+CFLAGS = -g -m32 -O2 -Wall -DHAVE_UNISTD_H=1 -DHAVE_STRCASECMP=1 -DNO_LIBPAPER -fPIC
+LDFLAGS += -melf_i386
 TARGET = wide-string
 CC = gcc
 SHARED = $(TARGET).so
@@ -18,7 +19,7 @@ RM = rm
 all: $(SHARED)
 
 $(SHARED): $(LIBOBJECTS)
-	$(CC) -shared -o $(SHARED) $(LIBOBJECTS)
+	$(CC) -m32 -shared -o $(SHARED) $(LIBOBJECTS)
 
 install:
 	$(INSTALL) -c -m 0644 $(SHARED) $(DSTDIR) 
