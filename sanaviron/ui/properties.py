@@ -113,6 +113,14 @@ class ColorizedObjectForm(SizedObjectForm):
         self.canvas = properties.canvas
         self.add_section(_("Color"))
 
+        entry = gtk.HButtonBox()
+        entry.set_layout(gtk.BUTTONBOX_SPREAD)
+        entry.set_spacing(10)
+        entry.add(gtk.ToggleButton(_("Color")))
+        entry.add(gtk.ToggleButton(_("Gradient")))
+        entry.add(gtk.ToggleButton(_("Pattern")))
+        self.add_entry(_("Fill style"), entry, "fill_style")
+
         entry = gtk.ColorButton()
         entry.set_use_alpha(True)
         entry.connect("color-set", self.set_stroke_color)
@@ -123,11 +131,9 @@ class ColorizedObjectForm(SizedObjectForm):
         entry.connect("color-set", self.set_fill_color)
         self.add_entry(_("Fill"), entry, "background")
 
-        #entry = gtk.Label(" ")
-        #self.add_entry(_("Gradient"), entry, "gradient")
+
         entry = LinearGradientEditor()
         entry.connect("update", self.set_gradient)
-        #self.add(entry)
         self.add_entry(_("Gradient"), entry, "gradient")
 
     def set_gradient(self, widget, data):
@@ -140,16 +146,20 @@ class ColorizedObjectForm(SizedObjectForm):
     def set_stroke_color(self, widget):
         for child in self.canvas.document.pages[0].children:
             if child.selected:
-                color = Color(red=widget.get_color().red_float, green=widget.get_color().green_float,
-                    blue=widget.get_color().blue_float, alpha=widget.get_alpha() / 65535.0)
+                color = Color(red=widget.get_color().red_float,
+                              green=widget.get_color().green_float,
+                              blue=widget.get_color().blue_float,
+                              alpha=widget.get_alpha() / 65535.0)
                 child.set_stroke_color(color)
                 self.canvas.queue_draw()
 
     def set_fill_color(self, widget):
         for child in self.canvas.document.pages[0].children:
             if child.selected:
-                color = Color(red=widget.get_color().red_float, green=widget.get_color().green_float,
-                    blue=widget.get_color().blue_float, alpha=widget.get_alpha() / 65535.0)
+                color = Color(red=widget.get_color().red_float,
+                              green=widget.get_color().green_float,
+                              blue=widget.get_color().blue_float,
+                              alpha=widget.get_alpha() / 65535.0)
                 child.set_fill_color(color)
                 self.canvas.queue_draw()
 
@@ -333,7 +343,8 @@ class Properties(gtk.ScrolledWindow):
 
         self.closed_at_centre_btn = gtk.CheckButton()
         self.closed_at_centre_btn.set_active(1)
-        form.add_entry(_("Closed Arc at Centre"), self.closed_at_centre_btn, "closed-at-centre")
+        form.add_entry(_("Closed Arc at Centre"), self.closed_at_centre_btn,
+                       "closed-at-centre")
         self.closed_at_centre_btn.connect("toggled", self.close_at_centre_arc)
         #---END---------------------------------------------------------
 
@@ -424,7 +435,8 @@ class Properties(gtk.ScrolledWindow):
         def update_preview(dialog, preview):
             filename = dialog.get_preview_filename()
             try:
-                pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(filename, 128, 128)
+                pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(filename, 128,
+                                                              128)
                 preview.set_from_pixbuf(pixbuf)
                 have_preview = True
             except:
@@ -432,11 +444,12 @@ class Properties(gtk.ScrolledWindow):
             dialog.set_preview_widget_active(have_preview)
 
         dialog = gtk.FileChooserDialog(title="Source image file",
-            #parent = self,
-            action=gtk.FILE_CHOOSER_ACTION_OPEN,
-            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
-                     gtk.STOCK_OPEN, gtk.RESPONSE_ACCEPT),
-            backend=None)
+                                       #parent = self,
+                                       action=gtk.FILE_CHOOSER_ACTION_OPEN,
+                                       buttons=(
+                                       gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
+                                       gtk.STOCK_OPEN, gtk.RESPONSE_ACCEPT),
+                                       backend=None)
 
         preview = gtk.Image()
 
@@ -646,10 +659,10 @@ class Properties(gtk.ScrolledWindow):
             if child.__name__ == "Arc" and child.selected:
                 child.set_property('closed', int(state))
                 self.canvas.queue_draw()
-        # The user check closed arc, not closed at centre.
-        # This property must be set only if the user check
-        # closed at centre.
-        #self.closed_at_centre_btn.set_sensitive(state)
+                # The user check closed arc, not closed at centre.
+                # This property must be set only if the user check
+                # closed at centre.
+                #self.closed_at_centre_btn.set_sensitive(state)
 
     def close_at_centre_arc(self, widget):
         state = widget.get_active()
@@ -725,6 +738,7 @@ class Properties(gtk.ScrolledWindow):
                 child.set_property('type', type)
                 self.canvas.queue_draw()
                 break
+
 
 if __name__ == '__main__':
     def quit(widget, event):

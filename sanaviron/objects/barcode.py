@@ -177,20 +177,20 @@ class BarCode(Object):
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
             self.stroke_color.blue, self.stroke_color.alpha)
 
-        data = data.split(' ')
+        data = data.split(':')
         ratio = float(data.pop().replace(',', '.'))
 
         def get_bar_data(bar):
-            x, y, thickness, lenght = bar.replace(',', '.').split(':')
-            return float(x) + self.x, float(y) + self.y, float(thickness), float(lenght)
+            x, y, thickness, length = bar.replace(',', '.').split(':')
+            return float(x) + self.x, float(y) + self.y, float(thickness), float(length)
 
         for bar in data:
-            x, y, thickness, lenght = get_bar_data(bar)
+            x, y, thickness, length = get_bar_data(bar)
             context.move_to(x, y)
-            context.line_to(x, y + lenght)
+            context.line_to(x, y + length)
             context.set_line_width(thickness)
             context.stroke()
-            #context.rectangle(x, y, thickness, lenght)
+            #context.rectangle(x, y, thickness, length)
             #context.fill()
 
         if text:
