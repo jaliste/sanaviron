@@ -153,6 +153,9 @@ class Text(Object, gtk.Editable):
             context.scale(1.0, scale.vertical)
 
     def get_aspect(self):
+        if bool(self.preserve):
+            return (1, 1)
+
         width, height = self.layout.get_size()
 
         if width:
