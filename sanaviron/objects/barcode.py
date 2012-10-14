@@ -177,7 +177,7 @@ class BarCode(Object):
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
             self.stroke_color.blue, self.stroke_color.alpha)
 
-        data = data.split(':')
+        data = data.split(' ')
         ratio = float(data.pop().replace(',', '.'))
 
         def get_bar_data(bar):

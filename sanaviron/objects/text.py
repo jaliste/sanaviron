@@ -192,16 +192,17 @@ class Text(Object, gtk.Editable):
             pass
 
         bounds = Bounds()
-        bounds.x = (weak[0] / pango.SCALE) * horizontal
-        bounds.y = (weak[1] / pango.SCALE) * vertical
-        bounds.width = weak[2] / pango.SCALE + 15
-        bounds.height = weak[3] / pango.SCALE * vertical
+        bounds.x = (strong[0] / pango.SCALE) * horizontal
+        bounds.y = (strong[1] / pango.SCALE) * vertical
+        bounds.width = strong[2] / pango.SCALE + 15
+        bounds.height = strong[3] / pango.SCALE * vertical
 
         return bounds
 
     def press(self, x, y):
         self.cursor.visible = True
         self.cursor.index = self.get_index_from_x_y(x, y)
+        print self.cursor.index[0]
 
     def resize(self, x, y):
         self.cursor.visible = False
