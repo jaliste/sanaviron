@@ -9,6 +9,7 @@ from ctypes import c_char_p, c_int, c_double, CDLL
 from object import Object
 from objects import *
 
+
 BARCODE_ANY = 0  # /* Choose best-fit */
 BARCODE_EAN = 1  # /* Code EAN */
 BARCODE_UPC = 2  # /* UPC = 12-digit EAN */
@@ -74,6 +75,7 @@ BCIface.get_code_data.restype = c_char_p
 BCIface.get_text_data.restype = c_char_p
 
 DEFAULT_CODE_TYPE = BARCODE_39
+
 
 class BarCode(Object):
     """This class represents a barcode"""
@@ -175,17 +177,18 @@ class BarCode(Object):
 
         context.set_dash([])
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
-            self.stroke_color.blue, self.stroke_color.alpha)
+                                self.stroke_color.blue, self.stroke_color.alpha)
 
-        data = data.split(':')
-        ratio = float(data.pop().replace(',', '.'))
+        data = data.split(' ')
+        ratio = float(data.pop().split(":")[0].replace(',', '.'))
+        print data
 
         def get_bar_data(bar):
-            x, y, thickness, length = bar.replace(',', '.').split(':')
-            return float(x) + self.x, float(y) + self.y, float(thickness), float(length)
+            x, y, thickness, length = [float(x.replace(',', '.')) for x in bar.split(":")]
+            return x + self.x, y + self.y, thickness, length
 
-        for bar in data:
-            x, y, thickness, length = get_bar_data(bar)
+        for bar in range(len(data)):
+            x, y, thickness, length = get_bar_data(data[bar])
             context.move_to(x, y)
             context.line_to(x, y + length)
             context.set_line_width(thickness)
@@ -221,7 +224,7 @@ class BarCode(Object):
                 width, height = layout.get_size()
                 height /= pango.SCALE
                 context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
-                    self.stroke_color.blue, self.stroke_color.alpha)
+                                        self.stroke_color.blue, self.stroke_color.alpha)
                 context.move_to(self.x + (x * ratio - correction), self.y + self.height - height)
                 context.show_layout(layout)
 
@@ -233,6 +236,7 @@ class BarCode(Object):
         if int(self.type) in [DATAMATRIX, QR]:
             size = max(self.width, self.height)
             self.width = self.height = size
+
 
 if __name__ == "__main__":
     data = BCIface.get_code_data(BARCODE_EAN, "800894002700", 100, 100)

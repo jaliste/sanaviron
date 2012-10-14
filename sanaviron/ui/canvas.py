@@ -34,12 +34,11 @@ from objects.connector import Connector
 from objects.chart import Chart
 
 from objects import *
-from objects import opposite
 
 import xml.parsers.expat
 import xml.dom.minidom
 
-class BaseCanvas(gtk.Layout, Signalized):
+class BaseCanvas(gtk.Layout,Signalized):
     """This class represents a low level canvas"""
 
     canvas = None

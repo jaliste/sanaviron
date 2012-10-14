@@ -12,8 +12,6 @@ import os
 
 from __init__ import *
 
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
 if platform.system() == 'Windows':
     set_locale()
 else:
@@ -27,7 +25,7 @@ def startapp():
         gc.enable()
         gc.set_debug(gc.DEBUG_LEAK)
     print get_summary()
-
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
     from ui.application import Application
     application = Application()
 

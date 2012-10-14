@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import gtk
@@ -20,9 +20,7 @@ class Editor(gtk.HPaned):
 
     def __init__(self):
         gtk.HPaned.__init__(self)
-        def canvas_ret():
-            return TestingCanvas()
-        self.canvas = canvas_ret()
+        self.canvas = TestingCanvas()
         self.properties = Properties()
 
         self.canvas.connect("select", self.select)
@@ -73,7 +71,7 @@ class Editor(gtk.HPaned):
         self.image = gtk.Image()
         self.image.set_from_stock(CONTRACT_PROPERTIES, gtk.ICON_SIZE_MENU)
         button = gtk.Button()
-        button.add(self.image)
+        button.set_image(self.image)
         button.set_relief(gtk.RELIEF_NONE)
         button.connect("clicked", self.toggle_properties)
         top.pack_start(button, False, False)
@@ -113,11 +111,7 @@ class Editor(gtk.HPaned):
         self.canvas.code_editor = code_editor
         self.canvas.horizontal_ruler = self.horizontal_ruler
         self.canvas.vertical_ruler = self.vertical_ruler
-        if self.canvas is None:
-            self.canvas = canvas_ret()
-        temp_box = gtk.VBox()
-        temp_box.add(self.canvas)
-        area.add_with_viewport(temp_box)
+        area.add_with_viewport(self.canvas)
 
     def toggle_properties(self, *args):
         properties = self.get_children()[1]

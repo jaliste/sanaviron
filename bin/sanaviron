@@ -1,6 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sanaviron.sanaviron
+from sanaviron.sanaviron import startapp
 
-sanaviron.sanaviron.startapp()
+if __name__=="__main__":
+    startapp()
