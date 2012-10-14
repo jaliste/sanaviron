@@ -181,7 +181,6 @@ class BarCode(Object):
 
         data = data.split(' ')
         ratio = float(data.pop().split(":")[0].replace(',', '.'))
-        print data
 
         def get_bar_data(bar):
             x, y, thickness, length = [float(x.replace(',', '.')) for x in bar.split(":")]
