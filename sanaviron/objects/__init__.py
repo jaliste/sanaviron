@@ -47,7 +47,7 @@ RADIANS = _("radians")
 DEGREES = _("degrees")
 
 
-#text align
+#text align types
 TOP_LEFT = 0
 TOP = 1
 TOP_RIGHT = 2
@@ -91,6 +91,13 @@ def get_side(direction):
 
 
 def opposite(direction):
+    """
+    opposite(direction)
+
+    return opposite direction of input 'direction'
+
+    direction is int see direction types
+    """
     if direction == NORTHEAST:
         return SOUTHWEST
     elif direction == NORTH:
@@ -115,31 +122,44 @@ def set_as_point(instance):
     instance.y = 0.0
 
 def context_align(context,rect,align,lw,lh,border):
+    """
+    context_align(context,rect,align,lw,lh,border)
+
+
+    context is cairo.Context
+    rect is dict type {'x': int, 'y': int, 'w': int, 'h': int}
+    align is int see align types
+    lw is int width of object
+    lh is int height of object
+    border is int border size
+    """
     if align is TOP_LEFT:
-        context.move_to(rect["x"] + border, rect["y"] + border)
+        context.translate(rect["x"] + border, rect["y"] + border)
     elif align is TOP:
-        context.move_to(rect['x'] + (rect["w"] - lw) * 0.5,
+        context.translate(rect['x'] + (rect["w"] - lw) * 0.5,
                         rect["y"] + border)
     elif align is TOP_RIGHT:
-        context.move_to(rect['x'] + rect['w'] - lw - border,
+        context.translate(rect['x'] + rect['w'] - lw - border,
                         rect["y"] + border)
     elif align is RIGHT:
-        context.move_to(rect['x'] + rect['w'] - lw - border,
+        context.translate(rect['x'] + rect['w'] - lw - border,
                         rect["y"] + (rect['h'] - lh) * 0.5)
     elif align is BOTTOM_RIGHT:
-        context.move_to(rect['x'] + rect['w'] - lw - border * 2,
+        context.translate(rect['x'] + rect['w'] - lw - border * 2,
                         rect['y'] + rect['h'] - lh - border)
     elif align is BOTTOM:
-        context.move_to(rect['x'] + (rect["w"] - lw) * 0.5,
+        context.translate(rect['x'] + (rect["w"] - lw) * 0.5,
                         rect['y'] + rect['h'] - lh - border)
+        print(rect['x'] + (rect["w"] - lw) * 0.5,
+              rect['y'] + rect['h'] - lh - border)
     elif align is BOTTOM_LEFT:
-        context.move_to(rect['x'] + border,
+        context.translate(rect['x'] + border,
                         rect['y'] + rect['h'] - lh - border)
     elif align is LEFT:
-        context.move_to(rect['x'] + border,
+        context.translate(rect['x'] + border,
                         rect["y"] + (rect['h'] - lh) * 0.5)
     elif align is CENTER:
-        context.move_to(rect['x'] + (rect["w"] - lw) * 0.5,
+        context.translate(rect['x'] + (rect["w"] - lw) * 0.5,
                         rect["y"] + (rect['h'] - lh) * 0.5)
 
 
@@ -147,7 +167,27 @@ def print_text(context, text="", rect={'x': 0, 'y': 0, 'w': 1, 'h': 1},
                font="",
                font_name="Ubuntu",
                font_style="Normal", font_size=10,
-               align=TOP_LEFT, border=4, spasing=0):
+               align=TOP_LEFT, border=4, letter_spacing=[(0,0)],scale=0):
+    """
+    print_text(context, text, rect,font,font_name,font_style, font_size,align, border, letter_spacing)
+
+    context is cairo.Context
+    text is any types
+    rect is dict type {'x': int, 'y': int, 'w': int, 'h': int}
+    font is string font description, example:'Ubuntu Normal 10' -- Ubuntu - font name,
+                                                                   Normal - style,
+                                                                   10-size
+    if font != "" then font_name,font_style,font_size do not used!
+    font_name is string
+    font_style is string
+    font_size is int
+    align is int see align types
+    border is int border size
+    letter_spacing is list of tuple letter_spacing size,example: letter_spacing=[(2,3)(5,5)(10,0)]
+                                                                 after the 2nd character letter spacing is 5
+                                                                 after the 5th character letter spacing is 5
+                                                                 after the 10th character letter spacing reset to 0
+    """
     context.save()
     if not font:
         font = " ".join([font_name, font_style, str(font_size)])
@@ -155,13 +195,12 @@ def print_text(context, text="", rect={'x': 0, 'y': 0, 'w': 1, 'h': 1},
     desc = pango.FontDescription(font)
     layout.set_font_description(desc)
     layout.set_markup(str(text))
-
-    if spasing:
-        attr_list=pango.AttrList()
-        attr = pango.AttrLetterSpacing(spasing*pango.SCALE,0,10000)
-        attr_list.insert(attr)
-        layout.set_attributes(attr_list)
-
+    attr_list=pango.AttrList()
+    if len(letter_spacing):
+        for i in letter_spacing:
+            attr = pango.AttrLetterSpacing(i[1]*pango.SCALE,i[0],len(text))
+            attr_list.insert(attr)
+    layout.set_attributes(attr_list)
     pangocairo.CairoContext.update_layout(context, layout)
     lw, lh = layout.get_size()
     lw /= pango.SCALE

@@ -69,7 +69,7 @@ class Arc(Object):
         context.save()
         context.new_path()
         context.translate(self.x, self.y)
-        if (self.width) and (self.height > 0):
+        if self.width > 0 and (self.height > 0):
             context.scale(self.width, self.height)
         context.arc(0.5, 0.5, 0.5, grad2rad(self.angle_start), grad2rad(self.angle_stop))
 
