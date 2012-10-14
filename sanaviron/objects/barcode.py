@@ -157,7 +157,7 @@ class BarCode(Object):
             layout = pangocairo.CairoContext.create_layout(context)
             font = pango.FontDescription(description)
             layout.set_font_description(font)
-            layout.set_alignment(pango.ALIGN_CENTER)
+            #layout.set_alignment(pango.ALIGN_CENTER)
             layout.set_markup(text)
             width, height = layout.get_size()
             width /= pango.SCALE
@@ -196,6 +196,7 @@ class BarCode(Object):
             #context.fill()
 
         if text:
+            print text
             #from:int svg_text(struct Barcode_Item *bc, FILE *f)
             context = pangocairo.CairoContext(context)
 
