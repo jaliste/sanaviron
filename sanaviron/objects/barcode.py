@@ -153,25 +153,10 @@ class BarCode(Object):
                      "be displayed in this codification.\n"
                      "%(message)s.") % {"code": code, "message": message}
 
-            context = pangocairo.CairoContext(context)
-            layout = pangocairo.CairoContext.create_layout(context)
-            font = pango.FontDescription(description)
-            layout.set_font_description(font)
-            #layout.set_alignment(pango.ALIGN_CENTER)
-            layout.set_markup(text)
-            width, height = layout.get_size()
-            width /= pango.SCALE
-            height /= pango.SCALE
-            width += 2 * margin
-            height += 2 * margin
-            horizontal = self.width / float(width)
-            vertical = self.height / float(height)
-            context.move_to(self.x + margin, self.y + margin)
-            context.save()
-            if horizontal and vertical:
-                context.scale(horizontal, vertical)
-                context.show_layout(layout)
-            context.restore()
+            print_text(context, text=text,
+                       rect={'x': self.x + margin, 'y': self.y + margin, 'w': self.width,
+                             'h': self.height}, font=description, align=CENTER, border=0)
+
             Object.draw(self, context)
             return
 
@@ -182,12 +167,12 @@ class BarCode(Object):
         data = data.split(' ')
         ratio = float(data.pop().split(":")[0].replace(',', '.'))
 
-        def get_bar_data(bar):
-            x, y, thickness, length = [float(x.replace(',', '.')) for x in bar.split(":")]
-            return x + self.x, y + self.y, thickness, length
+        def get_data(some_data):
+            return [float(x.replace(',', '.')) for x in some_data.split(":")]
 
         for bar in range(len(data)):
-            x, y, thickness, length = get_bar_data(data[bar])
+            x, y, thickness, length = get_data(data[bar])
+            x, y = x + self.x, y + self.y
             context.move_to(x, y)
             context.line_to(x, y + length)
             context.set_line_width(thickness)
@@ -196,37 +181,30 @@ class BarCode(Object):
             #context.fill()
 
         if text:
-            print text
             #from:int svg_text(struct Barcode_Item *bc, FILE *f)
-            context = pangocairo.CairoContext(context)
-
             correction = 0 # /* This correction seems to be needed to align text properly */
             px = 0
 
             text = text.split(' ')
-
-            for digit in text:
-                if not len(digit):
+            digits = ""
+            for digit in range(len(text)):
+                if not len(text[digit]):
                     continue
 
-                i, j, digit = digit.replace(',', '.').split(':')
-
+                i, j, dig = get_data(text[digit])
+                print i, j, dig
                 x = float(i)
-
+                digits += str(int(dig))
                 if (x - px) >= 10:
                     correction += 2
                 px = x
 
-                layout = pangocairo.CairoContext.create_layout(context)
-                font = pango.FontDescription(description)
-                layout.set_font_description(font)
-                layout.set_text(digit)
-                width, height = layout.get_size()
-                height /= pango.SCALE
                 context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
                                         self.stroke_color.blue, self.stroke_color.alpha)
-                context.move_to(self.x + (x * ratio - correction), self.y + self.height - height)
-                context.show_layout(layout)
+            context.move_to(0, 0)
+            print_text(context, text=digits,
+                       rect={'x': self.x, 'y': self.y, 'w': self.width, 'h': self.height},
+                       font=description, align=BOTTOM, border=0,spasing=0)
 
         Object.draw(self, context)
 

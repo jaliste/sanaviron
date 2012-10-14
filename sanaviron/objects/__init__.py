@@ -3,9 +3,11 @@
 
 __all__ = ['NONE', 'NORTHWEST', 'NORTH', 'NORTHEAST', 'WEST', 'EAST', 'SOUTHWEST', 'SOUTH', 'SOUTHEAST', 'ANONIMOUS',
            'MANUAL', 'AUTOMATIC', 'COLOR', 'GRADIENT', 'PATTERN', 'LINEAR', 'RADIAL', 'HORIZONTAL', 'VERTICAL',
-           'CENTIMETERS', 'MILLIMETERS', 'DOTS', 'INCHES', 'RADIANS', 'DEGREES', 'grad2rad', 'rad2grad',
+           'CENTIMETERS', 'MILLIMETERS', 'DOTS', 'INCHES', 'RADIANS', 'DEGREES', 'TOP_LEFT', 'TOP', 'TOP_RIGHT',
+           'RIGHT', 'BOTTOM_RIGHT', 'BOTTOM', 'BOTTOM_LEFT', 'LEFT', 'CENTER','print_text', 'grad2rad', 'rad2grad',
            'angle_from_coordinates', 'get_side', 'opposite', 'set_as_point']
 
+import pango, pangocairo
 from math import pi, atan2
 
 
@@ -44,6 +46,17 @@ INCHES = _("inches")
 RADIANS = _("radians")
 DEGREES = _("degrees")
 
+
+#text align
+TOP_LEFT = 0
+TOP = 1
+TOP_RIGHT = 2
+RIGHT = 3
+BOTTOM_RIGHT = 4
+BOTTOM = 5
+BOTTOM_LEFT = 6
+LEFT = 7
+CENTER = 8
 
 def grad2rad(grad):
     return float(grad) * pi / 180.0
@@ -100,3 +113,59 @@ def opposite(direction):
 def set_as_point(instance):
     instance.x = 0.0
     instance.y = 0.0
+
+def context_align(context,rect,align,lw,lh,border):
+    if align is TOP_LEFT:
+        context.move_to(rect["x"] + border, rect["y"] + border)
+    elif align is TOP:
+        context.move_to(rect['x'] + (rect["w"] - lw) * 0.5,
+                        rect["y"] + border)
+    elif align is TOP_RIGHT:
+        context.move_to(rect['x'] + rect['w'] - lw - border,
+                        rect["y"] + border)
+    elif align is RIGHT:
+        context.move_to(rect['x'] + rect['w'] - lw - border,
+                        rect["y"] + (rect['h'] - lh) * 0.5)
+    elif align is BOTTOM_RIGHT:
+        context.move_to(rect['x'] + rect['w'] - lw - border * 2,
+                        rect['y'] + rect['h'] - lh - border)
+    elif align is BOTTOM:
+        context.move_to(rect['x'] + (rect["w"] - lw) * 0.5,
+                        rect['y'] + rect['h'] - lh - border)
+    elif align is BOTTOM_LEFT:
+        context.move_to(rect['x'] + border,
+                        rect['y'] + rect['h'] - lh - border)
+    elif align is LEFT:
+        context.move_to(rect['x'] + border,
+                        rect["y"] + (rect['h'] - lh) * 0.5)
+    elif align is CENTER:
+        context.move_to(rect['x'] + (rect["w"] - lw) * 0.5,
+                        rect["y"] + (rect['h'] - lh) * 0.5)
+
+
+def print_text(context, text="", rect={'x': 0, 'y': 0, 'w': 1, 'h': 1},
+               font="",
+               font_name="Ubuntu",
+               font_style="Normal", font_size=10,
+               align=TOP_LEFT, border=4, spasing=0):
+    context.save()
+    if not font:
+        font = " ".join([font_name, font_style, str(font_size)])
+    layout = pangocairo.CairoContext.create_layout(context)
+    desc = pango.FontDescription(font)
+    layout.set_font_description(desc)
+    layout.set_markup(str(text))
+
+    if spasing:
+        attr_list=pango.AttrList()
+        attr = pango.AttrLetterSpacing(spasing*pango.SCALE,0,10000)
+        attr_list.insert(attr)
+        layout.set_attributes(attr_list)
+
+    pangocairo.CairoContext.update_layout(context, layout)
+    lw, lh = layout.get_size()
+    lw /= pango.SCALE
+    lh /= pango.SCALE
+    context_align(context,rect,align,lw,lh,border)
+    pangocairo.CairoContext.show_layout(context, layout)
+    context.restore()
