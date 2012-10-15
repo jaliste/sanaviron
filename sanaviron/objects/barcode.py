@@ -3,8 +3,6 @@
 
 import os
 import platform
-import pango
-import pangocairo
 from ctypes import c_char_p, c_int, c_double, CDLL
 from object import Object
 from objects import *
@@ -126,92 +124,82 @@ class BarCode(Object):
             self.handler.can_pivot = True
 
     def draw(self, context):
+        #prepare code and get data
+        context.save()
         code = str(self.code)
         type = int(self.type)
-        description = "Verdana 12"
-
         data = BCIface.get_code_data(type, code, self.width, self.height)
         text = BCIface.get_text_data(type, code)
 
+        #if data empty then draw error message and exit
         if not data:
             context.rectangle(self.x, self.y, self.width, self.height)
-            context.set_source_rgba(0.75, 0, 0, 0.25)
+            context.set_source_rgb(0.5, 0, 0)
             context.fill_preserve()
-            context.set_source_rgb(0.75, 0, 0)
+            context.set_source_rgb(0, 0, 0)
             context.set_line_width(4.0)
-            context.set_dash([])
             context.stroke()
 
-            margin = 10
-
+            #prepare error message
             if not code:
                 code = _("empty")
                 message = _("Please enter a valid code")
             else:
                 message = _("Please select another one")
-            text = _("Code <b>%(code)s</b> can't\n"
-                     "be displayed in this codification.\n"
-                     "%(message)s.") % {"code": code, "message": message}
+            text = _(
+                "Code <b>%(code)s</b> can't\n" ###TODO need to show bad character or create rules for code entry
+                "be displayed in this codification.\n"
+                "%(message)s.") % {"code": code, "message": message}
 
+            context.set_source_rgb(1, 1, 1)
             print_text(context, text=text,
-                       rect={'x': self.x + margin, 'y': self.y + margin, 'w': self.width,
-                             'h': self.height}, font=description, align=CENTER, border=0)
-
+                       rect={'x': self.x, 'y': self.y, 'w': self.width,
+                             'h': self.height}, font="Verdana 12", align=CENTER)
             Object.draw(self, context)
             return
 
+        #prepare context
         context.set_dash([])
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
                                 self.stroke_color.blue, self.stroke_color.alpha)
 
+        def decode_data_to_float(some_data):
+            return [float(x.replace(',', '.')) for x in some_data.split(":")]
+
+        def decode_data_to_string(some_data):
+            return [str(x.replace(',', '.')) for x in some_data.split(":")]
+
         data = data.split(' ')
         ratio = float(data.pop().split(":")[0].replace(',', '.'))
 
-        def get_data(some_data):
-            return [float(x.replace(',', '.')) for x in some_data.split(":")]
-
         for bar in range(len(data)):
-            x, y, thickness, length = get_data(data[bar])
+            x, y, thickness, length = decode_data_to_float(data[bar])
             x, y = x + self.x, y + self.y
-            context.move_to(x, y)
-            context.line_to(x, y + length)
-            context.set_line_width(thickness)
-            context.stroke()
-            #context.rectangle(x, y, thickness, length)
-            #context.fill()
+
+            #context.set_antialias(1)
+            context.rectangle(x, y, thickness, length) ###more correct rendering
+            context.fill()
 
         if text:
-            #from:int svg_text(struct Barcode_Item *bc, FILE *f)
-            correction = 0 # /* This correction seems to be needed to align text properly */
-            px = 0
-
             text = text.split(' ')
             digits = ""
             for digit in range(len(text)):
                 if not len(text[digit]):
                     continue
+                i, j, dig = decode_data_to_string(text[digit])
+                digits += dig
 
-                i, j, dig = get_data(text[digit])
-                print i, j, dig
-                x = float(i)
-                digits += str(int(dig))
-                if (x - px) >= 10:
-                    correction += 2
-                px = x
-
-                context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
-                                        self.stroke_color.blue, self.stroke_color.alpha)
-            context.move_to(0, 0)
             print_text(context, text=digits,
                        rect={'x': self.x, 'y': self.y, 'w': self.width, 'h': self.height},
-                       font=description, align=BOTTOM, border=0,spasing=0)
-
+                       font_name="Verdana", align=BOTTOM, border=0,
+                       letter_spacing=[(0, 10)], font_size=10) ###TODO need calculate letter spacing and rect
+        context.restore()
         Object.draw(self, context)
 
     def resize(self, x, y):
         Object.resize(self, x, y)
 
-        if int(self.type) in [DATAMATRIX, QR]:
+        if self.type is DATAMATRIX | QR:
             size = max(self.width, self.height)
             self.width = self.height = size
 
