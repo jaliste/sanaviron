@@ -203,7 +203,7 @@ def print_text(context, text="", rect={'x': 0, 'y': 0, 'w': 1, 'h': 1},
     attr_list=pango.AttrList()
     if len(letter_spacing):
         for i in letter_spacing:
-            attr = pango.AttrLetterSpacing(i[1]*pango.SCALE,i[0],len(text))
+            attr = pango.AttrLetterSpacing(int(i[1]*pango.SCALE),i[0],len(text))
             attr_list.insert(attr)
     layout.set_attributes(attr_list)
     layout.set_markup(str(text))

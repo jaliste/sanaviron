@@ -2,7 +2,7 @@
 ___init___.py
 """
 
-__all__ = [ "APP_VERSION", "set_locale", "install_gettext", "get_summary" ]
+__all__ = ["APP_VERSION", "set_locale", "install_gettext", "get_summary"]
 
 import platform
 import locale

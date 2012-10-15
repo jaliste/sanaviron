@@ -7,6 +7,7 @@ from ctypes import c_char_p, c_int, c_double, CDLL
 from object import Object
 from objects import *
 
+import pango, pangocairo
 
 BARCODE_ANY = 0  # /* Choose best-fit */
 BARCODE_EAN = 1  # /* Code EAN */
@@ -180,19 +181,36 @@ class BarCode(Object):
             context.rectangle(x, y, thickness, length) ###more correct rendering
             context.fill()
 
+        px = 0
+        correction = 0
+        layout = pangocairo.CairoContext.create_layout(context)
+        font = pango.FontDescription("Verdana 12")
+        layout.set_font_description(font)
+        layout.set_text("0")
+        height, width = layout.get_size()
+        height /= pango.SCALE
+        height *= 2
+
         if text:
             text = text.split(' ')
-            digits = ""
             for digit in range(len(text)):
                 if not len(text[digit]):
                     continue
-                i, j, dig = decode_data_to_string(text[digit])
-                digits += dig
+                i, j, byte = decode_data_to_string(text[digit])
+                x = float(i)
+                if (x - px) >= 10:
+                    correction += 2
+                px = x
 
-            print_text(context, text=digits,
-                       rect={'x': self.x, 'y': self.y, 'w': self.width, 'h': self.height},
-                       font_name="Verdana", align=BOTTOM, border=0,
-                       letter_spacing=[(0, 10)], font_size=10) ###TODO need calculate letter spacing and rect
+                layout.set_text(byte)
+                context.move_to(self.x + (x * ratio - correction), self.y + self.height - height)
+                context.show_layout(layout)
+#            By now, is impossible draw text with this function because now text is drawing digit by digit.
+#            And each digit perform some metrics and calculations.
+#            print_text(context, text=code,
+#                       rect={'x': self.x, 'y': self.y, 'w': self.width, 'h': self.height},
+#                       font_name="Verdana", align=BOTTOM, border=0,
+#                       letter_spacing=letter_spacing, font_size=10) ###TODO need calculate letter spacing and rect
         context.restore()
         Object.draw(self, context)
 

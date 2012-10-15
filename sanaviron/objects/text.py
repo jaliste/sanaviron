@@ -36,6 +36,9 @@ class Text(Object, gtk.Editable):
 
         self.layout = None
 
+        from ui.canvas import TestingCanvas
+        self.canvas = TestingCanvas()
+
         class Cursor:
             pass
 
@@ -202,7 +205,6 @@ class Text(Object, gtk.Editable):
     def press(self, x, y):
         self.cursor.visible = True
         self.cursor.index = self.get_index_from_x_y(x, y)
-        print self.cursor.index[0]
 
     def resize(self, x, y):
         self.cursor.visible = False

@@ -41,7 +41,20 @@ import xml.dom.minidom
 class BaseCanvas(gtk.Layout,Signalized):
     """This class represents a low level canvas"""
 
+    canvas = None
+
+    def __new__(self):
+        if self.canvas:
+            return self.canvas
+        else:
+            self.canvas = super(BaseCanvas, self).__new__(self)
+            self.canvas.initialize()
+            return self.canvas
+
     def __init__(self):
+        pass
+
+    def initialize(self):
         gtk.Layout.__init__(self)
         Signalized.__init__(self)
 
@@ -118,8 +131,11 @@ class BaseCanvas(gtk.Layout,Signalized):
 class Canvas(BaseCanvas):
     """This class represents a middle level canvas"""
 
-    def __init__(self):
-        BaseCanvas.__init__(self)
+#    def __init__(self):
+#        pass
+
+    def initialize(self):
+        BaseCanvas.initialize(self)
         self.origin = Origin()
         self.grid = Grid()
         self.guides = Guides()
@@ -387,8 +403,11 @@ class Canvas(BaseCanvas):
 class ExtendedCanvas(Canvas):
     """This class represents a high level canvas"""
 
-    def __init__(self):
-        Canvas.__init__(self)
+#    def __init__(self):
+#        Canvas.__init__(self)
+
+    def initialize(self):
+        Canvas.initialize(self)
 
     def add_page(self):
         page = self.document.pages[0] #Page()
@@ -630,6 +649,6 @@ class TestingCanvas(ExtendedCanvas):
 
     #def __init__(self):
     def initialize(self):
-        ExtendedCanvas.__init__(self)
+        ExtendedCanvas.initialize(self)
 
         print _("WARNING: You are using a testing canvas.")

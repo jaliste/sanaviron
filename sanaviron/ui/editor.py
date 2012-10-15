@@ -4,7 +4,7 @@
 import gtk
 import sys
 
-from ui.canvas import TestingCanvas
+#from ui.canvas import TestingCanvas
 from objects import HORIZONTAL, VERTICAL
 from ui.notification import Notification
 from ui.stock import EXPAND_PROPERTIES, CONTRACT_PROPERTIES
@@ -20,6 +20,7 @@ class Editor(gtk.HPaned):
 
     def __init__(self):
         gtk.HPaned.__init__(self)
+        from ui.canvas import TestingCanvas
         self.canvas = TestingCanvas()
         self.properties = Properties()
 
@@ -111,7 +112,11 @@ class Editor(gtk.HPaned):
         self.canvas.code_editor = code_editor
         self.canvas.horizontal_ruler = self.horizontal_ruler
         self.canvas.vertical_ruler = self.vertical_ruler
+        self.connect("realize", self.realize, area)
+
+    def realize(self, widget, area):
         area.add_with_viewport(self.canvas)
+        self.canvas.show()
 
     def toggle_properties(self, *args):
         properties = self.get_children()[1]
