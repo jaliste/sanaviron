@@ -38,23 +38,33 @@ from objects import *
 import xml.parsers.expat
 import xml.dom.minidom
 
+def singleton(cls):
+    instances = {}
+    def getinstance():
+        if cls not in instances:
+            instances[cls] = cls()
+        return instances[cls]
+    return getinstance
+
+
 class BaseCanvas(gtk.Layout,Signalized):
     """This class represents a low level canvas"""
 
     canvas = None
 
-    def __new__(self):
+    """def __new__(self):
         if self.canvas:
             return self.canvas
         else:
             self.canvas = super(BaseCanvas, self).__new__(self)
             self.canvas.initialize()
-            return self.canvas
+            return self.canvas"""
+
+    #def __init__(self):
+    #    pass
 
     def __init__(self):
-        pass
 
-    def initialize(self):
         gtk.Layout.__init__(self)
         Signalized.__init__(self)
 
@@ -134,8 +144,8 @@ class Canvas(BaseCanvas):
 #    def __init__(self):
 #        pass
 
-    def initialize(self):
-        BaseCanvas.initialize(self)
+    def __init__(self):
+        BaseCanvas.__init__(self)
         self.origin = Origin()
         self.grid = Grid()
         self.guides = Guides()
@@ -403,11 +413,11 @@ class Canvas(BaseCanvas):
 class ExtendedCanvas(Canvas):
     """This class represents a high level canvas"""
 
-#    def __init__(self):
-#        Canvas.__init__(self)
+    def __init__(self):
+        Canvas.__init__(self)
 
-    def initialize(self):
-        Canvas.initialize(self)
+    #def initialize(self):
+    #    Canvas.initialize(self)
 
     def add_page(self):
         page = self.document.pages[0] #Page()
@@ -644,11 +654,12 @@ class ExtendedCanvas(Canvas):
         node = xml.dom.minidom.parseString(string)
         return node.toprettyxml(indent='    ', newl="\n", encoding="utf-8")
 
+@singleton
 class TestingCanvas(ExtendedCanvas):
     """This class represents a testing canvas"""
 
-    #def __init__(self):
-    def initialize(self):
-        ExtendedCanvas.initialize(self)
+    def __init__(self):
+    #def initialize(self):
+        ExtendedCanvas.__init__(self)
 
         print _("WARNING: You are using a testing canvas.")
