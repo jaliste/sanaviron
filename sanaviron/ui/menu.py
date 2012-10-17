@@ -7,12 +7,13 @@ from objects.signalized import Signalized
 class MenuBar(gtk.MenuBar, Signalized):
     """This class represents a pull-down menu bar"""
 
-    def __init__(self):
+    def __init__(self, application):
         gtk.MenuBar.__init__(self)
         Signalized.__init__(self)
 
-        from ui.application import Application
-        self.application = Application()
+        #from ui.application import Application
+        #self.application = Application()
+        self.application = application
         self.stack = None
         self.submenu = None
 
@@ -63,8 +64,8 @@ class MenuBar(gtk.MenuBar, Signalized):
 class Menu(MenuBar):
     """this class represents the application menu bar"""
 
-    def __init__(self):
-        MenuBar.__init__(self)
+    def __init__(self, application):
+        MenuBar.__init__(self, application)
 
         self.append_menu("_" + _("File"))
         self.append_item(gtk.STOCK_NEW, "new", "<Control>N")

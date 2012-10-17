@@ -34,43 +34,33 @@ from objects.connector import Connector
 from objects.chart import Chart
 
 from objects import *
+from ui import singleton
 
 import xml.parsers.expat
 import xml.dom.minidom
 
-def singleton(cls):
-    instances = {}
-    def getinstance():
-        if cls not in instances:
-            instances[cls] = cls()
-        return instances[cls]
-    return getinstance
-
-
 class BaseCanvas(gtk.Layout,Signalized):
     """This class represents a low level canvas"""
 
-    canvas = None
-
-    """def __new__(self):
-        if self.canvas:
-            return self.canvas
-        else:
-            self.canvas = super(BaseCanvas, self).__new__(self)
-            self.canvas.initialize()
-            return self.canvas"""
-
-    #def __init__(self):
-    #    pass
-
-    def __init__(self):
-
+#    canvas = None
+#
+#    def __new__(self):
+#        if self.canvas:
+#            return self.canvas
+#        else:
+#            self.canvas = super(BaseCanvas, self).__new__(self)
+#            self.canvas.initialize()
+#            return self.canvas
+#
+#    def initialize(self):
+    def __init__(self, application):
         gtk.Layout.__init__(self)
         Signalized.__init__(self)
 
         self.configure()
-        from ui.application import Application
-        self.application = Application()
+        #from ui.application import Application
+        #self.application = Application()
+        self.application = application
 
         self.install_statics()
         print "canvas:", self
@@ -141,11 +131,10 @@ class BaseCanvas(gtk.Layout,Signalized):
 class Canvas(BaseCanvas):
     """This class represents a middle level canvas"""
 
-#    def __init__(self):
-#        pass
-
-    def __init__(self):
-        BaseCanvas.__init__(self)
+#    def initialize(self):
+#        BaseCanvas.initialize(self)
+    def __init__(self, application):
+        BaseCanvas.__init__(self, application)
         self.origin = Origin()
         self.grid = Grid()
         self.guides = Guides()
@@ -413,11 +402,10 @@ class Canvas(BaseCanvas):
 class ExtendedCanvas(Canvas):
     """This class represents a high level canvas"""
 
-    def __init__(self):
-        Canvas.__init__(self)
-
-    #def initialize(self):
-    #    Canvas.initialize(self)
+#    def initialize(self):
+#        Canvas.initialize(self)
+    def __init__(self, application):
+        Canvas.__init__(self, application)
 
     def add_page(self):
         page = self.document.pages[0] #Page()
@@ -658,8 +646,9 @@ class ExtendedCanvas(Canvas):
 class TestingCanvas(ExtendedCanvas):
     """This class represents a testing canvas"""
 
-    def __init__(self):
-    #def initialize(self):
-        ExtendedCanvas.__init__(self)
+#    def initialize(self):
+#        ExtendedCanvas.initialize(self)
+    def __init__(self, application):
+        ExtendedCanvas.__init__(self, application)
 
         print _("WARNING: You are using a testing canvas.")

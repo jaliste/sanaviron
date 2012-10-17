@@ -167,7 +167,7 @@ class ColorizedObjectForm(SizedObjectForm):
 class Properties(gtk.ScrolledWindow):
     """This class represents the properties bar"""
 
-    def __init__(self):
+    def __init__(self, application):
         gtk.ScrolledWindow.__init__(self)
 
         self.observer = Observer()
@@ -175,7 +175,7 @@ class Properties(gtk.ScrolledWindow):
         self.objects = dict()
 
         from canvas import TestingCanvas
-        self.canvas = TestingCanvas()
+        self.canvas = TestingCanvas(application)
 
         self.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
 
@@ -313,7 +313,7 @@ class Properties(gtk.ScrolledWindow):
 
         form.add_section(_("Text"))
 
-        entry = TextPad()
+        entry = TextPad(application)
         self.disconnect_handler = entry.buffer.connect("changed", self.changed)
         entry.connect("cursor-moved", self.cursor_moved)
         form.add_entry(None, entry, "text")

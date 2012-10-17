@@ -6,7 +6,7 @@ from objects.signalized import Signalized
 class TextPad(gtk.VBox, Signalized):
     """This class represents a minimal text editor"""
 
-    def __init__(self):
+    def __init__(self, application):
         gtk.VBox.__init__(self)
 
         handle = gtk.HandleBox()
@@ -89,8 +89,9 @@ class TextPad(gtk.VBox, Signalized):
         entry.set_wrap_mode(gtk.WRAP_CHAR)
         self.add(area)
 
-        from application import Application
-        self.application = Application()
+#        from application import Application
+#        self.application = Application()
+        self.application = application
 
         self.install_signal("cursor-moved")
 

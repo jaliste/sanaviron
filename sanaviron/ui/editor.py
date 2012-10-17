@@ -18,11 +18,11 @@ from ui import *
 class Editor(gtk.HPaned):
     """This class represents the main editor"""
 
-    def __init__(self):
+    def __init__(self, application):
         gtk.HPaned.__init__(self)
         from ui.canvas import TestingCanvas
-        self.canvas = TestingCanvas()
-        self.properties = Properties()
+        self.canvas = TestingCanvas(application)
+        self.properties = Properties(application)
 
         self.canvas.connect("select", self.select)
         self.canvas.connect("finalize", self.finalize)

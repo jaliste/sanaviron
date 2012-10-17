@@ -25,21 +25,23 @@ from menu import Menu
 from toolbars import HorizontalToolbar, VerticalToolbar
 from editor import Editor
 from statusbar import Statusbar
-from ui import INFORMATION
+from ui import INFORMATION, singleton
 
+@singleton
 class Application(gtk.Window):
     """This class represents an application"""
-    application = None
-
-    def __new__(self, *args, **kwargs):
-        if self.application:
-            return self.application
-        else:
-            self.application = super(Application, self).__new__(self)
-            self.application.initialize()
-            return self.application
-
-    def initialize(self):
+#    application = None
+#
+#    def __new__(cls, *args, **kwargs):
+#        if cls.application:
+#            return cls.application
+#        else:
+#            cls.application = super(Application, cls).__new__(cls)
+#            cls.application.initialize()
+#            return cls.application
+#
+#    def initialize(self):
+    def __init__(self):
         gtk.Window.__init__(self)
         self.set_size_request(640, 480)
         self.set_default_size(1366, 768)
@@ -63,7 +65,7 @@ class Application(gtk.Window):
         vbox = gtk.VBox()
         self.add(vbox)
 
-        self.menu = Menu()
+        self.menu = Menu(self)
         vbox.pack_start(self.menu, False, False)
 
         htoolbar = HorizontalToolbar()
@@ -89,7 +91,7 @@ class Application(gtk.Window):
         label = gtk.Label(_("Design view"))
         label.set_angle(90)
 
-        self.editor = Editor()
+        self.editor = Editor(self)
         self.editor.set_paper()
         notebook.append_page(self.editor, label)
 
