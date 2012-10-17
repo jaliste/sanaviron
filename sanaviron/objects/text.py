@@ -36,9 +36,6 @@ class Text(Object, gtk.Editable):
 
         self.layout = None
 
-        from ui.canvas import TestingCanvas
-        self.canvas = TestingCanvas()
-
         class Cursor:
             pass
 
@@ -46,7 +43,7 @@ class Text(Object, gtk.Editable):
         self.cursor.visible = True
         self.cursor.index = (0, 0)
 
-        gobject.timeout_add(500, self.timer)
+        self.timer_id = gobject.timeout_add(500, self.timer)
 
         self.font = "Verdana"
         self.size = 32
@@ -119,7 +116,11 @@ class Text(Object, gtk.Editable):
     def timer(self, *args):
         self.cursor.visible ^= 1
         self.canvas.update()
-        return True
+        return self.timer_id > 0
+
+    def delete(self):
+        self.timer_id = 0
+        Object.delete(self)
 
     def draw_cursor(self, context):
         bounds = self.get_cursor_bounds()

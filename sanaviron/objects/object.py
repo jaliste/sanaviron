@@ -50,6 +50,9 @@ class Object(Rectangle):
     def post(self):
         pass
 
+    def delete(self):
+        self.canvas.document.pages[0].children.remove(self)
+
     def set_fill_style(self, fill_style):
         self.fill_style = fill_style
         #self.set_property("fill_style", fill_style)

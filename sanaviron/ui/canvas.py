@@ -53,14 +53,15 @@ class BaseCanvas(gtk.Layout,Signalized):
 #            return self.canvas
 #
 #    def initialize(self):
-    def __init__(self, application):
+    def __init__(self, application = None):
         gtk.Layout.__init__(self)
         Signalized.__init__(self)
 
         self.configure()
         #from ui.application import Application
         #self.application = Application()
-        self.application = application
+        if application:
+            self.application = application
 
         self.install_statics()
         print "canvas:", self
@@ -458,7 +459,7 @@ class ExtendedCanvas(Canvas):
             restart = False
             for child in self.document.pages[0].children:
                 if child.selected:
-                    self.document.pages[0].children.remove(child)
+                    child.delete()
                     restart = True
                     break
         self.update()
