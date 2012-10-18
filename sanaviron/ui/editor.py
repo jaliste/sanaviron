@@ -46,7 +46,7 @@ class Editor(gtk.HPaned):
 
                 panel = gtk.VPaned()
                 panel.pack1(box, True, False)
-                code_editor = CodeEditor()
+                code_editor = CodeEditor(application)
                 code_editor.editor.set_language("sql")
                 panel.pack2(code_editor, False, True)
                 self.pack1(panel, True, False)

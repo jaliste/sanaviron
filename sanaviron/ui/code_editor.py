@@ -10,7 +10,7 @@ import gtksourceview2 as gtksourceview
 class SourcePad(gtk.ScrolledWindow):
     """This class represents a source code editor""" # No used yet!
 
-    def __init__(self):
+    def __init__(self, application):
         gtk.ScrolledWindow.__init__(self)
 
         self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
@@ -47,8 +47,9 @@ class SourcePad(gtk.ScrolledWindow):
         self.buffer.set_highlight_matching_brackets(True)
         self.set_language("python") # default
 
-        from application import Application
-        self.application = Application()
+        #from application import Application
+        #self.application = Application()
+        self.application = application
 
     def focus_in(self, event, data):
         self.application.disable_bindings()
@@ -78,7 +79,7 @@ class SourcePad(gtk.ScrolledWindow):
 class CodeEditor(gtk.VBox):
     """This class represents a source code editor""" # No used yet!
 
-    def __init__(self):
+    def __init__(self, application):
         gtk.VBox.__init__(self)
 
         handle = gtk.HandleBox()
@@ -105,7 +106,7 @@ class CodeEditor(gtk.VBox):
         panel.set_position(75) # TODO calculate
         self.add(panel)
 
-        self.editor = SourcePad()
+        self.editor = SourcePad(application)
         panel.pack1(self.editor, True, False)
 
         view = gtk.ScrolledWindow()

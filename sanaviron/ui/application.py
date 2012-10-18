@@ -117,7 +117,7 @@ class Application(gtk.Window):
                     source = get_source_view()
                     break
 
-                source = SourcePad()
+                source = SourcePad(self)
                 self.code = source.buffer
                 source.set_language("xml")
                 break
