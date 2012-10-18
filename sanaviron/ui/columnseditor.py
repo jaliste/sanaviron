@@ -2,17 +2,18 @@
 # -*- coding: utf-8 -*-
 import gtk
 
-from objects.signalized import Signalized
+from objects.signalizable import Signalizable
 
 COLUMN_TITLE = 0
 COLUMN_WIDTH = 1
 COLUMN_UNIT = 2
 
-class ColumnsEditor(gtk.ScrolledWindow, Signalized):
+class ColumnsEditor(gtk.ScrolledWindow, Signalizable):
     """This class represents a table columns editor"""
 
     def __init__(self):
         gtk.ScrolledWindow.__init__(self)
+        Signalizable.__init__(self)
 
         self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
 

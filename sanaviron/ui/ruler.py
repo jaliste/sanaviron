@@ -3,7 +3,7 @@
 import platform
 import gtk
 
-from objects.signalized import Signalized
+from objects.signalizable import Signalizable
 from objects.tag import Tag
 from objects import HORIZONTAL, VERTICAL
 
@@ -14,12 +14,12 @@ import cairo
 import pango
 import pangocairo
 
-class Ruler(gtk.Viewport, Signalized):
+class Ruler(gtk.Viewport, Signalizable):
     """This class represents a non-orientated ruler interface"""
 
     def __init__(self, orientation=VERTICAL):
         gtk.Viewport.__init__(self)
-        Signalized.__init__(self)
+        Signalizable.__init__(self)
 
         self.orientation = orientation
         self.x = 0

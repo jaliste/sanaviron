@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import gobject
 
-class Signalized(gobject.GObject):
+class Signalizable(gobject.GObject):
     """This class represents a GObject-like signalized object"""
 
     def __init__(self):

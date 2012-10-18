@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 import gtk
 
-from objects.signalized import Signalized
+from objects.signalizable import Signalizable
 from objects import *
 
-class Entry(gtk.HBox, Signalized):
+class Entry(gtk.HBox, Signalizable):
     """This class represents a entry with unit combobox"""
 
     def __init__(self):
         gtk.HBox.__init__(self)
-        Signalized.__init__(self)
+        Signalizable.__init__(self)
 
         self.set_spacing(1)
         alignment = gtk.Alignment(0.0, 0.5)

@@ -4,16 +4,16 @@
 import cairo
 from objects import *
 from gradientcolor import GradientColor
-from holder import Holder
+from serializable import Serializable
 
 
-class Gradient(Holder):
+class Gradient(Serializable):
     """This class represents a gradient"""
 
     __name__ = "Gradient"
 
     def __init__(self, type=LINEAR, x=0, y=0, width=1, height=1, string=None):
-        Holder.__init__(self)
+        Serializable.__init__(self)
         self.type = type
         self.colors = [GradientColor(1, 1, 1, 1, 0), GradientColor(0, 0, 0, 1, 1)]
         self.x, self.y = x, y

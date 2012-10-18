@@ -89,8 +89,17 @@ class Holder(object):
     def get_property(self, name):
         return self.properties.get_property(name)
 
+class Serializable(Holder):
+    """This class represents a object which can be serialized"""
+
+    def __init__(self):
+        Holder.__init__(self)
+
     def serialize(self):
         representation = "<object type=\"%s\">" % self.__name__
         representation += self.properties.serialize()
         representation += "</object>"
         return representation
+
+    def unserialize(self):
+        pass

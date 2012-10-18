@@ -1,15 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from holder import Holder
+from serializable import Serializable
 
-class Size(Holder):
+class Size(Serializable):
     """This class represents a size"""
 
     __name__ = "Size"
 
     def __init__(self):
-        Holder.__init__(self)
+        Serializable.__init__(self)
         self.width = 0
         self.height = 0
 

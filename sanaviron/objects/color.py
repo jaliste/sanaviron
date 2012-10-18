@@ -1,15 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from holder import Holder
+from serializable import Serializable
 
-class Color(Holder):
+class Color(Serializable):
     """This class represents a color"""
 
     __name__ = "Color"
 
     def __init__(self, red=0.0, green=0.0, blue=0.0, alpha=1.0, string=None):
-        Holder.__init__(self)
+        Serializable.__init__(self)
         self.red = red
         self.green = green
         self.blue = blue

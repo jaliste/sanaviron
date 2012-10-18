@@ -1,15 +1,15 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from holder import Holder
+from serializable import Serializable
 
-class Point(Holder):
+class Point(Serializable):
     """This class represents a point"""
 
     __name__ = "Point"
 
     def __init__(self):
-        Holder.__init__(self)
+        Serializable.__init__(self)
         self.x, self.y = 0, 0
 
     def __add__(self, other):

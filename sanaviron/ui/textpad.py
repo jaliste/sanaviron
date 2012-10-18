@@ -1,13 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import gtk
-from objects.signalized import Signalized
+from objects.signalizable import Signalizable
 
-class TextPad(gtk.VBox, Signalized):
+class TextPad(gtk.VBox, Signalizable):
     """This class represents a minimal text editor"""
 
     def __init__(self, application):
         gtk.VBox.__init__(self)
+        Signalizable.__init__(self)
 
         handle = gtk.HandleBox()
         handle.set_handle_position(gtk.POS_LEFT)

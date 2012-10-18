@@ -18,7 +18,7 @@ from objects.grid import Grid
 from objects.guides import Guides
 from objects.selection import Selection
 from objects.size import Size
-from objects.signalized import Signalized
+from objects.signalizable import Signalizable
 from objects.point import Point
 
 from objects.barcode import BarCode
@@ -39,7 +39,7 @@ from ui import singleton
 import xml.parsers.expat
 import xml.dom.minidom
 
-class BaseCanvas(gtk.Layout,Signalized):
+class BaseCanvas(gtk.Layout,Signalizable):
     """This class represents a low level canvas"""
 
 #    canvas = None
@@ -55,7 +55,7 @@ class BaseCanvas(gtk.Layout,Signalized):
 #    def initialize(self):
     def __init__(self, application = None):
         gtk.Layout.__init__(self)
-        Signalized.__init__(self)
+        Signalizable.__init__(self)
 
         self.configure()
         #from ui.application import Application
