@@ -616,13 +616,16 @@ class ExtendedCanvas(Canvas):
             global depth
 
             if name == "object":
-                depth -= 1
-                if  depth == 2:
+                if from_clipboard:
                     self.add(object)
-                    if from_clipboard:
-                        object.x += 10
-                        object.y += 10
-                        object.selected = True
+                    object.x += 10
+                    object.y += 10
+                    object.selected = True
+                else:
+                    depth -= 1
+                    if  depth == 0:
+                        print "ZZZ"
+                        self.add(object)
 
         #def element_body(data):
         #  print "data:", repr(data)

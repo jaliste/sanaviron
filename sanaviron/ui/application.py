@@ -5,7 +5,7 @@ import gtk
 import sys
 import os
 
-from sanaviron import APP_VERSION, get_summary
+from sanaviron import APP_VERSION, get_parsed_language, get_summary
 
 from objects.arc import Arc
 from objects.barcode import BarCode
@@ -624,9 +624,7 @@ class Application(gtk.Window):
 
     def help(self, widget, data):
         cwd = os.getcwd()
-        language = os.environ['LANG'].split('_')[0]
-        if not language or language == 'C':
-            language = "es"
+        language = get_parsed_language()
         url = 'file://%s/../doc/help/%s/index.html' % (cwd, language)
         import webbrowser
 
