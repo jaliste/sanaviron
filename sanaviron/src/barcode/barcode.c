@@ -1,7 +1,7 @@
 /*
  * barcode.c -- GNU barcode/ECC200 ISO/IEC16022/POSTNET interface for Python
  *
- * Copyright (c) 2009 Juan Manuel Mouriz (jmouriz@sanaviron.org)
+ * Copyright (c) 2012 Juan Manuel Mouriz (jmouriz@sanaviron.org)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ get_code_data (int type, char *code, double width, double height)
    {
       return qr_get_code_data (type, code, width, height);
    }
-   
+
    return NULL;
 }
 

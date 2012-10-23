@@ -1,5 +1,5 @@
 /*
- * barcode.c -- GNU barcode/ECC200 ISO/IEC16022/POSTNET/QR interface for Python
+ * interface.c -- GNU barcode/ECC200 ISO/IEC16022/POSTNET/QR interface for Python
  *
  * Copyright (c) 2012 Juan Manuel Mouriz (jmouriz@sanaviron.org)
  *
@@ -64,43 +64,43 @@ barcode_get_code_data (int type, char *code, double width, double height)
    size = 0;
 
    output = (char *) malloc (8 + 36 * count);
-  
+
    while (i < count)
    {
       char current = *(barcode->partial + i) - 48;
-  
+
       if (current > 9)
       {
          if (i + 1 >= count)
          {
             break;
          }
-         
+
          current = *(barcode->partial + i + 1) - 48;
          i += 2;
       }
-      
+
       x += current;
       i++;
    }
-  
+
    ratio = width / x;
    i = 0;
    x = 0;
-  
+
    while (i < count)
    {
       char current = *(barcode->partial + i) - 48;
-    
+
       lenght = height; /* Guide bar */
-  
+
       if (current > 9)
       {
          if (i + 1 >= count)
          {
             break;
          }
-          
+
          current = *(barcode->partial + i + 1) - 48;
          i += 2;
       }
@@ -108,7 +108,7 @@ barcode_get_code_data (int type, char *code, double width, double height)
       {
          lenght -= 20;
       }
-      
+
       if (bar)
       {
          sprintf (output + size, "%.02f:%.02f:%.02f:%.02f ", x, y, current * ratio, lenght);
@@ -119,7 +119,7 @@ barcode_get_code_data (int type, char *code, double width, double height)
       {
          bar = 1;
       }
-      
+
       x += current * ratio;
       i++;
    }
@@ -140,11 +140,11 @@ barcode_get_text_data (int type, char *code)
    {
       return NULL;
    }
-  
+
    flags = type | BARCODE_OUT_PS | BARCODE_OUT_NOHEADERS;
- 
+
    barcode = Barcode_Create (code);
- 
+
    Barcode_Encode (barcode, flags);
 
    if (barcode->error)
@@ -153,7 +153,7 @@ barcode_get_text_data (int type, char *code)
    }
 
    *(barcode->textinfo + strlen (barcode->textinfo) - 1) = '\0';
- 
+
    return barcode->textinfo;
 }
 
@@ -322,7 +322,7 @@ qr_get_code_data (int type, char *code, double width, double height)
 	{
 		return NULL;
 	}
-   
+
    /* Hardcoded parameters */
 	sensitive = 1;			/* Encode lower-case alphabet characters in 8-bit mode. 		*/
 	eightbit = 0;			/* Encode entire data in 8-bit mode. 							*/
@@ -336,7 +336,7 @@ qr_get_code_data (int type, char *code, double width, double height)
 							/*			QR_ECLEVEL_H 										*/
 	hint = QR_MODE_8; 		/* Encoder hints. => QR_MODE_8, QR_MODE_KANJI 					*/
 	size = strlen (code);
-	
+
 	if (micro)
 	{
 		if (eightbit)
@@ -359,7 +359,7 @@ qr_get_code_data (int type, char *code, double width, double height)
 			encoded = QRcode_encodeString ((char *) code, version, level, hint, sensitive);
 		}
 	}
-	
+
 	if (!encoded)
 	{
 		return NULL;
@@ -367,7 +367,7 @@ qr_get_code_data (int type, char *code, double width, double height)
 
 	output = (char *) malloc (8 + 36 * encoded->width * encoded->width);
 	size = 0;
-	
+
 	if (output == NULL)
 	{
 		fprintf (stderr, "Failed to allocate memory.\n");
@@ -375,7 +375,7 @@ qr_get_code_data (int type, char *code, double width, double height)
 	}
 
 	pixel = width / encoded->width;
-	
+
 	for (i = 0; i < encoded->width; i++)
 	{
 		row = encoded->data + i * encoded->width;
@@ -388,7 +388,7 @@ qr_get_code_data (int type, char *code, double width, double height)
 				double y = i * pixel;
 				double thickness = pixel;
 				double length = pixel;
-			
+
 				sprintf (output + size, "%.02f:%.02f:%.02f:%.02f ", x, y, thickness, length);
 				size = strlen (output);
 			}
@@ -396,8 +396,8 @@ qr_get_code_data (int type, char *code, double width, double height)
 	}
 
 	sprintf (output + size, "%.02f", 0.0);
-	
+
 	QRcode_free (encoded);
-	
+
 	return output;
 }

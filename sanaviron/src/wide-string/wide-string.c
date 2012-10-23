@@ -2,7 +2,7 @@
  * wide-string.c - Very simple multi-byte sequences manipulation interface
  *                 for Python.
  *
- * Copyright (c) 2009 Juan Manuel Mouriz (jmouriz@sanaviron.org)
+ * Copyright (c) 2012 Juan Manuel Mouriz (jmouriz@sanaviron.org)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,9 +25,9 @@
  * lenght can be from 1 to 6 in UTF-8.
  *
  * An important property of the coding is that the more significative bits of
- * first byte of a multi-byte sequence determining the lenght of symbol. So
- * this function count the first four bits until these are in one's of a
- * given byte.
+ * first byte of a multi-byte sequence determine the lenght of symbol. So
+ * this function count the first four bits of a given byte until these are
+ * one's.
  *
  * Explain can be found at http://es.wikipedia.org/wiki/UTF-8 (in spanish).
  */
@@ -37,10 +37,10 @@ count_bytes (char byte)
    int count;
    int bit;
 
-   count = 0; 
+   count = 0;
    bit = 0;
 
-   while (bit < 4)
+   while (bit <= 4)
    {
       if (((byte << bit++) & 0x80) == 0x80) /* if the bit is in one */
       {
