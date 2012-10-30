@@ -5,7 +5,7 @@ import gtk
 
 from objects.gradientcolor import GradientColor
 from objects.gradient import Gradient
-from objects.signalized import Signalized
+from objects.signalizable import Signalizable
 
 
 class GradientLine(gtk.Viewport):
@@ -175,7 +175,7 @@ class GradientLine(gtk.Viewport):
             context.stroke()
 
 
-class LinearGradientEditor(gtk.VBox, Signalized):
+class LinearGradientEditor(gtk.VBox, Signalizable):
     def __init__(self):
         gtk.VBox.__init__(self)
 

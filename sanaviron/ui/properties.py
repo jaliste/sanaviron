@@ -10,8 +10,8 @@ from objects.barcode import barcodes
 from objects.charts import *
 from objects.color import Color
 
-from ui.text_pad import TextPad
-from ui.columns_editor import ColumnsEditor
+from ui.textpad import TextPad
+from ui.columnseditor import ColumnsEditor
 from ui.gradienteditor import LinearGradientEditor
 import sys
 

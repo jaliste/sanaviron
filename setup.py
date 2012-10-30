@@ -17,7 +17,7 @@ APP_VERSION = open(os.path.join(PACKAGE,'VERSION')).read()
 if __name__ == '__main__':
     # Compile the list of packages available, because distutils doesn't have
     # an easy way to do this.
-    EXCLUDES = ['.', '..', '.svn', 'src', 'examples']
+    EXCLUDES = ['.', '..', '.svn', 'src', 'examples','images','.idea']
     PACKAGES, DATAFILES = [], []
 
     for dirpath, dirnames, filenames in os.walk(PACKAGE):

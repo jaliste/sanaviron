@@ -12,7 +12,7 @@ from ui.properties import Properties
 from ui.climber import Climber
 from ui.pager import Pager
 from ui.ruler import HorizontalRuler, VerticalRuler
-from ui.layer_selector import LayerSelector
+from ui.layerselector import LayerSelector
 from ui import *
 
 class Editor(gtk.HPaned):

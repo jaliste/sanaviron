@@ -6,6 +6,7 @@
 import platform
 import gtk
 
+
 if platform.system() != 'Windows':
     gtk.threads_init()
 
@@ -39,21 +40,22 @@ from ui import singleton
 import xml.parsers.expat
 import xml.dom.minidom
 
-class BaseCanvas(gtk.Layout,Signalizable):
+
+class BaseCanvas(gtk.Layout, Signalizable):
     """This class represents a low level canvas"""
 
-#    canvas = None
-#
-#    def __new__(self):
-#        if self.canvas:
-#            return self.canvas
-#        else:
-#            self.canvas = super(BaseCanvas, self).__new__(self)
-#            self.canvas.initialize()
-#            return self.canvas
-#
-#    def initialize(self):
-    def __init__(self, application = None):
+    #    canvas = None
+    #
+    #    def __new__(self):
+    #        if self.canvas:
+    #            return self.canvas
+    #        else:
+    #            self.canvas = super(BaseCanvas, self).__new__(self)
+    #            self.canvas.initialize()
+    #            return self.canvas
+    #
+    #    def initialize(self):
+    def __init__(self, application=None):
         gtk.Layout.__init__(self)
         Signalizable.__init__(self)
 
@@ -69,6 +71,7 @@ class BaseCanvas(gtk.Layout,Signalizable):
     def install_statics(self):
         class Statics:
             pass
+
 
         self.statics = Statics()
         self.statics.motion = 0
@@ -88,11 +91,11 @@ class BaseCanvas(gtk.Layout,Signalizable):
     def configure_events(self):
         self.set_events(0)
 
-        self.add_events(gtk.gdk.EXPOSURE_MASK)
-        self.add_events(gtk.gdk.BUTTON_PRESS_MASK)
-        self.add_events(gtk.gdk.BUTTON_RELEASE_MASK)
-        self.add_events(gtk.gdk.POINTER_MOTION_MASK)
-        self.add_events(gtk.gdk.BUTTON_MOTION_MASK)
+        self.add_events(gtk.gdk.EXPOSURE_MASK |
+                        gtk.gdk.BUTTON_PRESS_MASK |
+                        gtk.gdk.BUTTON_RELEASE_MASK |
+                        gtk.gdk.POINTER_MOTION_MASK |
+                        gtk.gdk.BUTTON_MOTION_MASK)
         #self.add_events(gtk.gdk.KEY_PRESS_MASK)
 
     def configure_handlers(self):
@@ -129,11 +132,12 @@ class BaseCanvas(gtk.Layout,Signalizable):
     def expose(self, widget, event):
         raise NotImplementedError
 
+
 class Canvas(BaseCanvas):
     """This class represents a middle level canvas"""
 
-#    def initialize(self):
-#        BaseCanvas.initialize(self)
+    #    def initialize(self):
+    #        BaseCanvas.initialize(self)
     def __init__(self, application):
         BaseCanvas.__init__(self, application)
         self.origin = Origin()
@@ -141,17 +145,17 @@ class Canvas(BaseCanvas):
         self.guides = Guides()
         self.selection = Selection()
 
-#        self.gradients = []
-#        grad = Gradient(type=LINEAR, name="1", x=0, y=0, x1=0, y1=0)
-#        grad.clear()
-#        grad.add_new_color(GradientColor(1.0, 0.0, 0.0, 1.0, 0.142))
-#        grad.add_new_color(GradientColor(1.0, 1.0, 0.0, 1.0, 0.285))
-#        grad.add_new_color(GradientColor(0.0, 1.0, 0.0, 1.0, 0.428))
-#        grad.add_new_color(GradientColor(0.0, 1.0, 1.0, 1.0, 0.571))
-#        grad.add_new_color(GradientColor(0.0, 0.0, 1.0, 1.0, 0.714))
-#        grad.add_new_color(GradientColor(1.0, 0.0, 1.0, 1.0, 0.857))
-#        grad.update()
-#        self.gradients.append(grad)
+        #        self.gradients = []
+        #        grad = Gradient(type=LINEAR, name="1", x=0, y=0, x1=0, y1=0)
+        #        grad.clear()
+        #        grad.add_new_color(GradientColor(1.0, 0.0, 0.0, 1.0, 0.142))
+        #        grad.add_new_color(GradientColor(1.0, 1.0, 0.0, 1.0, 0.285))
+        #        grad.add_new_color(GradientColor(0.0, 1.0, 0.0, 1.0, 0.428))
+        #        grad.add_new_color(GradientColor(0.0, 1.0, 1.0, 1.0, 0.571))
+        #        grad.add_new_color(GradientColor(0.0, 0.0, 1.0, 1.0, 0.714))
+        #        grad.add_new_color(GradientColor(1.0, 0.0, 1.0, 1.0, 0.857))
+        #        grad.update()
+        #        self.gradients.append(grad)
 
         self.document = Document()
         #self.document.pages[0].children = list()
@@ -189,8 +193,8 @@ class Canvas(BaseCanvas):
                 if child.in_selection(self.selection):
                     child.selected = True
                     self.emit("select", child)
-                #elif child.resizing:
-                #    child.resizing ^= 1
+                    #elif child.resizing:
+                    #    child.resizing ^= 1
             self.selection.active = False
         else:
             for child in self.document.pages[0].children:
@@ -228,9 +232,9 @@ class Canvas(BaseCanvas):
             def get_direction_for_child_at_position(x, y, children):
                 for child in children:
                     if child.selected and child.handler.at_position(x, y):
-                            direction = child.handler.get_direction(x, y)
-                            widget.bin_window.set_cursor(child.get_cursor(direction))
-                            return direction
+                        direction = child.handler.get_direction(x, y)
+                        widget.bin_window.set_cursor(child.get_cursor(direction))
+                        return direction
                 return NONE
 
             direction = get_direction_for_child_at_position(x, y, self.document.pages[0].children)
@@ -359,8 +363,9 @@ class Canvas(BaseCanvas):
         context.clip()
         context.scale(self.zoom, self.zoom)
         self.total.width = int(self.document.pages[0].width * self.zoom + 2 * self.border)
-        self.total.height = int(len(self.document.pages) * self.document.pages[0].height * self.zoom +
-                                (len(self.document.pages) + 1) * self.border)
+        self.total.height = int(
+            len(self.document.pages) * self.document.pages[0].height * self.zoom +
+            (len(self.document.pages) + 1) * self.border)
         self.set_size_request(self.total.width, self.total.height)
         context.set_source_rgb(0.55, 0.55, 0.55) #background
         context.paint()
@@ -400,11 +405,12 @@ class Canvas(BaseCanvas):
             pass
         self.queue_draw()
 
+
 class ExtendedCanvas(Canvas):
     """This class represents a high level canvas"""
 
-#    def initialize(self):
-#        Canvas.initialize(self)
+    #    def initialize(self):
+    #        Canvas.initialize(self)
     def __init__(self, application):
         Canvas.__init__(self, application)
 
@@ -646,12 +652,13 @@ class ExtendedCanvas(Canvas):
         node = xml.dom.minidom.parseString(string)
         return node.toprettyxml(indent='    ', newl="\n", encoding="utf-8")
 
+
 @singleton
 class TestingCanvas(ExtendedCanvas):
     """This class represents a testing canvas"""
 
-#    def initialize(self):
-#        ExtendedCanvas.initialize(self)
+    #    def initialize(self):
+    #        ExtendedCanvas.initialize(self)
     def __init__(self, application):
         ExtendedCanvas.__init__(self, application)
 
