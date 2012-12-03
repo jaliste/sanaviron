@@ -34,14 +34,14 @@ class Icon():
    def draw(self, context, width, height, border):
       raise NotImplementedError
 
-class Rotated():
+class Rotated:
    def radians(self, degress):
       return degress * math.pi / 180
-      
+
    def rotate(self, context, width, angle = 90):
       middle = width / 2
       rotation = self.radians(angle)
-      
+
       context.translate(middle, middle)
       context.rotate(rotation)
       context.translate(-middle, -middle)
@@ -50,25 +50,25 @@ class SplitHorizontally(Icon):
    def __init__(self, filename = None):
       Icon.__init__(self)
       self.save(filename)
-      
+
    def draw(self, context, width, height, border):
       middle = width / 2
       separation = 4
       split_height = 6
       arrow_size = 16
       aspect = 6
-      
+
       self.set_color(0, 0, 255, 255)
       context.set_line_width(2)
-      
+
       context.move_to(0, middle)
       context.line_to(width, middle)
-      
+
       context.stroke()
-      
+
       self.set_color(0, 0, 0, 255)
       context.set_line_width(2)
-      
+
       context.move_to(border, middle - separation - split_height)
       context.line_to(border, middle - separation)
       context.line_to(width - border, middle - separation)
@@ -78,24 +78,24 @@ class SplitHorizontally(Icon):
       context.line_to(border, middle + separation)
       context.line_to(width - border, middle + separation)
       context.line_to(width - border, middle + separation + split_height)
-      
+
       context.stroke()
 
 class AddSplitHorizontally(SplitHorizontally):
    def __init__(self, filename = None):
       SplitHorizontally.__init__(self, filename)
-      
+
    def draw(self, context, width, height, border):
       SplitHorizontally.draw(self, context, width, height, border)
-      
+
       middle = width / 2
       separation = 4
       arrow_size = 16
       aspect = 4
-            
+
       self.set_color(70, 160, 70, 255)
       context.set_line_width(2)
-      
+
       context.move_to(middle - arrow_size / 2, middle - separation * 2)
       context.line_to(middle + arrow_size / 2, middle - separation * 2)
       context.line_to(middle, middle - separation - arrow_size - aspect)
@@ -105,14 +105,14 @@ class AddSplitHorizontally(SplitHorizontally):
       context.line_to(middle + arrow_size / 2, middle + separation * 2)
       context.line_to(middle, middle + separation + arrow_size + aspect)
       context.close_path()
-      
+
       context.fill()
       context.stroke()
 
 class AddSplitVertically(AddSplitHorizontally, Rotated):
    def __init__(self, filename = None):
       AddSplitHorizontally.__init__(self, filename)
-      
+
    def draw(self, context, width, height, border):
       Rotated.rotate(self, context, width)
       AddSplitHorizontally.draw(self, context, width, height, border)
@@ -120,29 +120,29 @@ class AddSplitVertically(AddSplitHorizontally, Rotated):
 class RemoveSplitHorizontally(SplitHorizontally):
    def __init__(self, filename = None):
       SplitHorizontally.__init__(self, filename)
-      
+
    def draw(self, context, width, height, border):
       SplitHorizontally.draw(self, context, width, height, border)
-      
+
       middle = width / 2
       size = 16
-            
+
       self.set_color(255, 0, 0, 255)
       context.set_line_width(6)
       context.set_line_cap(cairo.LINE_CAP_ROUND)
-      
+
       context.move_to(middle - size, middle - size)
       context.line_to(middle + size, middle + size)
       #---
       context.move_to(middle + size, middle - size)
       context.line_to(middle - size, middle + size)
-      
+
       context.stroke()
 
 class RemoveSplitVertically(RemoveSplitHorizontally, Rotated):
    def __init__(self, filename = None):
       RemoveSplitHorizontally.__init__(self, filename)
-      
+
    def draw(self, context, width, height, border):
       Rotated.rotate(self, context, width)
       RemoveSplitHorizontally.draw(self, context, width, height, border)
@@ -151,12 +151,60 @@ class RemoveSplit(RemoveSplitHorizontally, RemoveSplitVertically):
    def __init__(self, filename = None):
       RemoveSplitHorizontally.__init__(self, filename)
       RemoveSplitVertically.__init__(self, filename)
-      
+
    def draw(self, context, width, height, border):
       RemoveSplitHorizontally.draw(self, context, width, height, border)
       RemoveSplitVertically.draw(self, context, width, height, border)
+
+class Sanaviron(Icon):
+    def __init__(self, filename = None):
+        Icon.__init__(self)
+        self.save(filename)
+
+    def draw(self, context, width, height, border):
+        context.set_line_cap(cairo.LINE_CAP_ROUND)
+        context.move_to(width / 2, 0)
+        context.line_to(width / 2, height)
+        context.move_to(0, height / 2)
+        context.line_to(width, height / 2)
+        context.set_line_width(1.0)
+        self.set_color(255, 0, 0, 255)
+        context.stroke()
+        context.arc(width / 2, height / 2, min(width, height) / 2 - border / 2 - 8, 0, 2 * math.pi)
+        context.set_line_width(2.0)
+        self.set_color(255, 0, 0, 255)
+        context.stroke()
+        context.arc(width / 2, height / 2, min(width, height) / 2 - border / 2 - 4, 1.5 * math.pi, math.pi)
+        context.set_line_width(0.5)
+        self.set_color(255, 0, 0, 255)
+        context.stroke()
+        context.arc(width / 2, height / 2, min(width, height) / 2 - border / 2, math.pi, 1.5 * math.pi)
+        context.set_line_width(1.5)
+        self.set_color(255, 0, 0, 255)
+        context.stroke()
+        context.arc(width / 2, height - border / 2 - 8, 8, 0, 2 * math.pi)
+        context.set_line_width(1.5)
+        self.set_color(255, 0, 0, 255)
+        context.stroke()
+        context.arc(width / 2, height / 2 - 4, 4, 90 * math.pi / 180.0, 330 * math.pi / 180.0)
+        context.set_line_width(3.5)
+        self.set_color(0, 0, 255, 255)
+        context.stroke()
+        context.arc(width / 2, height / 2 + 4, 4, 270 * math.pi / 180.0, 165 * math.pi / 180.0)
+        context.set_line_width(3.5)
+        self.set_color(0, 0, 255, 255)
+        context.stroke()
+        context.arc(width / 2, height / 2 - 4, 12, 90 * math.pi / 180.0, 330 * math.pi / 180.0)
+        context.set_line_width(0.5)
+        self.set_color(0, 0, 255, 255)
+        context.stroke()
+        context.arc(width / 2, height / 2 + 4, 12, 270 * math.pi / 180.0, 165 * math.pi / 180.0)
+        context.set_line_width(0.5)
+        self.set_color(0, 0, 255, 255)
+        context.stroke()
 
 if __name__ == "__main__":
    AddSplitHorizontally("split-horizontally")
    AddSplitVertically("split-vertically")
    RemoveSplit()
+   Sanaviron()

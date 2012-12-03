@@ -203,6 +203,7 @@ class Editor(gtk.HPaned):
 
             self.canvas.grid.active = True
             self.canvas.grid.size = 16 # 31 # 32
+
             self.canvas.guides.active = True
             self.canvas.guides.size = 16 * 8 # 128
 

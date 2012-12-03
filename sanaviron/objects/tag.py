@@ -9,12 +9,17 @@ from objects import NONE, HORIZONTAL, VERTICAL
 class Tag(Rectangle):
     """This class represents a ruler tag"""
 
+    __name__ = "Tag"
+
     def __init__(self):
         Rectangle.__init__(self)
         self.position = 0
         self.selected = False
         self.size = 25
         self.orientation = NONE
+
+    def get_properties(self):
+        return ["position", "orientation"]
 
     def draw_tag(self, context):
         position = self.position

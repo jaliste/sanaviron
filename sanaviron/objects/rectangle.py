@@ -8,6 +8,8 @@ from size import Size
 class Rectangle(Position, Size):
     """This class represents a rectangle"""
 
+    __name__ = "Rectangle"
+
     def __init__(self):
         Position.__init__(self)
         Size.__init__(self)

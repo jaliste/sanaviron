@@ -253,18 +253,20 @@ class Canvas(BaseCanvas):
         elif event.state & gtk.gdk.BUTTON1_MASK:
             for child in self.document.pages[0].children: # TODO
                 if child.selected:
+                    target = Point()
                     if child.resizing:
-                        x = self.grid.nearest(x)
-                        y = self.grid.nearest(y)
+                        target.x = self.grid.nearest(x)
+                        target.y = self.grid.nearest(y)
+                        target = self.guides.nearest(target)
                         if child.direction < ANONIMOUS:
-                            child.resize(x, y)
+                            child.resize(target.x, target.y)
                         else:
-                            child.transform(x, y)
+                            child.transform(target.x, target.y)
                     else:
                         widget.bin_window.set_cursor(gtk.gdk.Cursor(gtk.gdk.FLEUR))
-                        target = Point()
                         target.x = self.grid.nearest(x - child.offset.x)
                         target.y = self.grid.nearest(y - child.offset.y)
+                        target = self.guides.nearest(target)
                         child.move(target.x, target.y)
                     self.emit("edit-child", child)
                     self.update()
@@ -288,6 +290,7 @@ class Canvas(BaseCanvas):
                 control = child.handler.control[opposite(child.direction)]
                 child.pivot.x = self.grid.nearest(control.x)
                 child.pivot.y = self.grid.nearest(control.y)
+                child.pivot = self.guides.nearest(child.pivot)
                 child.handler.pivot.x = control.x
                 child.handler.pivot.y = control.y
                 child.handler.pivot.active = True
@@ -295,11 +298,15 @@ class Canvas(BaseCanvas):
         if self.pick:
             self.unselect_all()
             #x, y = self.get_pointer()
+            target = Point()
             child = self.child
             self.add(child)
             child.selected = True
-            child.x = self.grid.nearest(x)
-            child.y = self.grid.nearest(y)
+            target.x = self.grid.nearest(x)
+            target.y = self.grid.nearest(y)
+            target = self.guides.nearest(target)
+            child.x = target.x
+            child.y = target.y
             child.width = 0
             child.height = 0
             child.direction = SOUTHEAST
