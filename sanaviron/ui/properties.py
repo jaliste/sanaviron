@@ -4,6 +4,7 @@ import gtk
 
 from ui.button import Button
 from ui.entry import LinearEntry, AngularEntry
+from ui.options import Options
 from objects import *
 from objects.observer import Observer
 from objects.barcode import barcodes
@@ -113,12 +114,16 @@ class ColorizedObjectForm(SizedObjectForm):
         self.canvas = properties.canvas
         self.add_section(_("Color"))
 
-        entry = gtk.HButtonBox()
-        entry.set_layout(gtk.BUTTONBOX_SPREAD)
-        entry.set_spacing(10)
-        entry.add(gtk.ToggleButton(_("Color")))
-        entry.add(gtk.ToggleButton(_("Gradient")))
-        entry.add(gtk.ToggleButton(_("Pattern")))
+        entry = Options()
+        entry.add_option(_("Color"))
+        entry.add_option(_("Gradient"))
+        entry.add_option(_("Pattern"))
+        #entry = gtk.HButtonBox()
+        #entry.set_layout(gtk.BUTTONBOX_SPREAD)
+        #entry.set_spacing(10)
+        #entry.add(gtk.ToggleButton(_("Color")))
+        #entry.add(gtk.ToggleButton(_("Gradient")))
+        #entry.add(gtk.ToggleButton(_("Pattern")))
         self.add_entry(_("Fill style"), entry, "fill_style")
 
         entry = gtk.ColorButton()

@@ -637,7 +637,6 @@ class ExtendedCanvas(Canvas):
                 else:
                     depth -= 1
                     if  depth == 0:
-                        print "ZZZ"
                         self.add(object)
 
         #def element_body(data):
@@ -655,7 +654,6 @@ class ExtendedCanvas(Canvas):
 
     def serialize(self):
         string = self.document.serialize()
-        #print string
         node = xml.dom.minidom.parseString(string)
         return node.toprettyxml(indent='    ', newl="\n", encoding="utf-8")
 
