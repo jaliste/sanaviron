@@ -79,6 +79,10 @@ class Application(gtk.Window):
         self.menu.append_item(gtk.STOCK_PRINT_PREVIEW, "print-preview", "<Control><Shift>P")
         self.menu.append_item(gtk.STOCK_PRINT, "print", "<Control>P")
         self.menu.append_separator()
+        self.menu.append_menu("_" + _("Document"), True)
+        self.menu.append_item(SET_BACKGROUND, "set-background")
+        self.menu.ascend()
+        self.menu.append_separator()
         self.menu.append_menu("_" + _("Export"), True)
         self.menu.append_item(EXPORT_TO_PDF, "export-to-pdf")
         self.menu.ascend()
@@ -324,6 +328,7 @@ class Application(gtk.Window):
         self.menu.connect("save-as", self.save_as)
         self.menu.connect("page-setup", self.page_setup)
         self.menu.connect("export-to-pdf", self.export_to_pdf)
+        self.menu.connect("set-background", self.set_background)
         self.menu.connect("quit", self.quit)
 
         self.menu.connect("cut", self.editor.canvas.cut)
@@ -602,6 +607,55 @@ class Application(gtk.Window):
             filename = dialog.get_filename()
             if filename is not None:
                 self.editor.canvas.save_to_pdf(filename)
+
+        dialog.destroy()
+
+    def set_background(self, widget, data):
+        dialog = gtk.FileChooserDialog(title=_("Select background"),
+            parent=self,
+            action=gtk.FILE_CHOOSER_ACTION_OPEN,
+            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
+                     gtk.STOCK_OK, gtk.RESPONSE_ACCEPT),
+            backend=None)
+
+        def update_preview(dialog, preview):
+            filename = dialog.get_preview_filename()
+            try:
+                pixbuf = gtk.gdk.pixbuf_new_from_file_at_size(filename, 128,
+                                                              128)
+                preview.set_from_pixbuf(pixbuf)
+                have_preview = True
+            except:
+                have_preview = False
+            dialog.set_preview_widget_active(have_preview)
+
+        preview = gtk.Image()
+
+        dialog.set_preview_widget(preview)
+        dialog.connect("update-preview", update_preview, preview)
+
+        dialog.set_transient_for(self)
+
+        def add_filter(dialog, name, pattern, type=None):
+            filter = gtk.FileFilter()
+            filter.set_name(name)
+            if type:
+                filter.add_mime_type(type)
+            filter.add_pattern(pattern)
+            dialog.add_filter(filter)
+
+        add_filter(dialog, "PNG files", "*.png", "image/png")
+        add_filter(dialog, "JPG files", "*.jpg", "image/jpg")
+        add_filter(dialog, "All files", "*")
+
+        response = dialog.run()
+
+        if response == gtk.RESPONSE_ACCEPT:
+            filename = dialog.get_filename()
+            self.filename = filename
+            if filename is not None:
+                self.editor.canvas.document.pages[0].background = filename
+                self.editor.canvas.update ()
 
         dialog.destroy()
 
