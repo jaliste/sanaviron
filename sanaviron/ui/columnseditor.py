@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import gtk
 
-from objects.signalizable import Signalizable
+from interfaces.signalizable import Signalizable
 
 COLUMN_TITLE = 0
 COLUMN_WIDTH = 1

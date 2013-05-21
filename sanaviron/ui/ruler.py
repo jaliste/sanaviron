@@ -3,7 +3,7 @@
 import platform
 import gtk
 
-from objects.signalizable import Signalizable
+from interfaces.signalizable import Signalizable
 from objects.tag import Tag
 from objects import HORIZONTAL, VERTICAL
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from serializable import Serializable
+from interfaces.serializable import Serializable
 
 class Document(Serializable):
     """This class represent a document"""

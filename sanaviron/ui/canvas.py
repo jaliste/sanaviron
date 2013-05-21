@@ -19,8 +19,8 @@ from objects.grid import Grid
 from objects.guides import Guides
 from objects.selection import Selection
 from objects.size import Size
-from objects.signalizable import Signalizable
 from objects.point import Point
+from interfaces.signalizable import Signalizable
 
 from objects.barcode import BarCode
 from objects.image import Image

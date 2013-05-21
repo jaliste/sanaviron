@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from serializable import Serializable
+from interfaces.serializable import Serializable
 
 class Size(Serializable):
     """This class represents a size"""

@@ -3,7 +3,7 @@
 
 import gtk
 
-from objects.signalizable import Signalizable
+from interfaces.signalizable import Signalizable
 
 class Options(gtk.VBox, Signalizable):
     """This class represents a multiple radio options"""

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import gtk
 
-from objects.signalizable import Signalizable
+from interfaces.signalizable import Signalizable
 from objects import *
 
 class Entry(gtk.HBox, Signalizable):

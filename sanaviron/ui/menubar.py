@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 import gtk
 
-from objects.signalizable import Signalizable
+from interfaces.signalizable import Signalizable
 
 class MenuBar(gtk.MenuBar, Signalizable):
     """This class represents a pull-down menu bar"""

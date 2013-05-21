@@ -4,7 +4,7 @@
 import cairo
 from objects import *
 from gradientcolor import GradientColor
-from serializable import Serializable
+from interfaces.serializable import Serializable
 
 
 class Gradient(Serializable):

@@ -11,7 +11,7 @@ import os
 import cairo
 import gtk
 
-APP_VERSION = open(os.path.join(os.path.dirname(__file__), "VERSION")).read()
+APP_VERSION = open(os.path.join(os.path.dirname(__file__), "..", "VERSION")).read()
 DEFAULT_LANGUAGE = "en"
 
 def get_locale_language():

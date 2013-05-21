@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import gtk
-from objects.signalizable import Signalizable
+from interfaces.signalizable import Signalizable
 
 class TextPad(gtk.VBox, Signalizable):
     """This class represents a minimal text editor"""

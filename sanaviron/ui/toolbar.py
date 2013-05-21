@@ -3,7 +3,7 @@
 
 import gtk
 
-from objects.signalizable import Signalizable
+from interfaces.signalizable import Signalizable
 from objects import HORIZONTAL, VERTICAL
 
 class Toolbar(gtk.Toolbar, Signalizable):

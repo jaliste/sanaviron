@@ -5,7 +5,7 @@ import gtk
 
 from objects.gradientcolor import GradientColor
 from objects.gradient import Gradient
-from objects.signalizable import Signalizable
+from interfaces.signalizable import Signalizable
 
 
 class GradientLine(gtk.Viewport):
