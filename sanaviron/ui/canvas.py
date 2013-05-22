@@ -4,6 +4,7 @@
 """A canvas for drawing things on it"""
 
 import platform
+import sys
 import gtk
 
 
@@ -59,6 +60,8 @@ class BaseCanvas(gtk.Layout, Signalizable):
         gtk.Layout.__init__(self)
         Signalizable.__init__(self)
 
+        self.is_testing = False
+
         self.configure()
         #from ui.application import Application
         #self.application = Application()
@@ -66,12 +69,10 @@ class BaseCanvas(gtk.Layout, Signalizable):
             self.application = application
 
         self.install_statics()
-        print "canvas:", self
 
     def install_statics(self):
         class Statics:
             pass
-
 
         self.statics = Statics()
         self.statics.motion = 0
@@ -133,8 +134,8 @@ class BaseCanvas(gtk.Layout, Signalizable):
         raise NotImplementedError
 
 
-class Canvas(BaseCanvas):
-    """This class represents a middle level canvas"""
+class CanvasImplementation(BaseCanvas):
+    """This class represents a high level canvas implementation"""
 
     #    def initialize(self):
     #        BaseCanvas.initialize(self)
@@ -267,6 +268,17 @@ class Canvas(BaseCanvas):
                         target.x = self.grid.nearest(x - child.offset.x)
                         target.y = self.grid.nearest(y - child.offset.y)
                         target = self.guides.nearest(target)
+                        # XXX-TEST
+                        if self.is_testing:
+                            def nearest(value):
+                                lower = 128 - 64
+                                upper = 128 + 64
+                                if value > lower and value < upper:
+                                    return 128
+                                return value
+                            target.x = nearest(target.x)
+                            target.y = nearest(target.y)
+                        # XXX-TEST
                         child.move(target.x, target.y)
                     self.emit("edit-child", child)
                     self.update()
@@ -398,6 +410,14 @@ class Canvas(BaseCanvas):
             self.guides.height = page.height - page.top - page.bottom
             self.guides.draw(context)
 
+        # XXX-TEST
+        if self.is_testing:
+            from math import pi
+            context.set_source_rgba(1.0, 0.5, 0.5, 1.0)
+            context.arc(128, 128, 3 / context.get_matrix()[0], 0, 2.0 * pi)
+            context.fill_preserve()
+        # XXX-TEST
+
         if self.selection.active:
             self.selection.draw(context)
         self.updated = True
@@ -413,13 +433,13 @@ class Canvas(BaseCanvas):
         self.queue_draw()
 
 
-class ExtendedCanvas(Canvas):
-    """This class represents a high level canvas"""
+class ExtendedCanvas(CanvasImplementation):
+    """This class represents a high level canvas implementation"""
 
     #    def initialize(self):
     #        Canvas.initialize(self)
     def __init__(self, application):
-        Canvas.__init__(self, application)
+        CanvasImplementation.__init__(self, application)
 
     def add_page(self):
         page = self.document.pages[0] #Page()
@@ -657,6 +677,12 @@ class ExtendedCanvas(Canvas):
         node = xml.dom.minidom.parseString(string)
         return node.toprettyxml(indent='    ', newl="\n", encoding="utf-8")
 
+@singleton
+class ProductionCanvas(ExtendedCanvas):
+    """This class represents a production canvas"""
+
+    def __init__(self, application):
+        ExtendedCanvas.__init__(self, application)
 
 @singleton
 class TestingCanvas(ExtendedCanvas):
@@ -666,5 +692,7 @@ class TestingCanvas(ExtendedCanvas):
     #        ExtendedCanvas.initialize(self)
     def __init__(self, application):
         ExtendedCanvas.__init__(self, application)
-
+        self.is_testing = True
         print _("WARNING: You are using a testing canvas.")
+
+Canvas = TestingCanvas if "--testing" in sys.argv else ProductionCanvas

@@ -37,6 +37,15 @@ class Box(Object):
         self.handler.control[EAST].x = self.x + self.width
         self.handler.control[EAST].y = self.y + self.height / 2
 
+        self.handler.magnetos[LEFT].x = self.handler.control[WEST].x
+        self.handler.magnetos[LEFT].y = self.handler.control[WEST].y
+        self.handler.magnetos[RIGHT].x = self.handler.control[EAST].x
+        self.handler.magnetos[RIGHT].y = self.handler.control[EAST].y
+        self.handler.magnetos[TOP].x = self.handler.control[NORTH].x
+        self.handler.magnetos[TOP].y = self.handler.control[NORTH].y
+        self.handler.magnetos[BOTTOM].x = self.handler.control[SOUTH].x
+        self.handler.magnetos[BOTTOM].y = self.handler.control[SOUTH].y
+
     def draw(self, context):
         dash = list()
         context.set_dash(dash)

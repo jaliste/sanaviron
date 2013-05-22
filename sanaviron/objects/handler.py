@@ -4,24 +4,36 @@
 import cairo
 
 from control import Control
-from objects import NONE, ANONIMOUS
+from magneto import Magneto
+from objects import NONE, CENTER, ANONIMOUS
 
 class Handler:
     """This class represents a rectangular control points handler"""
 
     def __init__(self):
         self.control = list()
+        self.magnetos = list()
         self.can_pivot = True
         self.center_pivot = False
         self.pivot = Control()
         self.pivot.pivot = True
 
+        self.line = False
+
+        self.is_testing = False
+
         index = 0
+        while index < CENTER:
+            control = Control()
+            magneto = Magneto()
+            self.control.append(control)
+            self.magnetos.append(magneto)
+            index += 1
+
         while index < ANONIMOUS:
             control = Control()
             self.control.append(control)
             index += 1
-            self.line = False
 
     def draw_handler(self, context):
         if not self.line:
@@ -38,10 +50,16 @@ class Handler:
         for control in self.control:
             control.draw(context)
 
+    def draw_magnetos(self, context):
+        for magneto in self.magnetos:
+            magneto.draw(context)
+
     def draw_pivot(self, context):
         self.pivot.draw(context)
 
     def draw(self, context):
+        if self.is_testing:
+            self.draw_magnetos(context)
         self.draw_handler(context)
         self.draw_controls(context)
         if self.can_pivot:
@@ -49,7 +67,6 @@ class Handler:
 
     def at_position(self, x, y):
         return self.get_direction(x, y) is not NONE
-
 
     def get_direction(self, x, y):
         for direction, control in enumerate(self.control):

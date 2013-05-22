@@ -5,7 +5,7 @@ import gtk
 import sys
 import os
 
-from sanaviron import APP_VERSION, get_parsed_language, get_summary
+from sanaviron import VERSION, get_parsed_language, get_summary
 
 from objects.arc import Arc
 from objects.barcode import BarCode
@@ -412,7 +412,7 @@ class Application(gtk.Window):
 
     def update_title(self):
         document = self.filename if self.filename else _("New document")
-        title = _("%(document)s - Sanaviron %(version)s") % {"document": document, "version": APP_VERSION}
+        title = _("%(document)s - Sanaviron %(version)s") % {"document": document, "version": VERSION}
         self.set_title(title)
 
     def disable_bindings(self):
@@ -689,7 +689,7 @@ class Application(gtk.Window):
         dialog.set_transient_for(self)
         dialog.set_program_name("sanaviron")
         dialog.set_name("sanaviron")
-        dialog.set_version(APP_VERSION)
+        dialog.set_version(VERSION)
         dialog.set_copyright("Copyright 2012 - Juan Manuel Mouriz, Ivlev Denis")
         dialog.set_comments(_("A program to design reports, invoices, documents, labels and more. Based on the 2D "
                               "drawing engine \"sanaviron\".\n\n" + get_summary()))

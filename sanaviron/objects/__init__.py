@@ -3,14 +3,14 @@
 
 __all__ = ['NONE', 'NORTHWEST', 'NORTH', 'NORTHEAST', 'WEST', 'EAST', 'SOUTHWEST', 'SOUTH', 'SOUTHEAST', 'ANONIMOUS',
            'MANUAL', 'AUTOMATIC', 'COLOR', 'GRADIENT', 'PATTERN', 'LINEAR', 'RADIAL', 'HORIZONTAL', 'VERTICAL',
-           'CENTIMETERS', 'MILLIMETERS', 'DOTS', 'INCHES', 'RADIANS', 'DEGREES', 'TOP_LEFT', 'TOP', 'TOP_RIGHT',
-           'RIGHT', 'BOTTOM_RIGHT', 'BOTTOM', 'BOTTOM_LEFT', 'LEFT', 'CENTER','print_text', 'grad2rad', 'rad2grad',
+           'CENTIMETERS', 'MILLIMETERS', 'DOTS', 'INCHES', 'RADIANS', 'DEGREES', 'TOP_LEFT', 'TOP', 'TOP_RIGHT', 'RIGHT',
+           'BOTTOM_RIGHT', 'BOTTOM', 'BOTTOM_LEFT', 'LEFT', 'CENTER','print_text', 'grad2rad', 'rad2grad',
            'angle_from_coordinates', 'get_side', 'opposite', 'set_as_point', 'get_default_font']
 
 import pango, pangocairo,platform,gtk
 from math import pi, atan2
 
-#direction
+# direction
 NONE = -1
 NORTHWEST = 0
 NORTH = 1
@@ -47,15 +47,15 @@ RADIANS = _("radians")
 DEGREES = _("degrees")
 
 #text align types
-TOP_LEFT = 0
-TOP = 1
-TOP_RIGHT = 2
-RIGHT = 3
-BOTTOM_RIGHT = 4
-BOTTOM = 5
-BOTTOM_LEFT = 6
-LEFT = 7
-CENTER = 8
+LEFT = 0
+RIGHT = 1
+TOP = 2
+BOTTOM = 3
+CENTER = 4
+TOP_LEFT = 5 
+TOP_RIGHT = 6
+BOTTOM_LEFT = 7
+BOTTOM_RIGHT = 8
 
 def get_default_font():
     if platform.system() == 'Windows':

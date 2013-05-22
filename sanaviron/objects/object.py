@@ -33,8 +33,9 @@ class Object(Rectangle):
         self.z = 0
 
         self.hints = False
-        from ui.canvas import TestingCanvas
-        self.canvas = TestingCanvas()
+        from ui.canvas import Canvas
+        self.canvas = Canvas()
+        self.handler.is_testing = self.canvas.is_testing
 
         self.dash = []
         self.thickness = 1.0

@@ -4,7 +4,6 @@
 import gtk
 import sys
 
-#from ui.canvas import TestingCanvas
 from objects import HORIZONTAL, VERTICAL
 from ui.notification import Notification
 from ui.stock import EXPAND_PROPERTIES, CONTRACT_PROPERTIES
@@ -20,8 +19,8 @@ class Editor(gtk.HPaned):
 
     def __init__(self, application):
         gtk.HPaned.__init__(self)
-        from ui.canvas import TestingCanvas
-        self.canvas = TestingCanvas(application)
+        from ui.canvas import Canvas
+        self.canvas = Canvas(application)
         self.properties = Properties(application)
 
         self.canvas.connect("select", self.select)

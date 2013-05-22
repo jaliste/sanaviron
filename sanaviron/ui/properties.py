@@ -179,8 +179,8 @@ class Properties(gtk.ScrolledWindow):
 
         self.objects = dict()
 
-        from canvas import TestingCanvas
-        self.canvas = TestingCanvas(application)
+        from canvas import Canvas
+        self.canvas = Canvas(application)
 
         self.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
 

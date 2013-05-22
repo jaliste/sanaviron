@@ -179,8 +179,8 @@ class LinearGradientEditor(gtk.VBox, Signalizable):
     def __init__(self):
         gtk.VBox.__init__(self)
 
-        from canvas import TestingCanvas
-        self.canvas = TestingCanvas()
+        from canvas import Canvas
+        self.canvas = Canvas()
 
         table = gtk.Table(4, 4, False)
         self.pack_start(table)

@@ -3,6 +3,7 @@
 
 __all__ = ['UNKNOWN', 'INFORMATION', 'WARNING', 'ERROR']
 
+# Error levels
 UNKNOWN = 0
 INFORMATION = 1
 WARNING = 2

@@ -2,7 +2,7 @@
 ___init___.py
 """
 
-__all__ = ["APP_VERSION", "set_locale", "get_locale_language", "get_parsed_language", "install_gettext", "get_summary"]
+__all__ = ["VERSION", "set_locale", "get_locale_language", "get_parsed_language", "install_gettext", "get_summary"]
 
 import platform
 import locale
@@ -10,8 +10,9 @@ import gettext
 import os
 import cairo
 import gtk
+import sys
 
-APP_VERSION = open(os.path.join(os.path.dirname(__file__), "..", "VERSION")).read()
+VERSION = open(os.path.join(os.path.dirname(__file__), "..", "VERSION")).read()
 DEFAULT_LANGUAGE = "en"
 
 def get_locale_language():
@@ -42,7 +43,7 @@ def install_gettext(domain):
     gettext.install(TRANSLATION_DOMAIN, LOCALE_DIR)
 
 def get_summary():
-    summary = "Sanaviron version: %s\n" % APP_VERSION
+    summary = "Sanaviron version: %s (%s)\n" % (VERSION, 'Testing' if "--testing" in sys.argv else 'Production')
     summary += "System: %s %s %s\n" % (platform.system(), platform.release(), platform.version())
     summary += "Python version: %s\n" % platform.python_version()
     summary += "GTK version: %s\n" % '.'.join(map(str, gtk.ver))
