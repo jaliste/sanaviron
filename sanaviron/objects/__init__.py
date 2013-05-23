@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 __all__ = ['NONE', 'NORTHWEST', 'NORTH', 'NORTHEAST', 'WEST', 'EAST', 'SOUTHWEST', 'SOUTH', 'SOUTHEAST', 'ANONIMOUS',
-           'MANUAL', 'AUTOMATIC', 'COLOR', 'GRADIENT', 'PATTERN', 'LINEAR', 'RADIAL', 'HORIZONTAL', 'VERTICAL',
+           'MANUAL', 'AUTOMATIC', 'COLOR', 'GRADIENT', 'PATTERN', 'LINEAR', 'RADIAL', 'HORIZONTAL', 'VERTICAL', 'BOTH',
            'CENTIMETERS', 'MILLIMETERS', 'DOTS', 'INCHES', 'RADIANS', 'DEGREES', 'TOP_LEFT', 'TOP', 'TOP_RIGHT', 'RIGHT',
            'BOTTOM_RIGHT', 'BOTTOM', 'BOTTOM_LEFT', 'LEFT', 'CENTER','print_text', 'grad2rad', 'rad2grad',
            'angle_from_coordinates', 'get_side', 'opposite', 'set_as_point', 'get_default_font']
@@ -10,8 +10,9 @@ __all__ = ['NONE', 'NORTHWEST', 'NORTH', 'NORTHEAST', 'WEST', 'EAST', 'SOUTHWEST
 import pango, pangocairo,platform,gtk
 from math import pi, atan2
 
-# direction
 NONE = -1
+
+# direction
 NORTHWEST = 0
 NORTH = 1
 NORTHEAST = 2
@@ -37,6 +38,7 @@ RADIAL = 1
 # orientation types
 VERTICAL = 0
 HORIZONTAL = 1
+BOTH = 2
 
 # units
 CENTIMETERS = _("centimeters")

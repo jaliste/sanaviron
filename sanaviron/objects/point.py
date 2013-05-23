@@ -8,9 +8,9 @@ class Point(Serializable):
 
     __name__ = "Point"
 
-    def __init__(self):
+    def __init__(self, x = 0, y = 0):
         Serializable.__init__(self)
-        self.x, self.y = 0, 0
+        self.x, self.y = y, y
 
     def __add__(self, other):
         result = Point()

@@ -12,6 +12,5 @@ class Position(Point):
         Point.__init__(self)
 
     def move(self, x, y):
-        print 'going to', x, y
         self.x = x
         self.y = y

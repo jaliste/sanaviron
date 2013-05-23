@@ -270,14 +270,13 @@ class CanvasImplementation(BaseCanvas):
                         target = self.guides.nearest(target)
                         # XXX-TEST
                         if self.is_testing:
-                            def nearest(value):
-                                lower = 128 - 64
-                                upper = 128 + 64
-                                if value > lower and value < upper:
-                                    return 128
-                                return value
-                            target.x = nearest(target.x)
-                            target.y = nearest(target.y)
+                            def magnetize(target, children):
+                                for child in children:
+                                    if not child.selected and child.magnetos.is_magnetized(target):
+                                        return child.magnetos.get_magnetized(target)
+                                return target
+
+                            target = magnetize(target, self.document.pages[0].children)
                         # XXX-TEST
                         child.move(target.x, target.y)
                     self.emit("edit-child", child)
@@ -409,14 +408,6 @@ class CanvasImplementation(BaseCanvas):
             self.guides.width = page.width - page.left - page.right
             self.guides.height = page.height - page.top - page.bottom
             self.guides.draw(context)
-
-        # XXX-TEST
-        if self.is_testing:
-            from math import pi
-            context.set_source_rgba(1.0, 0.5, 0.5, 1.0)
-            context.arc(128, 128, 3 / context.get_matrix()[0], 0, 2.0 * pi)
-            context.fill_preserve()
-        # XXX-TEST
 
         if self.selection.active:
             self.selection.draw(context)

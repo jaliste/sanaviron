@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from handler import Handler
+from magnetos import Magnetos
 from rectangle import Rectangle
 from color import Color
 from gradient import Gradient
@@ -24,6 +25,7 @@ class Object(Rectangle):
         #self.id = random.uniform(0, 999999999)
         Rectangle.__init__(self)
         self.handler = Handler()
+        self.magnetos = Magnetos()
         self.offset = Point()
         self.pivot = Point()
         self.selected = False
@@ -128,6 +130,9 @@ class Object(Rectangle):
             self.handler.height = self.height
             self.post()
             self.handler.draw(context)
+
+        if self.magnetos.magnetized:
+            self.magnetos.draw(context)
         ###context.restore()
 
     def at_position(self, x, y):

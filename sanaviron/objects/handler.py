@@ -4,7 +4,6 @@
 import cairo
 
 from control import Control
-from magneto import Magneto
 from objects import NONE, CENTER, ANONIMOUS
 
 class Handler:
@@ -12,7 +11,6 @@ class Handler:
 
     def __init__(self):
         self.control = list()
-        self.magnetos = list()
         self.can_pivot = True
         self.center_pivot = False
         self.pivot = Control()
@@ -23,13 +21,6 @@ class Handler:
         self.is_testing = False
 
         index = 0
-        while index < CENTER:
-            control = Control()
-            magneto = Magneto()
-            self.control.append(control)
-            self.magnetos.append(magneto)
-            index += 1
-
         while index < ANONIMOUS:
             control = Control()
             self.control.append(control)
@@ -50,16 +41,10 @@ class Handler:
         for control in self.control:
             control.draw(context)
 
-    def draw_magnetos(self, context):
-        for magneto in self.magnetos:
-            magneto.draw(context)
-
     def draw_pivot(self, context):
         self.pivot.draw(context)
 
     def draw(self, context):
-        if self.is_testing:
-            self.draw_magnetos(context)
         self.draw_handler(context)
         self.draw_controls(context)
         if self.can_pivot:
