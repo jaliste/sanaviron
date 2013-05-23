@@ -35,14 +35,17 @@ class Magnetos(list):
 
     def get_magnetized(self, point):
         target = point
+        orientation = NONE
         for magneto in self:
             magneto.orientation = NONE
-            if abs(target.x - magneto.x) < self.magnetism:
+            if not orientation == HORIZONTAL and abs(target.x - magneto.x) < self.magnetism:
                 magneto.orientation = HORIZONTAL
                 target.x = magneto.x
-            if abs(target.y - magneto.y) < self.magnetism:
+            if not orientation == VERTICAL and abs(target.y - magneto.y) < self.magnetism:
                 magneto.orientation = BOTH if magneto.orientation == HORIZONTAL else VERTICAL
                 target.y = magneto.y
+            if not orientation:
+                orientation = magneto.orientation
         return target
 
     def is_magnetized(self, point):
