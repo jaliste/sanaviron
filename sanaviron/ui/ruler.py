@@ -63,6 +63,7 @@ class Ruler(gtk.Viewport, Signalizable):
                 else:
                     widget.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
                     self.show_position = True
+
         elif self.orientation == VERTICAL:
             self.y = event.y - self.offset * external
             for tag in self.tags:
@@ -76,6 +77,7 @@ class Ruler(gtk.Viewport, Signalizable):
                 else:
                     widget.window.set_cursor(gtk.gdk.Cursor(gtk.gdk.ARROW))
                     self.show_position = True
+
         self.queue_draw()
         return True
 

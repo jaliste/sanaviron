@@ -7,6 +7,7 @@ from control import Control
 from object import Object
 from objects import *
 
+
 class Arc(Object):
     """This class represents an arc"""
 
@@ -23,13 +24,29 @@ class Arc(Object):
         self.closed = False
         self.closed_at_centre = False
 
+        #all object properties in json style
+        self.properties_json = {
+            'type': 'arc',
+            'angle_start': 0.0,
+            'angle_stop': 360.0,
+            'radius_horizontal': 0,
+            'radius_vertical': 0,
+            'centre_x': 0,
+            'centre_y': 0,
+            'closed': False,
+            'closed_at_centre': False,
+            'width': 0
+        }
+
+        print self.properties_json
         self.handler.control.append(Control())
         self.handler.control.append(Control())
 
         #self.block = False
 
     def get_properties(self):
-        return Object.get_properties(self) + ["angle_start", "angle_stop", "closed", "closed_at_centre"]
+        return Object.get_properties(self) + ["angle_start", "angle_stop", "closed",
+                                              "closed_at_centre"]
 
     def set_angle_start(self, ang):
         self.angle_start = ang
@@ -40,41 +57,46 @@ class Arc(Object):
     def post(self):
         self.handler.control[NORTHWEST].x = self.x
         self.handler.control[NORTHWEST].y = self.y
-        self.handler.control[NORTHEAST].x = self.x + self.width
+        self.handler.control[NORTHEAST].x = self.x + self.properties_json['width']
         self.handler.control[NORTHEAST].y = self.y
         self.handler.control[SOUTHWEST].x = self.x
         self.handler.control[SOUTHWEST].y = self.y + self.height
-        self.handler.control[SOUTHEAST].x = self.x + self.width
+        self.handler.control[SOUTHEAST].x = self.x + self.properties_json['width']
         self.handler.control[SOUTHEAST].y = self.y + self.height
 
-        self.handler.control[8].x = self.centre_x + self.radius_horizontal * cos(grad2rad(self.angle_start))
-        self.handler.control[8].y = self.centre_y + self.radius_vertical * sin(grad2rad(self.angle_start))
+        self.handler.control[8].x = self.centre_x + self.radius_horizontal * cos(
+            grad2rad(self.angle_start))
+        self.handler.control[8].y = self.centre_y + self.radius_vertical * sin(
+            grad2rad(self.angle_start))
         self.handler.control[8].limbus = True
 
-        self.handler.control[9].x = self.centre_x + self.radius_horizontal * cos(grad2rad(self.angle_stop))
-        self.handler.control[9].y = self.centre_y + self.radius_vertical * sin(grad2rad(self.angle_stop))
+        self.handler.control[9].x = self.centre_x + self.radius_horizontal * cos(
+            grad2rad(self.angle_stop))
+        self.handler.control[9].y = self.centre_y + self.radius_vertical * sin(
+            grad2rad(self.angle_stop))
         self.handler.control[9].limbus = True
 
-        #self.height = self.width
+        #self.height = self.properties_json['width']
 
     def draw(self, context):
         context.set_dash(self.dash)
         context.set_line_width(self.thickness)
 
-        self.radius_horizontal = self.width / 2.0
+        self.radius_horizontal = self.properties_json['width'] / 2.0
         self.radius_vertical = self.height / 2.0
         self.centre_x = self.x + self.radius_horizontal
         self.centre_y = self.y + self.radius_vertical
-
+        
         context.save()
         context.new_path()
         context.translate(self.x, self.y)
-        if (self.width) and (self.height > 0):
-            context.scale(self.width, self.height)
+        if (self.properties_json['width']) and (self.height > 0):
+            context.scale(self.properties_json['width'], self.height)
         context.arc(0.5, 0.5, 0.5, grad2rad(self.angle_start), grad2rad(self.angle_stop))
 
-        if (self.angle_start == self.angle_stop) or (self.angle_start == 0.0 and self.angle_stop == 360.0) or\
-           (self.angle_start == 360.0 and self.angle_stop == 0.0):
+        if (self.angle_start == self.angle_stop) or (
+                self.angle_start == 0.0 and self.angle_stop == 360.0) or \
+                (self.angle_start == 360.0 and self.angle_stop == 0.0):
             closed = False
         else:
             closed = self.closed
@@ -88,12 +110,12 @@ class Arc(Object):
             self.set_gradient(self.gradient)
         elif self.fill_style == COLOR:
             context.set_source_rgba(self.fill_color.red, self.fill_color.green,
-                self.fill_color.blue, self.fill_color.alpha)
+                                    self.fill_color.blue, self.fill_color.alpha)
         context.fill_preserve()
         context.restore()
 
         context.set_source_rgba(self.stroke_color.red, self.stroke_color.green,
-            self.stroke_color.blue, self.stroke_color.alpha)
+                                self.stroke_color.blue, self.stroke_color.alpha)
         context.stroke()
         Object.draw(self, context)
 
@@ -102,14 +124,14 @@ class Arc(Object):
             x0 = self.x + self.radius_horizontal
             y0 = self.y + self.radius_vertical
 
-            self.closed_at_centre = not((x < self.x) or (y < self.y))
+            self.closed_at_centre = not ((x < self.x) or (y < self.y))
 
-            if (x > (self.width + self.x)) or (y > (self.height + self.y)):
+            if (x > (self.properties_json['width'] + self.x)) or (y > (self.height + self.y)):
                 self.closed_at_centre = False
 
             if (self.radius_horizontal > 0) and (self.radius_vertical > 0):
                 ang = angle_from_coordinates(x, y, x0, y0, self.radius_horizontal,
-                    self.radius_vertical)
+                                             self.radius_vertical)
                 self.set_angle_start(ang)
         else:
             x0 = self.x + self.radius_horizontal
@@ -117,10 +139,10 @@ class Arc(Object):
 
             self.closed_at_centre = not ((x < self.x) or (y < self.y))
 
-            if (x > (self.width + self.x)) or (y > (self.height + self.y)):
+            if (x > (self.properties_json['width'] + self.x)) or (y > (self.height + self.y)):
                 self.closed_at_centre = False
 
             if (self.radius_horizontal > 0) and (self.radius_vertical > 0):
                 ang = angle_from_coordinates(x, y, x0, y0, self.radius_horizontal,
-                    self.radius_vertical)
+                                             self.radius_vertical)
                 self.set_angle_stop(ang)
