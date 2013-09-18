@@ -47,7 +47,7 @@ setup(
                 (os.path.join('/usr/share/doc', PACKAGE), [os.path.join(PACKAGE, 'COPYING')]), # TODO: Include help files here
     ],
     url='http://sanaviron.org',
-    download_url='http://sanaviron.org/git/sanaviron/archive/tip.zip',
+    download_url='http://git.sanaviron.org/sanaviron/archive/tip.zip',
     license='Apache License 2.0',
     author='Juan Manuel Mouriz, Ivlev Denis',
     author_email='jmouriz@sanaviron.org, ivlevdenis@sanaviron.org',
